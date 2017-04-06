@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ViDienTu</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="home_page">Trang chủ</string>
+    <string name="login_account">Đăng nhập tài khoản</string>
 </resources>
