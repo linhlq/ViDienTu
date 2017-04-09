@@ -3,5 +3,24 @@
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="home_page">Trang chủ</string>
+    <string name="transfer">Chuyển tiền</string>
+    <string name="payment">Thanh toán</string>
+    <string name="wallet">Ví điện tử</string>
     <string name="login_account">Đăng nhập tài khoản</string>
+    <string name="chuyen_tien">Chuyển tiền</string>
+    <string name="nap_dien_thoai">Nạp tiền điện thoại</string>
+    <string name="mua_the_dien_thoai">Mua thẻ điện thoại</string>
+    <string name="doi_the_cao">Đổi thẻ cào thành tiền mặt</string>
+    <string name="mua_the_game">Mua thẻ game</string>
+    <string name="nap_tien">Nạp tiền</string>
+    <string name="rut_tien">Rút tiền</string>
+    <string name="thanh_toan_hoa_don">Thanh toán hóa đơn</string>
+    <string name="diem_thanh_toan">Điểm thanh toán trả góp</string>
+    <string name="lien_he">Liên hệ</string>
+    <string name="ban_quyen">Bản quyền thuộc Thecaosieure.com | Phiên bản 1.0</string>
+    <string name="dang_nhap">Đăng nhập</string>
+    <string name="dang_ki">Đăng kí</string>
+    <string name="dang_xuat">Đăng xuất</string>
+    <string name="gioi_thieu">Giới thiệu</string>
+    <string name="viettel">Viettel</string>
 </resources>

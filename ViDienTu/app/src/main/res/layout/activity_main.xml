@@ -12,13 +12,24 @@
         layout="@layout/activity_main_content" />
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/nav_view_left"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true">
 
-        <include layout="@layout/nav_content" />
+        <include layout="@layout/nav_content_left" />
+
+    </android.support.design.widget.NavigationView>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true">
+
+        <include layout="@layout/nav_content_right" />
 
     </android.support.design.widget.NavigationView>
 
