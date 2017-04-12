@@ -1,9 +1,10 @@
-package com.linhlee.vidientu.fragments;
+package com.linhlee.vidientu.fragments.mainfragments;
 
 import android.os.Bundle;
 import android.view.View;
 
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.fragments.BaseFragment;
 
 /**
  * Created by Linh Lee on 4/9/2017.

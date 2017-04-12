@@ -11,21 +11,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.ListMenuAdapter;
 import com.linhlee.vidientu.adapters.TabsPagerAdapter;
-import com.linhlee.vidientu.fragments.HomeFragment;
-import com.linhlee.vidientu.fragments.PaymentFragment;
-import com.linhlee.vidientu.fragments.TransferFragment;
-import com.linhlee.vidientu.fragments.WalletFragment;
+import com.linhlee.vidientu.fragments.mainfragments.HomeFragment;
+import com.linhlee.vidientu.fragments.mainfragments.PaymentFragment;
+import com.linhlee.vidientu.fragments.mainfragments.TransferFragment;
+import com.linhlee.vidientu.fragments.mainfragments.WalletFragment;
 import com.linhlee.vidientu.models.MenuObject;
 
 import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private DrawerLayout drawer;
+    private RelativeLayout accountLayout;
     private ListView listMenuView;
     private ListMenuAdapter listMenuAdapter;
     private ArrayList<MenuObject> listMenu;
@@ -46,6 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initVariables(Bundle savedInstanceState) {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        accountLayout = (RelativeLayout) findViewById(R.id.account_layout);
         listMenuView = (ListView) findViewById(R.id.list_menu);
 
         titleText = (TextView) findViewById(R.id.title_text);
@@ -62,6 +65,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         menuButton.setOnClickListener(this);
         notiButton.setOnClickListener(this);
+        accountLayout.setOnClickListener(this);
     }
 
     public void createMainLayout() {
@@ -142,7 +146,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private View createTabView(int imgRes) {
-        View itemView = LayoutInflater.from(this).inflate(R.layout.tabs_layout, null);
+        View itemView = LayoutInflater.from(this).inflate(R.layout.tabs_main_layout, null);
 
         ImageView tabsIcon = (ImageView) itemView.findViewById(R.id.tabs_icon);
         tabsIcon.setImageResource(imgRes);
@@ -165,6 +169,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     drawer.closeDrawer(GravityCompat.END);
                 } else {
                     drawer.openDrawer(GravityCompat.END);
+                }
+                break;
+            case R.id.account_layout:
+                startActivity(PersonalActivity.class);
+
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+                    drawer.closeDrawer(GravityCompat.END);
                 }
                 break;
         }

@@ -23,4 +23,10 @@
     <string name="dang_xuat">Đăng xuất</string>
     <string name="gioi_thieu">Giới thiệu</string>
     <string name="viettel">Viettel</string>
+    <string name="tin_tuc">Tin tức</string>
+    <string name="personal_information">Thông tin cá nhân</string>
+    <string name="ho_so">Hồ sơ</string>
+    <string name="mat_khau">Mật khẩu</string>
+    <string name="anh_dai_dien">Ảnh đại diện</string>
+    <string name="cap_nhat">Cập nhật</string>
 </resources>

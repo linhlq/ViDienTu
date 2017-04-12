@@ -1,4 +1,4 @@
-package com.linhlee.vidientu.fragments;
+package com.linhlee.vidientu.fragments.mainfragments;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -11,7 +11,10 @@ import android.widget.LinearLayout;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.HomePagerAdapter;
 import com.linhlee.vidientu.adapters.ListFunctionAdapter;
+import com.linhlee.vidientu.adapters.ListNewsAdapter;
+import com.linhlee.vidientu.fragments.BaseFragment;
 import com.linhlee.vidientu.models.MenuObject;
+import com.linhlee.vidientu.models.NewsObject;
 import com.linhlee.vidientu.utils.Constant;
 
 import java.util.ArrayList;
@@ -28,6 +31,9 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView listFunctionView;
     private ListFunctionAdapter listFunctionAdapter;
     private ArrayList<MenuObject> listFunction;
+    private RecyclerView listNewsView;
+    private ListNewsAdapter listNewsAdapter;
+    private ArrayList<NewsObject> listNews;
 
     public static HomeFragment newInstance() {
 
@@ -48,16 +54,17 @@ public class HomeFragment extends BaseFragment {
         pager = (ViewPager) rootView.findViewById(R.id.pager);
         mLinearLayout = (LinearLayout) rootView.findViewById(R.id.viewPagerCountDots);
         listFunctionView = (RecyclerView) rootView.findViewById(R.id.list_function);
+        listNewsView = (RecyclerView) rootView.findViewById(R.id.list_news);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         //Create slide image
         listImgRes = new ArrayList<>();
-        listImgRes.add(R.mipmap.ic_launcher);
-        listImgRes.add(R.mipmap.ic_launcher);
-        listImgRes.add(R.mipmap.ic_launcher);
-        listImgRes.add(R.mipmap.ic_launcher);
+        listImgRes.add(R.mipmap.bg_sample);
+        listImgRes.add(R.mipmap.bg_sample);
+        listImgRes.add(R.mipmap.bg_sample);
+        listImgRes.add(R.mipmap.bg_sample);
 
         pagerAdapter = new HomePagerAdapter(getActivity(), listImgRes);
         pager.setAdapter(pagerAdapter);
@@ -98,6 +105,25 @@ public class HomeFragment extends BaseFragment {
 
         listFunctionView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         listFunctionView.setAdapter(listFunctionAdapter);
+
+        //Create list news
+        listNews = new ArrayList<>();
+        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
+        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
+        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
+        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
+        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
+
+        listNewsAdapter = new ListNewsAdapter(getActivity(), listNews, new ListNewsAdapter.PositionClickListener() {
+            @Override
+            public void itemClicked(int position) {
+
+            }
+        });
+        listNewsAdapter.setHasStableIds(true);
+
+        listNewsView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        listNewsView.setAdapter(listNewsAdapter);
     }
 
     private void drawPageSelectionIndicators(int mPosition){

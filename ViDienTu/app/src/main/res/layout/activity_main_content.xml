@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/menu_button"
@@ -15,7 +17,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@mipmap/ic_menu"/>
+            android:src="@mipmap/ic_menu" />
 
         <TextView
             android:id="@+id/title_text"
@@ -37,11 +39,11 @@
 
     </RelativeLayout>
     
-    <android.support.v4.view.ViewPager
+    <com.linhlee.vidientu.utils.NonSwipeableViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></android.support.v4.view.ViewPager>
+        android:layout_weight="1"></com.linhlee.vidientu.utils.NonSwipeableViewPager>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
