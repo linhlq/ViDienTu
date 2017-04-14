@@ -16,11 +16,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.MainActivity">
-
-        </activity>
+        <activity android:name=".activities.MainActivity"></activity>
 
         <activity android:name=".activities.PersonalActivity"></activity>
+
+        <activity android:name=".activities.NewsActivity"></activity>
+
+        <activity android:name=".activities.LoginActivity"></activity>
+
+        <activity android:name=".activities.RegisterActivity"></activity>
+
+        <activity android:name=".activities.ForgotPassActivity"></activity>
+
+        <activity android:name=".activities.DetailActivity"></activity>
+
+        <activity android:name=".activities.DepositActivity"></activity>
+
+        <activity android:name=".activities.WithdrawActivity"></activity>
     </application>
 
 </manifest>

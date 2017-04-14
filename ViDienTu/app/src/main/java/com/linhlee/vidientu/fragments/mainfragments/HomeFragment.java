@@ -7,11 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.activities.NewsActivity;
 import com.linhlee.vidientu.adapters.HomePagerAdapter;
 import com.linhlee.vidientu.adapters.ListFunctionAdapter;
-import com.linhlee.vidientu.adapters.ListNewsAdapter;
+import com.linhlee.vidientu.adapters.ListNewsHomeAdapter;
 import com.linhlee.vidientu.fragments.BaseFragment;
 import com.linhlee.vidientu.models.MenuObject;
 import com.linhlee.vidientu.models.NewsObject;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by Linh Lee on 4/9/2017.
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private ViewPager pager;
     private HomePagerAdapter pagerAdapter;
     private ArrayList<Integer> listImgRes;
@@ -32,8 +34,9 @@ public class HomeFragment extends BaseFragment {
     private ListFunctionAdapter listFunctionAdapter;
     private ArrayList<MenuObject> listFunction;
     private RecyclerView listNewsView;
-    private ListNewsAdapter listNewsAdapter;
+    private ListNewsHomeAdapter listNewsAdapter;
     private ArrayList<NewsObject> listNews;
+    private RelativeLayout newsLayout;
 
     public static HomeFragment newInstance() {
 
@@ -55,6 +58,7 @@ public class HomeFragment extends BaseFragment {
         mLinearLayout = (LinearLayout) rootView.findViewById(R.id.viewPagerCountDots);
         listFunctionView = (RecyclerView) rootView.findViewById(R.id.list_function);
         listNewsView = (RecyclerView) rootView.findViewById(R.id.list_news);
+        newsLayout = (RelativeLayout) rootView.findViewById(R.id.news_layout);
     }
 
     @Override
@@ -114,7 +118,7 @@ public class HomeFragment extends BaseFragment {
         listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
         listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
 
-        listNewsAdapter = new ListNewsAdapter(getActivity(), listNews, new ListNewsAdapter.PositionClickListener() {
+        listNewsAdapter = new ListNewsHomeAdapter(getActivity(), listNews, new ListNewsHomeAdapter.PositionClickListener() {
             @Override
             public void itemClicked(int position) {
 
@@ -124,6 +128,8 @@ public class HomeFragment extends BaseFragment {
 
         listNewsView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         listNewsView.setAdapter(listNewsAdapter);
+
+        newsLayout.setOnClickListener(this);
     }
 
     private void drawPageSelectionIndicators(int mPosition){
@@ -152,5 +158,10 @@ public class HomeFragment extends BaseFragment {
             mDots[i].setPadding(margin, 0, margin, 0);
             mLinearLayout.addView(mDots[i], params);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        startActivity(NewsActivity.class);
     }
 }

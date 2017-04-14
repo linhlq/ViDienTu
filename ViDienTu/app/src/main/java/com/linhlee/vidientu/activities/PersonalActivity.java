@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linhlee.vidientu.R;
@@ -13,13 +14,15 @@ import com.linhlee.vidientu.adapters.TabsPagerAdapter;
 import com.linhlee.vidientu.fragments.personalfragments.AvatarFragment;
 import com.linhlee.vidientu.fragments.personalfragments.FileFragment;
 import com.linhlee.vidientu.fragments.personalfragments.PasswordFragment;
+import com.linhlee.vidientu.utils.Constant;
 
 import java.util.ArrayList;
 
 /**
  * Created by Linh Lee on 4/9/2017.
  */
-public class PersonalActivity extends BaseActivity {
+public class PersonalActivity extends BaseActivity implements View.OnClickListener {
+    private ImageView backButton;
     private TabLayout tabs;
     private ViewPager pager;
     private TabsPagerAdapter adapter;
@@ -32,6 +35,7 @@ public class PersonalActivity extends BaseActivity {
 
     @Override
     protected void initVariables(Bundle savedInstanceState) {
+        backButton = (ImageView) findViewById(R.id.back_btn);
         tabs = (TabLayout) findViewById(R.id.tabs);
         pager = (ViewPager) findViewById(R.id.pager);
     }
@@ -55,6 +59,10 @@ public class PersonalActivity extends BaseActivity {
         tab2.setCustomView(createTabView(getResources().getString(R.string.mat_khau)));
         TabLayout.Tab tab3 = tabs.getTabAt(2);
         tab3.setCustomView(createTabView(getResources().getString(R.string.anh_dai_dien)));
+
+        Constant.increaseHitArea(backButton);
+
+        backButton.setOnClickListener(this);
     }
 
     private View createTabView(String title) {
@@ -65,5 +73,10 @@ public class PersonalActivity extends BaseActivity {
         tabsTitle.setTextColor(getResources().getColorStateList(R.color.text_tab_indicator));
 
         return itemView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        finish();
     }
 }

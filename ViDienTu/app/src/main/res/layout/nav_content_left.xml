@@ -3,10 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryTrans"></View>
+        android:background="@color/colorPrimaryTrans"></View>-->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/bg_main"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,6 +78,7 @@
             android:background="@android:color/white">
 
             <RelativeLayout
+                android:id="@+id/login_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -85,6 +92,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/register_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">

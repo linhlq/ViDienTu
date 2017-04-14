@@ -29,4 +29,9 @@
     <string name="mat_khau">Mật khẩu</string>
     <string name="anh_dai_dien">Ảnh đại diện</string>
     <string name="cap_nhat">Cập nhật</string>
+    <string name="cu_phap_1"><b>TCSR DK TK</b> gửi <b>8298</b></string>
+    <string name="cu_phap_2"><b>TCSR MK</b> gửi <b>8298</b></string>
+    <string name="dang_ky_1">Hiện tại hệ thống chỉ hỗ trợ quý khách đăng ký tài khoản qua SMS theo cú pháp sau:</string>
+    <string name="quen_mk_1">Bạn vui lòng sử dụng số di động đã đăng ký soạn tin nhắn theo cú pháp:</string>
+    <string name="loi_khuyen">Chúng tôi khuyên bạn không nên đặt mật khẩu quá đơn giản như: ngày tháng năm sinh, số điện thoại,...</string>
 </resources>

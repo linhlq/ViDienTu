@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.ListMenuAdapter;
+import com.linhlee.vidientu.adapters.ListNotiAdapter;
 import com.linhlee.vidientu.adapters.TabsPagerAdapter;
 import com.linhlee.vidientu.fragments.mainfragments.HomeFragment;
 import com.linhlee.vidientu.fragments.mainfragments.PaymentFragment;
@@ -28,8 +30,12 @@ import java.util.ArrayList;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private DrawerLayout drawer;
     private RelativeLayout accountLayout;
+    private RelativeLayout loginButton;
+    private RelativeLayout registerButton;
     private ListView listMenuView;
     private ListMenuAdapter listMenuAdapter;
+    private ListView listNotiView;
+    private ListNotiAdapter listNotiAdapter;
     private ArrayList<MenuObject> listMenu;
     private ImageView menuButton;
     private ImageView notiButton;
@@ -49,7 +55,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void initVariables(Bundle savedInstanceState) {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         accountLayout = (RelativeLayout) findViewById(R.id.account_layout);
+        loginButton = (RelativeLayout) findViewById(R.id.login_button);
+        registerButton = (RelativeLayout) findViewById(R.id.register_button);
         listMenuView = (ListView) findViewById(R.id.list_menu);
+        listNotiView = (ListView) findViewById(R.id.list_noti);
 
         titleText = (TextView) findViewById(R.id.title_text);
         menuButton = (ImageView) findViewById(R.id.menu_button);
@@ -66,6 +75,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         menuButton.setOnClickListener(this);
         notiButton.setOnClickListener(this);
         accountLayout.setOnClickListener(this);
+        loginButton.setOnClickListener(this);
+        registerButton.setOnClickListener(this);
     }
 
     public void createMainLayout() {
@@ -121,12 +132,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void createDrawerLayout() {
-        // Create Navigation Drawer layout
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // Create Navigation Drawer layout left
         listMenu = new ArrayList<>();
         listMenu.add(new MenuObject(R.mipmap.ic_home, getResources().getString(R.string.home_page)));
         listMenu.add(new MenuObject(R.mipmap.ic_chuyen_tien, getResources().getString(R.string.chuyen_tien)));
@@ -143,6 +154,52 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         listMenuAdapter = new ListMenuAdapter(this, listMenu);
         listMenuView.setAdapter(listMenuAdapter);
+        listMenuView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 1:
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 2:
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 3:
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 4:
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 5:
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 6:
+                        startActivity(DepositActivity.class);
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 7:
+                        startActivity(WithdrawActivity.class);
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 8:
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 9:
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case 10:
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                }
+            }
+        });
+
+        // Create Navigation Drawer layout right
+        listNotiAdapter = new ListNotiAdapter(this);
+        listNotiView.setAdapter(listNotiAdapter);
     }
 
     private View createTabView(int imgRes) {
@@ -179,6 +236,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else if (drawer.isDrawerOpen(GravityCompat.END)) {
                     drawer.closeDrawer(GravityCompat.END);
                 }
+                break;
+            case R.id.login_button:
+                startActivity(LoginActivity.class);
+                break;
+            case R.id.register_button:
+                startActivity(RegisterActivity.class);
                 break;
         }
     }

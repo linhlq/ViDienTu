@@ -14,16 +14,17 @@ import com.linhlee.vidientu.models.NewsObject;
 import java.util.ArrayList;
 
 /**
- * Created by Linh Lee on 4/9/2017.
+ * Created by lequy on 4/14/2017.
  */
-public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.RecyclerViewHolder> {
+
+public class ListNewsAllAdapter extends RecyclerView.Adapter<ListNewsAllAdapter.RecyclerViewHolder> {
     private Context context;
     private ArrayList<NewsObject> listNews;
 
     private PositionClickListener listener;
     private int selectedPos = 0;
 
-    public ListNewsAdapter(Context context, ArrayList<NewsObject> listNews, PositionClickListener listener) {
+    public ListNewsAllAdapter(Context context, ArrayList<NewsObject> listNews, PositionClickListener listener) {
         this.context = context;
         this.listNews = listNews;
         this.listener = listener;
@@ -32,15 +33,15 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.Recycl
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View itemView = inflater.inflate(R.layout.item_news, parent, false);
+        View itemView = inflater.inflate(R.layout.item_news_all, parent, false);
         return new RecyclerViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.newsImg.setImageResource(listNews.get(position).getImgRes());
+        /*holder.newsImg.setImageResource(listNews.get(position).getImgRes());
         holder.newsTitle.setText(listNews.get(position).getTitle());
-        holder.newsContent.setText(listNews.get(position).getContent());
+        holder.newsContent.setText(listNews.get(position).getContent());*/
 
         holder.itemView.setSelected(selectedPos == position);
     }
