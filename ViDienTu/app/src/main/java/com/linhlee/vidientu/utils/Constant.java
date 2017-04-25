@@ -9,6 +9,8 @@ import android.view.View;
  * Created by Linh Lee on 4/9/2017.
  */
 public class Constant {
+    public static String CHANGE_FILE_FRAGMENT = "change_file_fragment";
+
     public static int convertDpIntoPixels(int sizeInDp, Context context) {
         float scale = context.getResources().getDisplayMetrics().density;
         int dpAsPixels = (int) (sizeInDp * scale + 0.5f);

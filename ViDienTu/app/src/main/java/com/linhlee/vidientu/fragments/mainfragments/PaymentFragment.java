@@ -1,6 +1,7 @@
 package com.linhlee.vidientu.fragments.mainfragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.linhlee.vidientu.R;
@@ -10,6 +11,7 @@ import com.linhlee.vidientu.fragments.BaseFragment;
  * Created by Linh Lee on 4/9/2017.
  */
 public class PaymentFragment extends BaseFragment {
+    private RecyclerView listPaymentView;
 
     public static PaymentFragment newInstance() {
 
