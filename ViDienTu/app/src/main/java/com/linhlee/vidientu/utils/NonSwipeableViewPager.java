@@ -31,11 +31,11 @@ public class NonSwipeableViewPager extends ViewPager {
 
     @Override
     public void setCurrentItem(int item, boolean smoothScroll) {
-        super.setCurrentItem(item, false);
+        super.setCurrentItem(item, true);
     }
 
     @Override
     public void setCurrentItem(int item) {
-        super.setCurrentItem(item, false);
+        super.setCurrentItem(item, true);
     }
 }

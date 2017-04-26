@@ -2,16 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
-        android:text="Nhập số tiền chuyển"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,42 +15,14 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/vnd_text"
+            android:layout_toLeftOf="@+id/contact_button"
             android:backgroundTint="@android:color/transparent"
-            android:inputType="numberDecimal" />
-
-        <TextView
-            android:id="@+id/vnd_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="VNĐ" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/colorDivider"></View>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:hint="Tên tài khoản người nhận"
-            android:textSize="14sp" />
+            android:inputType="numberDecimal"
+            android:hint="Số di động người nhận"
+            android:textSize="14sp"/>
 
         <ImageView
+            android:id="@+id/contact_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
@@ -85,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
-            android:hint="Xác nhận mật khẩu"
+            android:hint="Chọn loại thẻ"
             android:textSize="14sp" />
 
     </RelativeLayout>
@@ -97,38 +61,24 @@
         android:layout_marginRight="20dp"
         android:background="@color/colorDivider"></View>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <CheckBox
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:hint="Mô tả chuyển tiền"
-            android:textSize="14sp" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/colorDivider"></View>
+        android:layout_marginTop="20dp"
+        android:text="Đăng ký nhận hóa đơn"
+        android:textColor="@android:color/darker_gray"/>
 
     <Button
-        android:id="@+id/update_button"
+        android:id="@+id/accept_button"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/button_style_2"
-        android:text="Tiếp tục"
+        android:text="Xác nhận"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="16sp"

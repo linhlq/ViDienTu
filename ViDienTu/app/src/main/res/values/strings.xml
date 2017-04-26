@@ -16,6 +16,7 @@
     <string name="rut_tien">Rút tiền</string>
     <string name="thanh_toan_hoa_don">Thanh toán hóa đơn</string>
     <string name="diem_thanh_toan">Điểm thanh toán trả góp</string>
+    <string name="visa">Dịch vụ thẻ visa</string>
     <string name="lien_he">Liên hệ</string>
     <string name="ban_quyen">Bản quyền thuộc Thecaosieure.com | Phiên bản 1.0</string>
     <string name="dang_nhap">Đăng nhập</string>
@@ -29,6 +30,8 @@
     <string name="mat_khau">Mật khẩu</string>
     <string name="anh_dai_dien">Ảnh đại diện</string>
     <string name="cap_nhat">Cập nhật</string>
+    <string name="prepay">Trả trước</string>
+    <string name="postpaid">Trả sau</string>
     <string name="cu_phap_1"><b>TCSR DK TK</b> gửi <b>8298</b></string>
     <string name="cu_phap_2"><b>TCSR MK</b> gửi <b>8298</b></string>
     <string name="dang_ky_1">Hiện tại hệ thống chỉ hỗ trợ quý khách đăng ký tài khoản qua SMS theo cú pháp sau:</string>

@@ -10,6 +10,7 @@ import android.view.View;
  */
 public class Constant {
     public static String CHANGE_FILE_FRAGMENT = "change_file_fragment";
+    public static String GOTO_TRANSFER = "goto_transfer";
 
     public static int convertDpIntoPixels(int sizeInDp, Context context) {
         float scale = context.getResources().getDisplayMetrics().density;

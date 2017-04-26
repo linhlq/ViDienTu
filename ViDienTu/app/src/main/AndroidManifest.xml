@@ -33,6 +33,8 @@
         <activity android:name=".activities.DepositActivity"></activity>
 
         <activity android:name=".activities.WithdrawActivity"></activity>
+
+        <activity android:name=".activities.PhoneRechargeActivity"></activity>
     </application>
 
 </manifest>

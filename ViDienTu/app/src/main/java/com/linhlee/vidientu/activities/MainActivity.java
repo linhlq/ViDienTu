@@ -1,5 +1,9 @@
 package com.linhlee.vidientu.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +28,7 @@ import com.linhlee.vidientu.fragments.mainfragments.PaymentFragment;
 import com.linhlee.vidientu.fragments.mainfragments.TransferFragment;
 import com.linhlee.vidientu.fragments.mainfragments.WalletFragment;
 import com.linhlee.vidientu.models.MenuObject;
+import com.linhlee.vidientu.utils.Constant;
 
 import java.util.ArrayList;
 
@@ -45,6 +50,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TabsPagerAdapter pagerAdapter;
     private ArrayList<Fragment> listFragment;
     private TextView titleText;
+
+    private BroadcastReceiver gotoTransferReceiver;
 
     @Override
     protected int getLayoutResource() {
@@ -77,6 +84,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         accountLayout.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
+
+        gotoTransferReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                pager.setCurrentItem(1);
+            }
+        };
+        registerReceiver(gotoTransferReceiver, new IntentFilter(Constant.GOTO_TRANSFER));
     }
 
     public void createMainLayout() {
@@ -159,12 +174,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
+                        pager.setCurrentItem(0);
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 1:
+                        pager.setCurrentItem(1);
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 2:
+                        startActivity(PhoneRechargeActivity.class);
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 3:
@@ -254,6 +272,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             drawer.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (gotoTransferReceiver != null) {
+            unregisterReceiver(gotoTransferReceiver);
         }
     }
 }

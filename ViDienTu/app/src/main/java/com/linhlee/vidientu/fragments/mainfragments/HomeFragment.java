@@ -1,5 +1,6 @@
 package com.linhlee.vidientu.fragments.mainfragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.activities.DepositActivity;
 import com.linhlee.vidientu.activities.NewsActivity;
+import com.linhlee.vidientu.activities.WithdrawActivity;
 import com.linhlee.vidientu.adapters.HomePagerAdapter;
 import com.linhlee.vidientu.adapters.ListFunctionAdapter;
 import com.linhlee.vidientu.adapters.ListNewsHomeAdapter;
@@ -99,10 +102,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         listFunction.add(new MenuObject(R.mipmap.ic_transfer_money, getActivity().getResources().getString(R.string.chuyen_tien)));
         listFunction.add(new MenuObject(R.mipmap.ic_viettel, getActivity().getResources().getString(R.string.viettel)));
 
-        listFunctionAdapter = new ListFunctionAdapter(getActivity(), listFunction, new ListFunctionAdapter.PositionClickListener() {
+        listFunctionAdapter = new ListFunctionAdapter(getActivity(), listFunction, R.layout.item_function_main, new ListFunctionAdapter.PositionClickListener() {
             @Override
             public void itemClicked(int position) {
-
+                switch (position) {
+                    case 0:
+                        break;
+                    case 1:
+                        startActivity(DepositActivity.class);
+                        break;
+                    case 2:
+                        startActivity(WithdrawActivity.class);
+                        break;
+                    case 3:
+                        Intent i = new Intent(Constant.GOTO_TRANSFER);
+                        getActivity().sendBroadcast(i);
+                        break;
+                    case 4:
+                        break;
+                }
             }
         });
         listFunctionAdapter.setHasStableIds(true);

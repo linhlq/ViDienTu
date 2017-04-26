@@ -19,20 +19,22 @@ import java.util.ArrayList;
 public class ListFunctionAdapter extends RecyclerView.Adapter<ListFunctionAdapter.RecyclerViewHolder> {
     private Context context;
     private ArrayList<MenuObject> listFunction;
+    private int layout;
 
     private PositionClickListener listener;
     private int selectedPos = 0;
 
-    public ListFunctionAdapter(Context context, ArrayList<MenuObject> listFunction, PositionClickListener listener) {
+    public ListFunctionAdapter(Context context, ArrayList<MenuObject> listFunction, int layout, PositionClickListener listener) {
         this.context = context;
         this.listFunction = listFunction;
+        this.layout = layout;
         this.listener = listener;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View itemView = inflater.inflate(R.layout.item_function, parent, false);
+        View itemView = inflater.inflate(layout, parent, false);
         return new RecyclerViewHolder(itemView);
     }
 
