@@ -186,12 +186,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 3:
+                        startActivity(BuyPhoneCardActivity.class);
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 4:
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 5:
+                        startActivity(BuyGameCardActivity.class);
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 6:

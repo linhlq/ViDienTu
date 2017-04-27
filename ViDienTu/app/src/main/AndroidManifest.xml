@@ -35,6 +35,10 @@
         <activity android:name=".activities.WithdrawActivity"></activity>
 
         <activity android:name=".activities.PhoneRechargeActivity"></activity>
+
+        <activity android:name=".activities.BuyGameCardActivity"></activity>
+
+        <activity android:name=".activities.BuyPhoneCardActivity"></activity>
     </application>
 
 </manifest>

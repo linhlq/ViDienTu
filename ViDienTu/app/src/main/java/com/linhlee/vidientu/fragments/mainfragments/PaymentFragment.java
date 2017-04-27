@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.activities.BuyPhoneCardActivity;
 import com.linhlee.vidientu.activities.DepositActivity;
 import com.linhlee.vidientu.activities.PhoneRechargeActivity;
 import com.linhlee.vidientu.activities.WithdrawActivity;
@@ -70,6 +71,7 @@ public class PaymentFragment extends BaseFragment {
                         startActivity(PhoneRechargeActivity.class);
                         break;
                     case 2:
+                        startActivity(BuyPhoneCardActivity.class);
                         break;
                     case 3:
                         break;
