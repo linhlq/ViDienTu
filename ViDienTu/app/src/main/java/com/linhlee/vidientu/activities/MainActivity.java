@@ -50,6 +50,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TabsPagerAdapter pagerAdapter;
     private ArrayList<Fragment> listFragment;
     private TextView titleText;
+    private View shadowView;
 
     private BroadcastReceiver gotoTransferReceiver;
 
@@ -68,6 +69,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         listNotiView = (ListView) findViewById(R.id.list_noti);
 
         titleText = (TextView) findViewById(R.id.title_text);
+        shadowView = findViewById(R.id.shadow_view);
         menuButton = (ImageView) findViewById(R.id.menu_button);
         notiButton = (ImageView) findViewById(R.id.noti_button);
         tabs = (TabLayout) findViewById(R.id.tabs);
@@ -115,15 +117,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 switch (position) {
                     case 0:
                         titleText.setText(getResources().getString(R.string.home_page));
+                        shadowView.setVisibility(View.GONE);
                         break;
                     case 1:
                         titleText.setText(getResources().getString(R.string.transfer));
+                        shadowView.setVisibility(View.VISIBLE);
                         break;
                     case 2:
                         titleText.setText(getResources().getString(R.string.payment));
+                        shadowView.setVisibility(View.VISIBLE);
                         break;
                     case 3:
                         titleText.setText(getResources().getString(R.string.wallet));
+                        shadowView.setVisibility(View.VISIBLE);
                         break;
                 }
             }
@@ -137,13 +143,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tabs.setupWithViewPager(pager);
 
         TabLayout.Tab tab1 = tabs.getTabAt(0);
-        tab1.setCustomView(createTabView(R.mipmap.ic_home));
+        tab1.setCustomView(createTabView(R.drawable.img_home));
         TabLayout.Tab tab2 = tabs.getTabAt(1);
-        tab2.setCustomView(createTabView(R.mipmap.ic_transfer));
+        tab2.setCustomView(createTabView(R.drawable.img_transfer));
         TabLayout.Tab tab3 = tabs.getTabAt(2);
-        tab3.setCustomView(createTabView(R.mipmap.ic_payment));
+        tab3.setCustomView(createTabView(R.drawable.img_payment));
         TabLayout.Tab tab4 = tabs.getTabAt(3);
-        tab4.setCustomView(createTabView(R.mipmap.ic_wallet));
+        tab4.setCustomView(createTabView(R.drawable.img_wallet));
     }
 
     public void createDrawerLayout() {

@@ -52,6 +52,13 @@
             android:hint="Chọn loại thẻ"
             android:textSize="14sp" />
 
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_dropdown" />
+
     </RelativeLayout>
 
     <View

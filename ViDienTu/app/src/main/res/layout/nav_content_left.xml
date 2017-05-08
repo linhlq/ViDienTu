@@ -26,9 +26,9 @@
 
             <ImageView
                 android:id="@+id/avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@mipmap/ic_avatar"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"/>
 
@@ -90,6 +90,11 @@
                     android:text="@string/dang_nhap"/>
 
             </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorDivider"></View>
 
             <RelativeLayout
                 android:id="@+id/register_button"

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,9 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/contact_button"
             android:backgroundTint="@android:color/transparent"
-            android:inputType="numberDecimal"
             android:hint="Số di động người nhận"
-            android:textSize="14sp"/>
+            android:inputType="numberDecimal"
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/contact_button"
@@ -52,6 +52,13 @@
             android:hint="Chọn mệnh giá nạp"
             android:textSize="14sp" />
 
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_dropdown" />
+
     </RelativeLayout>
 
     <View
@@ -75,6 +82,13 @@
             android:hint="Chọn loại thẻ"
             android:textSize="14sp" />
 
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_dropdown" />
+
     </RelativeLayout>
 
     <View
@@ -91,7 +105,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:text="Đăng ký nhận hóa đơn"
-        android:textColor="@android:color/darker_gray"/>
+        android:textColor="@android:color/darker_gray" />
 
     <Button
         android:id="@+id/accept_button"

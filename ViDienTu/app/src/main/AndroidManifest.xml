@@ -16,7 +16,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.MainActivity"></activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
 
         <activity android:name=".activities.PersonalActivity"></activity>
 

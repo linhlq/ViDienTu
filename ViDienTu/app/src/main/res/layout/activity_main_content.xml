@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/home_page"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textColor="@color/colorPrimary"/>
 
         <ImageView
@@ -40,9 +40,11 @@
     </RelativeLayout>
 
     <View
+        android:id="@+id/shadow_view"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="@drawable/shadow"></View>
+        android:background="@drawable/shadow"
+        android:visibility="gone"></View>
     
     <com.linhlee.vidientu.utils.NonSwipeableViewPager
         android:id="@+id/pager"
