@@ -9,6 +9,11 @@ import android.view.View;
  * Created by Linh Lee on 4/9/2017.
  */
 public class Constant {
+    public static final String BASE_URL = "http://104.199.154.118";
+
+    public static String IS_LOGIN = "is_login";
+    public static String LOGIN_SUCCESS = "login_success";
+    public static String USER_INFO = "user_info";
     public static String CHANGE_FILE_FRAGMENT = "change_file_fragment";
     public static String GOTO_TRANSFER = "goto_transfer";
 
@@ -31,5 +36,17 @@ public class Constant {
                 parent.setTouchDelegate(new TouchDelegate(rect, button));
             }
         });
+    }
+
+    public static String formatTime(int time) {
+        String formatedTime = "";
+
+        if (time < 10) {
+            formatedTime = "0" + time;
+        } else {
+            formatedTime = "" + time;
+        }
+
+        return formatedTime;
     }
 }

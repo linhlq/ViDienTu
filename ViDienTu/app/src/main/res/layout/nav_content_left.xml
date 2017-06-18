@@ -33,6 +33,7 @@
                 android:layout_marginLeft="20dp"/>
 
             <TextView
+                android:id="@+id/login_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -41,6 +42,39 @@
                 android:text="@string/login_account"
                 android:textColor="@android:color/white"/>
 
+            <LinearLayout
+                android:id="@+id/info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/avatar">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số dư:"
+                    android:textColor="@android:color/white"/>
+
+                <TextView
+                    android:id="@+id/balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/info_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
         </RelativeLayout>
 
         <View
@@ -48,29 +82,38 @@
             android:layout_height="0.5dp"
             android:background="@android:color/white"></View>
 
-        <ListView
-            android:id="@+id/list_menu"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"></ListView>
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
+            <ListView
+                android:id="@+id/list_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp"></ListView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textSize="12sp"
-                android:text="@string/ban_quyen"
-                android:textColor="@android:color/white"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="12sp"
+                    android:text="@string/ban_quyen"
+                    android:textColor="@android:color/white"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/foot_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"

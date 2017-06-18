@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -15,10 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.ListMenuAdapter;
 import com.linhlee.vidientu.adapters.ListNotiAdapter;
@@ -28,13 +32,25 @@ import com.linhlee.vidientu.fragments.mainfragments.PaymentFragment;
 import com.linhlee.vidientu.fragments.mainfragments.TransferFragment;
 import com.linhlee.vidientu.fragments.mainfragments.WalletFragment;
 import com.linhlee.vidientu.models.MenuObject;
+import com.linhlee.vidientu.models.User;
 import com.linhlee.vidientu.utils.Constant;
 
 import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
+    private MyApplication app;
+    private Gson mGson;
+    private SharedPreferences sharedPreferences;
+    private User user;
+    private boolean isLogin;
+
     private DrawerLayout drawer;
     private RelativeLayout accountLayout;
+    private TextView loginText;
+    private LinearLayout infoLayout;
+    private TextView balance;
+    private TextView infoText;
+    private LinearLayout footLayout;
     private RelativeLayout loginButton;
     private RelativeLayout registerButton;
     private ListView listMenuView;
@@ -52,7 +68,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView titleText;
     private View shadowView;
 
-    private BroadcastReceiver gotoTransferReceiver;
+    private BroadcastReceiver gotoTransferReceiver, loginSuccessReceiver;
 
     @Override
     protected int getLayoutResource() {
@@ -61,8 +77,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initVariables(Bundle savedInstanceState) {
+        app = (MyApplication) getApplication();
+        mGson = app.getGson();
+        sharedPreferences = app.getSharedPreferences();
+        user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         accountLayout = (RelativeLayout) findViewById(R.id.account_layout);
+        loginText = (TextView) findViewById(R.id.login_text);
+        infoLayout = (LinearLayout) findViewById(R.id.info_layout);
+        balance = (TextView) findViewById(R.id.balance);
+        infoText = (TextView) findViewById(R.id.info_text);
+        footLayout = (LinearLayout) findViewById(R.id.foot_layout);
         loginButton = (RelativeLayout) findViewById(R.id.login_button);
         registerButton = (RelativeLayout) findViewById(R.id.register_button);
         listMenuView = (ListView) findViewById(R.id.list_menu);
@@ -78,6 +104,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        isLogin = sharedPreferences.getBoolean(Constant.IS_LOGIN, false);
+        if (isLogin) {
+            footLayout.setVisibility(View.GONE);
+            loginText.setVisibility(View.GONE);
+            infoLayout.setVisibility(View.VISIBLE);
+
+            balance.setText(user.getBalance() + "");
+            infoText.setText(user.getFullname() + " - " + user.getMobile());
+        } else {
+            footLayout.setVisibility(View.VISIBLE);
+            loginText.setVisibility(View.VISIBLE);
+            infoLayout.setVisibility(View.GONE);
+        }
+
         createMainLayout();
         createDrawerLayout();
 
@@ -94,6 +134,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         };
         registerReceiver(gotoTransferReceiver, new IntentFilter(Constant.GOTO_TRANSFER));
+
+        loginSuccessReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Intent i = getIntent();
+                finish();
+                startActivity(i);
+            }
+        };
+        registerReceiver(loginSuccessReceiver, new IntentFilter(Constant.LOGIN_SUCCESS));
     }
 
     public void createMainLayout() {
@@ -171,7 +221,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         listMenu.add(new MenuObject(R.mipmap.ic_hoa_don, getResources().getString(R.string.thanh_toan_hoa_don)));
         listMenu.add(new MenuObject(R.mipmap.ic_diem_thanh_toan, getResources().getString(R.string.diem_thanh_toan)));
         listMenu.add(new MenuObject(R.mipmap.ic_lien_he, getResources().getString(R.string.lien_he)));
-        listMenu.add(new MenuObject(R.mipmap.ic_logout, getResources().getString(R.string.dang_xuat)));
+        if (isLogin) {
+            listMenu.add(new MenuObject(R.mipmap.ic_logout, getResources().getString(R.string.dang_xuat)));
+        }
 
         listMenuAdapter = new ListMenuAdapter(this, listMenu);
         listMenuView.setAdapter(listMenuAdapter);
@@ -219,6 +271,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     case 10:
                         drawer.closeDrawer(GravityCompat.START);
                         break;
+                    case 11:
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        Intent i = getIntent();
+                        finish();
+                        startActivity(i);
+                        break;
                 }
             }
         });
@@ -255,7 +315,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.account_layout:
-                startActivity(PersonalActivity.class);
+                if (isLogin) {
+                    startActivity(PersonalActivity.class);
+                } else {
+                    startActivity(LoginActivity.class);
+                }
 
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
@@ -265,9 +329,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.login_button:
                 startActivity(LoginActivity.class);
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.register_button:
                 startActivity(RegisterActivity.class);
+                drawer.closeDrawer(GravityCompat.START);
                 break;
         }
     }
