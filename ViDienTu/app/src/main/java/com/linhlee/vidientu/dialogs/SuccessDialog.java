@@ -12,14 +12,15 @@ import android.widget.TextView;
 import com.linhlee.vidientu.R;
 
 /**
- * Created by Linh Lee on 6/19/2017.
+ * Created by lequy on 6/20/2017.
  */
-public class NoticeDialog extends Dialog {
+
+public class SuccessDialog extends Dialog {
     private String content;
     private TextView contentText;
     private TextView okButton;
 
-    public NoticeDialog(Context context, String content) {
+    public SuccessDialog(Context context, String content) {
         super(context);
         this.content = content;
     }
@@ -29,7 +30,7 @@ public class NoticeDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        setContentView(R.layout.dialog_notice);
+        setContentView(R.layout.dialog_success);
 
         contentText = (TextView) findViewById(R.id.content_text);
         okButton = (TextView) findViewById(R.id.ok_button);

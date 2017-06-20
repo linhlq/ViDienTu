@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +57,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         editUsername = (EditText) findViewById(R.id.edit_username);
         editPass = (EditText) findViewById(R.id.edit_pass);
-        loginButton = (Button) findViewById(R.id.login_button);
+        loginButton = (Button) findViewById(R.id.login);
         forgotPassButton = (TextView) findViewById(R.id.forgot_pass_button);
         registerButton = (TextView) findViewById(R.id.register_button);
     }
@@ -71,7 +72,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.login_button:
+            case R.id.login:
                 HashMap<String, Object> body = new HashMap<>();
                 body.put("username", editUsername.getText().toString());
                 body.put("password", editPass.getText().toString());

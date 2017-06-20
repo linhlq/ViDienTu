@@ -1,5 +1,6 @@
 package com.linhlee.vidientu.retrofit;
 
+import com.linhlee.vidientu.models.BalanceRequest;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.UserRequest;
 
@@ -31,6 +32,10 @@ public interface IRetrofitAPI {
     @POST("/rest/api/getUserInfo")
     Call<UserRequest> getUserInfo(@Header("token") String token);
 
+    //Lựa chọn chế độ ODP hoặc không chọn
+    @POST("/rest/api/chooseODP")
+    Call<OtherRequest> chooseODP(@Header("token") String token, @Body HashMap<String, Object> body);
+
     //Đổi mật khẩu 1
     @POST("/rest/api/changeMK1")
     Call<OtherRequest> changePass1(@Header("token") String token, @Body HashMap<String, Object> body);
@@ -42,4 +47,24 @@ public interface IRetrofitAPI {
     //Đổi thông tin cá nhân
     @POST("/rest/api/changeProfile")
     Call<UserRequest> changeProfile(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Lấy số dư hiện tại của khách hàng
+    @POST("/rest/api/getbalance")
+    Call<BalanceRequest> getBalance(@Header("token") String token);
+
+    //Nạp thẻ cào thành tiền
+    @POST("/rest/api/cardCharge")
+    Call<OtherRequest> cardCharge(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Chuyển tiền cho tài khoản khác
+    @POST("/rest/api/transferTcsr")
+    Call<OtherRequest> transferMoney(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Mua thẻ cào, thẻ game
+    @POST("/rest/api/buyCard")
+    Call<UserRequest> buyCard(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Nạp trực tiếp tiền cho di động bằng tiền trên thecaosieure
+    @POST("/rest/api/topupMobile")
+    Call<OtherRequest> topupMobile(@Header("token") String token, @Body HashMap<String, Object> body);
 }
