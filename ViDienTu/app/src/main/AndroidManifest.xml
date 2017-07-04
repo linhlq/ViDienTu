@@ -39,6 +39,12 @@
 
         <activity android:name=".activities.WithdrawActivity"></activity>
 
+        <activity android:name=".activities.WithdrawATMActivity"></activity>
+
+        <activity android:name=".activities.WithdrawCMTActivity"></activity>
+
+        <activity android:name=".activities.WithdrawBankActivity"></activity>
+
         <activity android:name=".activities.PhoneRechargeActivity"></activity>
 
         <activity android:name=".activities.BuyGameCardActivity"></activity>

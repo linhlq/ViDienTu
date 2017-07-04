@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
@@ -32,14 +33,23 @@ import com.linhlee.vidientu.fragments.mainfragments.PaymentFragment;
 import com.linhlee.vidientu.fragments.mainfragments.TransferFragment;
 import com.linhlee.vidientu.fragments.mainfragments.WalletFragment;
 import com.linhlee.vidientu.models.MenuObject;
+import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.User;
+import com.linhlee.vidientu.retrofit.IRetrofitAPI;
 import com.linhlee.vidientu.utils.Constant;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private MyApplication app;
     private Gson mGson;
+    private Retrofit mRetrofit;
+    private IRetrofitAPI mRetrofitAPI;
     private SharedPreferences sharedPreferences;
     private User user;
     private boolean isLogin;
@@ -79,6 +89,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void initVariables(Bundle savedInstanceState) {
         app = (MyApplication) getApplication();
         mGson = app.getGson();
+        mRetrofit = app.getRetrofit();
+        mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = app.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
 
@@ -272,12 +284,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 11:
-                        drawer.closeDrawer(GravityCompat.START);
+                        Call<OtherRequest> logout = mRetrofitAPI.logout(user.getToken());
+                        logout.enqueue(new Callback<OtherRequest>() {
+                            @Override
+                            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                                int errorCode = response.body().getErrorCode();
+                                String msg = response.body().getMsg();
+                                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
-                        Intent i = getIntent();
-                        finish();
-                        startActivity(i);
+                                drawer.closeDrawer(GravityCompat.START);
+
+                                sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                                sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+
+                                Intent i = getIntent();
+                                finish();
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                         break;
                 }
             }

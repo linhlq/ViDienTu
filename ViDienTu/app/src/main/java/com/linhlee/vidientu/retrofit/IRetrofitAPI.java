@@ -67,4 +67,40 @@ public interface IRetrofitAPI {
     //Nạp trực tiếp tiền cho di động bằng tiền trên thecaosieure
     @POST("/rest/api/topupMobile")
     Call<OtherRequest> topupMobile(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Lấy thông tin tên ngân hàng hoặc tên loại thẻ cho các chức năng rút tiền và các chức năng mua thẻ game điện thoại
+    @POST("/rest/api/getCardInfo")
+    Call<OtherRequest> getCardInfo(@Body HashMap<String, Object> body);
+
+    //Lấy DS số ATM đã được lưu trên hệ thống của khách hàng
+    @POST("/rest/api/getPaysave")
+    Call<OtherRequest> getPaySave(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Rút tiền về số tài khoản ngân hàng
+    @POST("/rest/api/postAccountbank")
+    Call<OtherRequest> postAccountBank(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Rút tiền về số ATM ngân hàng
+    @POST("/rest/api/postATMBank")
+    Call<OtherRequest> postATMBank(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Rút tiền theo số chứng minh thư và địa chỉ cmt
+    @POST("/rest/api/postCMTdraw")
+    Call<OtherRequest> postCMTdraw(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Lấy nội dung hiển thị theo tên chức năng
+    @POST("/rest/api/getContentbyname")
+    Call<OtherRequest> getContentByName(@Body HashMap<String, Object> body);
+
+    //Lấy Danh sách lịch sử giao dịch của khách hàng
+    @POST("/rest/api/getAllTransaction")
+    Call<OtherRequest> getAllTransaction(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Đăng xuất
+    @POST("/rest/api/LogoutTcsr")
+    Call<OtherRequest> logout(@Header("token") String token);
+
+    //Thanh toán hợp đồng trả góp
+    @POST("/rest/api/postSaleHD")
+    Call<OtherRequest> postSaleHD(@Header("token") String token, @Body HashMap<String, Object> body);
 }

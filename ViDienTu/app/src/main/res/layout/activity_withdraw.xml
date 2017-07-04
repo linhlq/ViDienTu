@@ -33,6 +33,7 @@
         android:background="@drawable/shadow"></View>
 
     <RelativeLayout
+        android:id="@+id/button_withdraw_atm"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
@@ -60,6 +61,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/button_withdraw_cmt"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
@@ -87,6 +89,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/button_withdraw_bank"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"

@@ -1,17 +1,16 @@
-package com.linhlee.vidientu.fragments.mainfragments;
+package com.linhlee.vidientu.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
-import com.linhlee.vidientu.fragments.BaseFragment;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.User;
 import com.linhlee.vidientu.retrofit.IRetrofitAPI;
@@ -25,9 +24,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
- * Created by Linh Lee on 4/9/2017.
+ * Created by lequy on 7/3/2017.
  */
-public class TransferFragment extends BaseFragment implements View.OnClickListener {
+
+public class WithdrawATMActivity extends BaseActivity implements View.OnClickListener {
     private MyApplication app;
     private Gson mGson;
     private Retrofit mRetrofit;
@@ -35,74 +35,76 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
     private SharedPreferences sharedPreferences;
     private User user;
 
+    private ImageView backButton;
     private EditText editMoneyAmount;
-    private EditText editReceiverName;
-    private EditText editConfirmPass;
-    private EditText editDes;
+    private EditText editBankName;
+    private EditText editSoThe;
+    private EditText editPass;
     private Button continueButton;
-
-    public static TransferFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        TransferFragment fragment = new TransferFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_transfer;
+        return R.layout.activity_withdraw_atm;
     }
 
     @Override
-    protected void initVariables(Bundle savedInstanceState, View rootView) {
-        app = (MyApplication) getActivity().getApplication();
+    protected void initVariables(Bundle savedInstanceState) {
+        app = (MyApplication) getApplication();
         mGson = app.getGson();
         mRetrofit = app.getRetrofit();
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = app.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
 
-        editMoneyAmount = (EditText) rootView.findViewById(R.id.edit_money_amount);
-        editReceiverName = (EditText) rootView.findViewById(R.id.edit_receiver_name);
-        editConfirmPass = (EditText) rootView.findViewById(R.id.edit_confirm_pass);
-        editDes = (EditText) rootView.findViewById(R.id.edit_des);
-        continueButton = (Button) rootView.findViewById(R.id.button_continue);
+        backButton = (ImageView) findViewById(R.id.back_btn);
+        editMoneyAmount = (EditText) findViewById(R.id.edit_money_amount);
+        editBankName = (EditText) findViewById(R.id.edit_bank_name);
+        editSoThe = (EditText) findViewById(R.id.edit_so_the);
+        editPass = (EditText) findViewById(R.id.edit_pass);
+        continueButton = (Button) findViewById(R.id.button_continue);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        Constant.increaseHitArea(backButton);
+
+        backButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.back_btn:
+                finish();
+                break;
             case R.id.button_continue:
-                HashMap<String, Object> body = new HashMap<>();
-                body.put("sotien", editMoneyAmount.getText().toString());
-                body.put("userReceive", editReceiverName.getText().toString());
-                body.put("mk2", editConfirmPass.getText().toString());
-                body.put("mota", editDes.getText().toString());
-
                 String token = "";
+                String fullname = "";
                 if (user != null) {
                     token = user.getToken();
+                    fullname = user.getFullname();
                 }
 
-                Call<OtherRequest> transferMoney = mRetrofitAPI.transferMoney(token, body);
-                transferMoney.enqueue(new Callback<OtherRequest>() {
+                HashMap<String, Object> body = new HashMap<>();
+                body.put("sotienrut", editMoneyAmount.getText().toString());
+                body.put("bank", editBankName.getText().toString());
+                body.put("soATM", editSoThe.getText().toString());
+                body.put("fullname", fullname);
+                body.put("mk2", editPass.getText().toString());
+
+                Call<OtherRequest> postATMBank = mRetrofitAPI.postATMBank(token, body);
+                postATMBank.enqueue(new Callback<OtherRequest>() {
                     @Override
                     public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
-                        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WithdrawATMActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(Call<OtherRequest> call, Throwable t) {
-                        Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WithdrawATMActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;

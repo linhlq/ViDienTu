@@ -14,6 +14,9 @@
     <string name="mua_the_game">Mua thẻ game</string>
     <string name="nap_tien">Nạp tiền</string>
     <string name="rut_tien">Rút tiền</string>
+    <string name="rut_tien_atm">Rút về thẻ ATM</string>
+    <string name="rut_tien_cmt">Rút về chứng minh thư</string>
+    <string name="rut_tien_bank">Rút về tài khoản ngân hàng</string>
     <string name="thanh_toan_hoa_don">Thanh toán hóa đơn</string>
     <string name="diem_thanh_toan">Điểm thanh toán trả góp</string>
     <string name="visa">Dịch vụ thẻ visa</string>

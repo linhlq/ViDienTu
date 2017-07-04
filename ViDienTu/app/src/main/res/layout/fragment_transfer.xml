@@ -21,6 +21,7 @@
         android:layout_marginTop="10dp">
 
         <EditText
+            android:id="@+id/edit_money_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/vnd_text"
@@ -52,6 +53,7 @@
         android:layout_marginTop="10dp">
 
         <EditText
+            android:id="@+id/edit_receiver_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
@@ -82,10 +84,12 @@
         android:layout_marginTop="10dp">
 
         <EditText
+            android:id="@+id/edit_confirm_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
             android:hint="Xác nhận mật khẩu"
+            android:inputType="textPassword"
             android:textSize="14sp" />
 
     </RelativeLayout>
@@ -105,6 +109,7 @@
         android:layout_marginTop="10dp">
 
         <EditText
+            android:id="@+id/edit_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
@@ -121,7 +126,7 @@
         android:background="@color/colorDivider"></View>
 
     <Button
-        android:id="@+id/update_button"
+        android:id="@+id/button_continue"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
