@@ -10,6 +10,7 @@ import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.activities.BuyPhoneCardActivity;
 import com.linhlee.vidientu.activities.DepositActivity;
 import com.linhlee.vidientu.activities.PhoneRechargeActivity;
+import com.linhlee.vidientu.activities.TraGopActivity;
 import com.linhlee.vidientu.activities.WithdrawActivity;
 import com.linhlee.vidientu.adapters.ListFunctionAdapter;
 import com.linhlee.vidientu.fragments.BaseFragment;
@@ -86,6 +87,7 @@ public class PaymentFragment extends BaseFragment {
                     case 7:
                         break;
                     case 8:
+                        startActivity(TraGopActivity.class);
                         break;
                 }
             }

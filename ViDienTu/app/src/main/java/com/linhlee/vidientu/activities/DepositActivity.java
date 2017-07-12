@@ -3,6 +3,7 @@ package com.linhlee.vidientu.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.utils.Constant;
@@ -13,6 +14,7 @@ import com.linhlee.vidientu.utils.Constant;
 
 public class DepositActivity extends BaseActivity implements View.OnClickListener {
     private ImageView backButton;
+    private RelativeLayout buttonThe;
 
     @Override
     protected int getLayoutResource() {
@@ -22,6 +24,7 @@ public class DepositActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initVariables(Bundle savedInstanceState) {
         backButton = (ImageView) findViewById(R.id.back_btn);
+        buttonThe = (RelativeLayout) findViewById(R.id.button_the);
     }
 
     @Override
@@ -29,10 +32,18 @@ public class DepositActivity extends BaseActivity implements View.OnClickListene
         Constant.increaseHitArea(backButton);
 
         backButton.setOnClickListener(this);
+        buttonThe.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        finish();
+        switch (v.getId()) {
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.button_the:
+                startActivity(DepositCardActivity.class);
+                break;
+        }
     }
 }

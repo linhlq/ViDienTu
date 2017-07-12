@@ -32,7 +32,7 @@
         android:layout_height="5dp"
         android:background="@drawable/shadow"></View>
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
@@ -57,9 +57,10 @@
             android:text="ATM ONLINE/E-BANKING"
             android:textSize="16sp" />
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <RelativeLayout
+        android:id="@+id/button_the"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
@@ -86,7 +87,7 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
@@ -111,6 +112,6 @@
             android:text="CHUYỂN KHOẢN NGÂN HÀNG"
             android:textSize="16sp" />
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 </LinearLayout>

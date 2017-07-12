@@ -278,6 +278,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 9:
+                        startActivity(TraGopActivity.class);
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 10:

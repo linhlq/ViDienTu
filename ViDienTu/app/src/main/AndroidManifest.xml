@@ -37,6 +37,8 @@
 
         <activity android:name=".activities.DepositActivity"></activity>
 
+        <activity android:name=".activities.DepositCardActivity"></activity>
+
         <activity android:name=".activities.WithdrawActivity"></activity>
 
         <activity android:name=".activities.WithdrawATMActivity"></activity>
@@ -50,6 +52,8 @@
         <activity android:name=".activities.BuyGameCardActivity"></activity>
 
         <activity android:name=".activities.BuyPhoneCardActivity"></activity>
+
+        <activity android:name=".activities.TraGopActivity"></activity>
     </application>
 
 </manifest>

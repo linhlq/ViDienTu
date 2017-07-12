@@ -152,11 +152,11 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
-                    android:id="@+id/edit_so_the"
+                    android:id="@+id/edit_so_tk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@android:color/transparent"
-                    android:hint="Số thẻ ATM"
+                    android:hint="Số tài khoản ngân hàng"
                     android:inputType="numberDecimal"
                     android:textSize="14sp" />
 
