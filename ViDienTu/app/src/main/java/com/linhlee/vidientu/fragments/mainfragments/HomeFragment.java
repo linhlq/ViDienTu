@@ -96,10 +96,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         //Create list function
         listFunction = new ArrayList<>();
-        listFunction.add(new MenuObject(R.mipmap.ic_about_us, getActivity().getResources().getString(R.string.gioi_thieu)));
-        listFunction.add(new MenuObject(R.mipmap.ic_deposit, getActivity().getResources().getString(R.string.nap_tien)));
-        listFunction.add(new MenuObject(R.mipmap.ic_withdraw, getActivity().getResources().getString(R.string.rut_tien)));
-        listFunction.add(new MenuObject(R.mipmap.ic_transfer_money, getActivity().getResources().getString(R.string.chuyen_tien)));
+        listFunction.add(new MenuObject(R.drawable.ic_about_state, getActivity().getResources().getString(R.string.gioi_thieu)));
+        listFunction.add(new MenuObject(R.drawable.ic_deposit_state, getActivity().getResources().getString(R.string.nap_tien)));
+        listFunction.add(new MenuObject(R.drawable.ic_withdraw_state, getActivity().getResources().getString(R.string.rut_tien)));
+        listFunction.add(new MenuObject(R.drawable.ic_transfer_money_state, getActivity().getResources().getString(R.string.chuyen_tien)));
         listFunction.add(new MenuObject(R.mipmap.ic_viettel, getActivity().getResources().getString(R.string.viettel)));
 
         listFunctionAdapter = new ListFunctionAdapter(getActivity(), listFunction, R.layout.item_function_main, new ListFunctionAdapter.PositionClickListener() {

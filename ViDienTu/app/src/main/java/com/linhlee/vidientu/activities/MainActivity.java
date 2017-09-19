@@ -190,7 +190,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         shadowView.setVisibility(View.VISIBLE);
                         break;
                     case 3:
-                        titleText.setText(getResources().getString(R.string.wallet));
+                        titleText.setText(getResources().getString(R.string.personal_information));
                         shadowView.setVisibility(View.VISIBLE);
                         break;
                 }
@@ -222,7 +222,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         // Create Navigation Drawer layout left
         listMenu = new ArrayList<>();
-        listMenu.add(new MenuObject(R.mipmap.ic_home, getResources().getString(R.string.home_page)));
+        listMenu.add(new MenuObject(R.mipmap.ic_home_new, getResources().getString(R.string.home_page)));
         listMenu.add(new MenuObject(R.mipmap.ic_chuyen_tien, getResources().getString(R.string.chuyen_tien)));
         listMenu.add(new MenuObject(R.mipmap.ic_nap_dt, getResources().getString(R.string.nap_dien_thoai)));
         listMenu.add(new MenuObject(R.mipmap.ic_mua_the_dt, getResources().getString(R.string.mua_the_dien_thoai)));
@@ -347,7 +347,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.account_layout:
                 if (isLogin) {
-                    startActivity(PersonalActivity.class);
+                    //startActivity(PersonalActivity.class);
+                    pager.setCurrentItem(3);
                 } else {
                     startActivity(LoginActivity.class);
                 }
