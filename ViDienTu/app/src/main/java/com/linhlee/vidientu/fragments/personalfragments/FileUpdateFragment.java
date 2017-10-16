@@ -109,13 +109,13 @@ public class FileUpdateFragment extends BaseFragment implements View.OnClickList
                 HashMap<String, Object> body = new HashMap<>();
                 body.put("fullname", editFullName.getText().toString());
                 body.put("email", editEmail.getText().toString());
-                body.put("identityNumber", editIdentity.getText().toString());
-                body.put("dateBirth", editDateBirth.getText().toString());
+                body.put("cmt", editIdentity.getText().toString());
+                body.put("ngaysinh", editDateBirth.getText().toString());
                 body.put("address", editAddress.getText().toString());
                 if (male.isChecked()) {
-                    body.put("sex", "MALE");
+                    body.put("sex", 1);
                 } else {
-                    body.put("sex", "FEMALE");
+                    body.put("sex", 0);
                 }
 
                 Call<UserRequest> callUpdate = mRetrofitAPI.changeProfile(user.getToken(), body);
@@ -135,6 +135,8 @@ public class FileUpdateFragment extends BaseFragment implements View.OnClickList
                             Intent i = new Intent(Constant.CHANGE_FILE_FRAGMENT);
                             i.putExtra("command", 1);
                             getActivity().sendBroadcast(i);
+                        } else {
+                            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                         }
                     }
 

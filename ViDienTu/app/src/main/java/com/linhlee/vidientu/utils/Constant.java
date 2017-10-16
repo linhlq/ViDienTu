@@ -9,7 +9,7 @@ import android.view.View;
  * Created by Linh Lee on 4/9/2017.
  */
 public class Constant {
-    public static final String BASE_URL = "http://104.199.154.118";
+    public static final String BASE_URL = "https://m.thecaosieure.com";
 
     public static String IS_LOGIN = "is_login";
     public static String LOGIN_SUCCESS = "login_success";

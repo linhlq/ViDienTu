@@ -103,4 +103,8 @@ public interface IRetrofitAPI {
     //Thanh toán hợp đồng trả góp
     @POST("/rest/api/postSaleHD")
     Call<OtherRequest> postSaleHD(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Lấy ảnh top banner ở trang chủ
+    @POST("/rest/api/getBanner")
+    Call<OtherRequest> getBanner();
 }

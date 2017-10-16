@@ -65,13 +65,19 @@ public class FileDisplayFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        fullName.setText(user.getFullname());
-        mobile.setText(user.getMobile());
-        email.setText(user.getEmail());
-        identityNumber.setText(user.getIdentityNumber());
-        dateBirth.setText(user.getDateBirth());
-        sex.setText(user.getSex());
-        address.setText(user.getAddress());
+        if (user != null) {
+            fullName.setText(user.getFullname());
+            mobile.setText(user.getMobile());
+            email.setText(user.getEmail());
+            identityNumber.setText(user.getIdentityNumber());
+            dateBirth.setText(user.getDateBirth());
+            if (user.getGioitinh() == 1) {
+                sex.setText("Nam");
+            } else {
+                sex.setText("Nữ");
+            }
+            address.setText(user.getAddress());
+        }
 
         updateButton.setOnClickListener(this);
     }
