@@ -1,18 +1,27 @@
 package com.linhlee.vidientu.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.dialogs.CheckODPDialog;
+import com.linhlee.vidientu.dialogs.PhoneNumberDialog;
+import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.User;
 import com.linhlee.vidientu.models.UserRequest;
 import com.linhlee.vidientu.retrofit.IRetrofitAPI;
@@ -41,6 +50,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private Button loginButton;
     private TextView forgotPassButton;
     private TextView registerButton;
+    private ImageView buttonFanpage;
+    private LinearLayout buttonCall;
+
+    private Call<OtherRequest> checkOdpAPI;
+    private Call<OtherRequest> resendOdpAPI;
 
     @Override
     protected int getLayoutResource() {
@@ -60,6 +74,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         loginButton = (Button) findViewById(R.id.login);
         forgotPassButton = (TextView) findViewById(R.id.forgot_pass_button);
         registerButton = (TextView) findViewById(R.id.register_button);
+        buttonFanpage = (ImageView) findViewById(R.id.button_fanpage);
+        buttonCall = (LinearLayout) findViewById(R.id.button_call);
     }
 
     @Override
@@ -67,6 +83,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         loginButton.setOnClickListener(this);
         forgotPassButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
+        buttonFanpage.setOnClickListener(this);
+        buttonCall.setOnClickListener(this);
     }
 
     @Override
@@ -76,7 +94,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 HashMap<String, Object> body = new HashMap<>();
                 body.put("username", editUsername.getText().toString());
                 body.put("password", editPass.getText().toString());
-                body.put("deviceID", "dghwt923bgbo");
+                body.put("deviceID", Constant.getDeviceId(this));
 
                 Call<UserRequest> callLogin = mRetrofitAPI.login(body);
                 callLogin.enqueue(new Callback<UserRequest>() {
@@ -84,18 +102,73 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
-                        Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
 
                         if (errorCode == 1) {
-                            User user = response.body().getData();
-                            String jsonUser = mGson.toJson(user);
+                            final User user = response.body().getData();
 
-                            sharedPreferences.edit().putString(Constant.USER_INFO, jsonUser).apply();
-                            sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, true).apply();
+                            if (user.getReceive_otp().equals("M")) {
+                                CheckODPDialog dialog = new CheckODPDialog(LoginActivity.this, new CheckODPDialog.OnButtonClickListener() {
+                                    @Override
+                                    public void onResendClick() {
+                                        resendOdpAPI = mRetrofitAPI.resendODP(user.getToken());
+                                        resendOdpAPI.enqueue(new Callback<OtherRequest>() {
+                                            @Override
+                                            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                                                int errorCode = response.body().getErrorCode();
+                                                String msg = response.body().getMsg();
+                                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                            }
 
-                            finish();
-                            Intent i = new Intent(Constant.LOGIN_SUCCESS);
-                            sendBroadcast(i);
+                                            @Override
+                                            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                                                Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onAcceptClick(String odp) {
+                                        HashMap<String, Object> body = new HashMap<>();
+                                        body.put("ODP", odp);
+
+                                        checkOdpAPI = mRetrofitAPI.checkODP(user.getToken(), body);
+                                        checkOdpAPI.enqueue(new Callback<OtherRequest>() {
+                                            @Override
+                                            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                                                int errorCode = response.body().getErrorCode();
+                                                String msg = response.body().getMsg();
+                                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                                                if (errorCode == 1) {
+                                                    String jsonUser = mGson.toJson(user);
+                                                    sharedPreferences.edit().putString(Constant.USER_INFO, jsonUser).apply();
+                                                    sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, true).apply();
+
+                                                    finish();
+                                                    Intent i = new Intent(Constant.LOGIN_SUCCESS);
+                                                    sendBroadcast(i);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                                                Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
+                                dialog.show();
+                            } else {
+                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                                String jsonUser = mGson.toJson(user);
+                                sharedPreferences.edit().putString(Constant.USER_INFO, jsonUser).apply();
+                                sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, true).apply();
+
+                                finish();
+                                Intent i = new Intent(Constant.LOGIN_SUCCESS);
+                                sendBroadcast(i);
+                            }
                         }
                     }
 
@@ -111,6 +184,67 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.register_button:
                 startActivity(RegisterActivity.class);
                 break;
+            case R.id.button_fanpage:
+                try {
+                    getPackageManager().getPackageInfo("com.facebook.katana", 0);
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/Thecaosieure")));
+                } catch (Exception e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Thecaosieure")));
+                }
+                break;
+            case R.id.button_call:
+                PhoneNumberDialog dialog = new PhoneNumberDialog(this, new PhoneNumberDialog.OnNumberClickListener() {
+                    @Override
+                    public void onNumber1Click() {
+                        makeCall("0963986398");
+                    }
+
+                    @Override
+                    public void onNumber2Click() {
+                        makeCall("0979943129");
+                    }
+                });
+                dialog.show();
+                break;
+        }
+    }
+
+    private void makeCall(String number) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(LoginActivity.this,
+                    new String[]{Manifest.permission.CALL_PHONE}, 1);
+        } else {
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case 1: {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                    Toast.makeText(LoginActivity.this, "Cấp quyền thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(LoginActivity.this, "Quyền bị từ chối!", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 }

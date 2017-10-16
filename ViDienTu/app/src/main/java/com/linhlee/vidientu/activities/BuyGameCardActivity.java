@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.ListCardAdapter;
+import com.linhlee.vidientu.models.CardObject;
 import com.linhlee.vidientu.utils.Constant;
 import com.linhlee.vidientu.utils.GridSpacingItemDecoration;
 
@@ -21,7 +22,7 @@ public class BuyGameCardActivity extends BaseActivity implements View.OnClickLis
     private ImageView backButton;
     private RecyclerView listGameCardView;
     private ListCardAdapter adapter;
-    private ArrayList<Integer> listGameCard;
+    private ArrayList<CardObject> listGameCard;
 
     @Override
     protected int getLayoutResource() {
@@ -37,12 +38,6 @@ public class BuyGameCardActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData(Bundle savedInstanceState) {
         listGameCard = new ArrayList<>();
-        listGameCard.add(R.mipmap.img_garena);
-        listGameCard.add(R.mipmap.img_gate);
-        listGameCard.add(R.mipmap.img_zing);
-        listGameCard.add(R.mipmap.img_vcoin);
-        listGameCard.add(R.mipmap.img_oncash);
-        listGameCard.add(R.mipmap.img_muathe247);
 
         adapter = new ListCardAdapter(this, listGameCard, new ListCardAdapter.PositionClickListener() {
             @Override

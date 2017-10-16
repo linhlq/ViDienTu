@@ -9,7 +9,18 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:scaleType="fitCenter"
+        android:paddingBottom="10dp"
         android:src="@mipmap/img_zing"/>
+
+    <TextView
+        android:id="@+id/text_chiet_khau"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="Chiết khấu 20%"
+        android:layout_marginBottom="5dp"
+        android:textSize="10sp"/>
 
     <View
         android:id="@+id/border"

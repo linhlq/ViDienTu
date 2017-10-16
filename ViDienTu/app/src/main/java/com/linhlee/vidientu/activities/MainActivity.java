@@ -133,6 +133,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         createMainLayout();
         createDrawerLayout();
 
+        Constant.increaseHitArea(menuButton);
+        Constant.increaseHitArea(notiButton);
+
         menuButton.setOnClickListener(this);
         notiButton.setOnClickListener(this);
         accountLayout.setOnClickListener(this);
@@ -260,6 +263,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 4:
+                        startActivity(DepositCardActivity.class);
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 5:

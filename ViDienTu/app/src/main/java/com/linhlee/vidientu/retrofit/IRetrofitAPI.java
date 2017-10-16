@@ -1,6 +1,9 @@
 package com.linhlee.vidientu.retrofit;
 
 import com.linhlee.vidientu.models.BalanceRequest;
+import com.linhlee.vidientu.models.BannerRequest;
+import com.linhlee.vidientu.models.CardRequest;
+import com.linhlee.vidientu.models.NewsRequest;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.UserRequest;
 
@@ -70,7 +73,11 @@ public interface IRetrofitAPI {
 
     //Lấy thông tin tên ngân hàng hoặc tên loại thẻ cho các chức năng rút tiền và các chức năng mua thẻ game điện thoại
     @POST("/rest/api/getCardInfo")
-    Call<OtherRequest> getCardInfo(@Body HashMap<String, Object> body);
+    Call<CardRequest> getCardInfo(@Body HashMap<String, Object> body);
+
+    //Lấy thông tin chiết khấu nạp thẻ vào ví
+    @POST("/rest/api/getCardDPT")
+    Call<CardRequest> getCardDPT();
 
     //Lấy DS số ATM đã được lưu trên hệ thống của khách hàng
     @POST("/rest/api/getPaysave")
@@ -106,5 +113,9 @@ public interface IRetrofitAPI {
 
     //Lấy ảnh top banner ở trang chủ
     @POST("/rest/api/getBanner")
-    Call<OtherRequest> getBanner();
+    Call<BannerRequest> getBanner();
+
+    //Lấy danh sách tin tức
+    @POST("/rest/api/getArticle")
+    Call<NewsRequest> getArticle();
 }

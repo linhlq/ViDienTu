@@ -2,20 +2,30 @@ package com.linhlee.vidientu.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.adapters.ListCardAdapter;
+import com.linhlee.vidientu.models.CardObject;
+import com.linhlee.vidientu.models.CardRequest;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.User;
 import com.linhlee.vidientu.retrofit.IRetrofitAPI;
 import com.linhlee.vidientu.utils.Constant;
+import com.linhlee.vidientu.utils.GridSpacingItemDecoration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -35,11 +45,18 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
     private SharedPreferences sharedPreferences;
     private User user;
 
+    private RecyclerView listCardView;
+    private ListCardAdapter adapter;
+    private ArrayList<CardObject> listCard;
     private ImageView backButton;
-    private EditText editTypeCard;
+    //private EditText editTypeCard;
     private EditText editSerie;
     private EditText editMaThe;
     private Button continueButton;
+    private int curPos = 0;
+
+    private Call<CardRequest> getCardDPTAPI;
+    private Call<OtherRequest> cardChargeAPI;
 
     @Override
     protected int getLayoutResource() {
@@ -56,7 +73,8 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
 
         backButton = (ImageView) findViewById(R.id.back_btn);
-        editTypeCard = (EditText) findViewById(R.id.edit_type_card);
+        listCardView = (RecyclerView) findViewById(R.id.list_card);
+        //editTypeCard = (EditText) findViewById(R.id.edit_type_card);
         editSerie = (EditText) findViewById(R.id.edit_serie);
         editMaThe = (EditText) findViewById(R.id.edit_ma_the);
         continueButton = (Button) findViewById(R.id.button_continue);
@@ -64,10 +82,47 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        Constant.increaseHitArea(backButton);
+        listCard = new ArrayList<>();
+        getListCard();
 
+        adapter = new ListCardAdapter(this, listCard, new ListCardAdapter.PositionClickListener() {
+            @Override
+            public void itemClicked(int position) {
+                curPos = position;
+            }
+        });
+        adapter.setHasStableIds(true);
+
+        listCardView.setLayoutManager(new GridLayoutManager(this, 3));
+        listCardView.addItemDecoration(new GridSpacingItemDecoration(3, Constant.convertDpIntoPixels(20, this), true));
+        listCardView.setAdapter(adapter);
+
+        Constant.increaseHitArea(backButton);
         backButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
+    }
+
+    private void getListCard() {
+        getCardDPTAPI = mRetrofitAPI.getCardDPT();
+        getCardDPTAPI.enqueue(new Callback<CardRequest>() {
+            @Override
+            public void onResponse(Call<CardRequest> call, Response<CardRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+
+                if (errorCode == 1) {
+                    listCard.addAll(response.body().getData());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(DepositCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CardRequest> call, Throwable t) {
+                Toast.makeText(DepositCardActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -83,12 +138,12 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
                 }
 
                 HashMap<String, Object> body = new HashMap<>();
-                body.put("loaithe", editTypeCard.getText().toString());
+                body.put("loaithe", listCard.get(curPos).getBankName());
                 body.put("serial", editSerie.getText().toString());
                 body.put("mathe", editMaThe.getText().toString());
 
-                Call<OtherRequest> cardCharge = mRetrofitAPI.cardCharge(token, body);
-                cardCharge.enqueue(new Callback<OtherRequest>() {
+                cardChargeAPI = mRetrofitAPI.cardCharge(token, body);
+                cardChargeAPI.enqueue(new Callback<OtherRequest>() {
                     @Override
                     public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                         int errorCode = response.body().getErrorCode();

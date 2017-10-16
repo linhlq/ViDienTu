@@ -4,22 +4,22 @@ package com.linhlee.vidientu.models;
  * Created by Linh Lee on 4/9/2017.
  */
 public class NewsObject {
-    private int imgRes;
+    private String imageurl;
     private String title;
-    private String content;
+    private String abstract_;
 
-    public NewsObject(int imgRes, String title, String content) {
-        this.imgRes = imgRes;
+    public NewsObject(String imageurl, String title, String abstract_) {
+        this.imageurl = imageurl;
         this.title = title;
-        this.content = content;
+        this.abstract_ = abstract_;
     }
 
-    public int getImgRes() {
-        return imgRes;
+    public String getImageurl() {
+        return imageurl;
     }
 
-    public void setImgRes(int imgRes) {
-        this.imgRes = imgRes;
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
     public String getTitle() {
@@ -30,11 +30,11 @@ public class NewsObject {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getAbstract_() {
+        return abstract_;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setAbstract_(String abstract_) {
+        this.abstract_ = abstract_;
     }
 }

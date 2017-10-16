@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.models.BannerObject;
+import com.linhlee.vidientu.utils.Constant;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -17,12 +20,12 @@ import java.util.ArrayList;
  */
 public class HomePagerAdapter extends PagerAdapter {
     private Context context;
-    private ArrayList<Integer> listImgRes;
+    private ArrayList<BannerObject> listImg;
     private LayoutInflater inflater;
 
-    public HomePagerAdapter(Context context, ArrayList<Integer> listImgRes) {
+    public HomePagerAdapter(Context context, ArrayList<BannerObject> listImg) {
         this.context = context;
-        this.listImgRes = listImgRes;
+        this.listImg = listImg;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -31,7 +34,8 @@ public class HomePagerAdapter extends PagerAdapter {
         View itemView = inflater.inflate(R.layout.item_home_pager, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.image_view);
-        imageView.setImageResource(listImgRes.get(position));
+        Picasso.with(context).load(Constant.IMAGE_BANNER_URL + listImg.get(position).getFilename()).into(imageView);
+        //imageView.setImageResource(listImg.get(position));
 
         container.addView(itemView);
 
@@ -40,7 +44,7 @@ public class HomePagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return listImgRes.size();
+        return listImg.size();
     }
 
     @Override

@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.models.CardObject;
+import com.linhlee.vidientu.utils.Constant;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -18,14 +21,14 @@ import java.util.ArrayList;
 
 public class ListCardAdapter extends RecyclerView.Adapter<ListCardAdapter.RecyclerViewHolder> {
     private Context context;
-    private ArrayList<Integer> listCardImg;
+    private ArrayList<CardObject> listCard;
 
     private PositionClickListener listener;
-    private int selectedPos = -1;
+    private int selectedPos = 0;
 
-    public ListCardAdapter(Context context, ArrayList<Integer> listCardImg, PositionClickListener listener) {
+    public ListCardAdapter(Context context, ArrayList<CardObject> listCard, PositionClickListener listener) {
         this.context = context;
-        this.listCardImg = listCardImg;
+        this.listCard = listCard;
         this.listener = listener;
     }
 
@@ -38,7 +41,8 @@ public class ListCardAdapter extends RecyclerView.Adapter<ListCardAdapter.Recycl
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.cardImg.setImageResource(listCardImg.get(position));
+        Picasso.with(context).load(Constant.IMAGE_CARD_URL + listCard.get(position).getImage()).into(holder.cardImg);
+        holder.textChietKhau.setText("Chiết khấu " + String.format("%.1f", 100 - listCard.get(position).getDisDPT()) + "%");
 
         holder.itemView.setSelected(selectedPos == position);
 
@@ -51,7 +55,7 @@ public class ListCardAdapter extends RecyclerView.Adapter<ListCardAdapter.Recycl
 
     @Override
     public int getItemCount() {
-        return listCardImg.size();
+        return listCard.size();
     }
 
     @Override
@@ -65,11 +69,13 @@ public class ListCardAdapter extends RecyclerView.Adapter<ListCardAdapter.Recycl
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView cardImg;
+        public TextView textChietKhau;
         public View border;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             cardImg = (ImageView) itemView.findViewById(R.id.card_img);
+            textChietKhau = (TextView) itemView.findViewById(R.id.text_chiet_khau);
             border = itemView.findViewById(R.id.border);
 
             itemView.setOnClickListener(this);

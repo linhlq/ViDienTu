@@ -6,24 +6,40 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.ListNewsAllAdapter;
 import com.linhlee.vidientu.models.NewsObject;
+import com.linhlee.vidientu.models.NewsRequest;
+import com.linhlee.vidientu.retrofit.IRetrofitAPI;
 import com.linhlee.vidientu.utils.Constant;
 import com.linhlee.vidientu.utils.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by lequy on 4/14/2017.
  */
 
 public class NewsActivity extends BaseActivity implements View.OnClickListener {
+    private Gson mGson;
+    private Retrofit mRetrofit;
+    private IRetrofitAPI mRetrofitAPI;
+
     private ImageView backButton;
     private RecyclerView listNewsView;
     private ListNewsAllAdapter listNewsAdapter;
     private ArrayList<NewsObject> listNews;
+
+    private Call<NewsRequest> getNewsAPI;
 
     @Override
     protected int getLayoutResource() {
@@ -32,6 +48,10 @@ public class NewsActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initVariables(Bundle savedInstanceState) {
+        mGson = MyApplication.getGson();
+        mRetrofit = MyApplication.getRetrofit();
+        mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
+
         backButton = (ImageView) findViewById(R.id.back_btn);
         listNewsView = (RecyclerView) findViewById(R.id.list_news);
     }
@@ -39,23 +59,14 @@ public class NewsActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initData(Bundle savedInstanceState) {
         listNews = new ArrayList<>();
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
-        listNews.add(new NewsObject(R.mipmap.item_news_sample, "[Từ 16/04/2016] Thay đổi chính sách đổi thẻ cào sang tiền mặt", "Bắt đầu từ 16/04/2016, chúng tôi sẽ có chính sách mới cho việc quy đổi thẻ cào sang tiền mặt"));
+        getListNews();
 
         listNewsAdapter = new ListNewsAllAdapter(this, listNews, new ListNewsAllAdapter.PositionClickListener() {
             @Override
             public void itemClicked(int position) {
                 Intent i = new Intent(NewsActivity.this, DetailActivity.class);
                 i.putExtra("title", listNews.get(position).getTitle());
-                i.putExtra("content", listNews.get(position).getContent());
+                i.putExtra("content", "agnajkgnaklngaklweng");
                 startActivity(i);
             }
         });
@@ -68,6 +79,29 @@ public class NewsActivity extends BaseActivity implements View.OnClickListener {
         Constant.increaseHitArea(backButton);
 
         backButton.setOnClickListener(this);
+    }
+
+    private void getListNews() {
+        getNewsAPI = mRetrofitAPI.getArticle();
+        getNewsAPI.enqueue(new Callback<NewsRequest>() {
+            @Override
+            public void onResponse(Call<NewsRequest> call, Response<NewsRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+
+                if (errorCode == 1) {
+                    listNews.addAll(response.body().getData());
+                    listNewsAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(NewsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewsRequest> call, Throwable t) {
+                Toast.makeText(NewsActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

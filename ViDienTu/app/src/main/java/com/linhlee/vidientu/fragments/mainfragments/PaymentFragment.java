@@ -9,6 +9,7 @@ import android.view.View;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.activities.BuyPhoneCardActivity;
 import com.linhlee.vidientu.activities.DepositActivity;
+import com.linhlee.vidientu.activities.DepositCardActivity;
 import com.linhlee.vidientu.activities.PhoneRechargeActivity;
 import com.linhlee.vidientu.activities.TraGopActivity;
 import com.linhlee.vidientu.activities.WithdrawActivity;
@@ -101,6 +102,7 @@ public class PaymentFragment extends BaseFragment {
                         break;
                     case 9:
                         //Doi the cao thanh tien mat
+                        startActivity(DepositCardActivity.class);
                         break;
                 }
             }

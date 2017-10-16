@@ -9,28 +9,45 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.activities.DepositActivity;
+import com.linhlee.vidientu.activities.LoginActivity;
 import com.linhlee.vidientu.activities.NewsActivity;
 import com.linhlee.vidientu.activities.WithdrawActivity;
 import com.linhlee.vidientu.adapters.HomePagerAdapter;
 import com.linhlee.vidientu.adapters.ListFunctionAdapter;
 import com.linhlee.vidientu.adapters.ListNewsHomeAdapter;
 import com.linhlee.vidientu.fragments.BaseFragment;
+import com.linhlee.vidientu.models.BannerObject;
+import com.linhlee.vidientu.models.BannerRequest;
 import com.linhlee.vidientu.models.MenuObject;
 import com.linhlee.vidientu.models.NewsObject;
+import com.linhlee.vidientu.models.NewsRequest;
+import com.linhlee.vidientu.retrofit.IRetrofitAPI;
 import com.linhlee.vidientu.utils.Constant;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by Linh Lee on 4/9/2017.
  */
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
+    private Gson mGson;
+    private Retrofit mRetrofit;
+    private IRetrofitAPI mRetrofitAPI;
+
     private ViewPager pager;
     private HomePagerAdapter pagerAdapter;
-    private ArrayList<Integer> listImgRes;
+    private ArrayList<BannerObject> listImg;
     private ImageView[] mDots;
     private LinearLayout mLinearLayout;
     private RecyclerView listFunctionView;
@@ -40,6 +57,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private ListNewsHomeAdapter listNewsAdapter;
     private ArrayList<NewsObject> listNews;
     private RelativeLayout newsLayout;
+
+    private Call<BannerRequest> getBannerAPI;
+    private Call<NewsRequest> getNewsAPI;
 
     public static HomeFragment newInstance() {
 
@@ -57,6 +77,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initVariables(Bundle savedInstanceState, View rootView) {
+        mGson = MyApplication.getGson();
+        mRetrofit = MyApplication.getRetrofit();
+        mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
+
         pager = (ViewPager) rootView.findViewById(R.id.pager);
         mLinearLayout = (LinearLayout) rootView.findViewById(R.id.viewPagerCountDots);
         listFunctionView = (RecyclerView) rootView.findViewById(R.id.list_function);
@@ -67,13 +91,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initData(Bundle savedInstanceState) {
         //Create slide image
-        listImgRes = new ArrayList<>();
-        listImgRes.add(R.mipmap.bg_sample);
-        listImgRes.add(R.mipmap.bg_sample);
-        listImgRes.add(R.mipmap.bg_sample);
-        listImgRes.add(R.mipmap.bg_sample);
+        listImg = new ArrayList<>();
+        getListBanner();
 
-        pagerAdapter = new HomePagerAdapter(getActivity(), listImgRes);
+        pagerAdapter = new HomePagerAdapter(getActivity(), listImg);
         pager.setAdapter(pagerAdapter);
 
         drawPageSelectionIndicators(0);
@@ -130,11 +151,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         //Create list news
         listNews = new ArrayList<>();
-        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
-        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
-        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
-        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
-        listNews.add(new NewsObject(R.mipmap.bg_sample, "Tặng ngay 100.000đ khi liên kết tài khoản Viettel", "Nhận ngay 100.000đ để nạp tiền điện thoại khi bạn làm cái quần què gì đấy"));
+        getListNews();
 
         listNewsAdapter = new ListNewsHomeAdapter(getActivity(), listNews, new ListNewsHomeAdapter.PositionClickListener() {
             @Override
@@ -150,6 +167,52 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         newsLayout.setOnClickListener(this);
     }
 
+    private void getListBanner() {
+        getBannerAPI = mRetrofitAPI.getBanner();
+        getBannerAPI.enqueue(new Callback<BannerRequest>() {
+            @Override
+            public void onResponse(Call<BannerRequest> call, Response<BannerRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+
+                if (errorCode == 1) {
+                    listImg.addAll(response.body().getData());
+                    pagerAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BannerRequest> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getListNews() {
+        getNewsAPI = mRetrofitAPI.getArticle();
+        getNewsAPI.enqueue(new Callback<NewsRequest>() {
+            @Override
+            public void onResponse(Call<NewsRequest> call, Response<NewsRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+
+                if (errorCode == 1) {
+                    listNews.addAll(response.body().getData());
+                    listNewsAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewsRequest> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void drawPageSelectionIndicators(int mPosition){
         int margin = Constant.convertDpIntoPixels(2, getActivity());
 
@@ -157,10 +220,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             mLinearLayout.removeAllViews();
         }
 
-        mDots = new ImageView[listImgRes.size()];
+        mDots = new ImageView[listImg.size()];
 
         //set image with orange circle if mDots[i] == mPosition
-        for (int i = 0; i < listImgRes.size(); i++) {
+        for (int i = 0; i < listImg.size(); i++) {
             mDots[i] = new ImageView(getActivity());
             if(i == mPosition)
                 mDots[i].setImageDrawable(getResources().getDrawable(R.mipmap.ic_circle_selected));

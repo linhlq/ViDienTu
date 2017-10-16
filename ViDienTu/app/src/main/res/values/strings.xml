@@ -37,9 +37,32 @@
     <string name="cap_nhat">Cập nhật</string>
     <string name="prepay">Trả trước</string>
     <string name="postpaid">Trả sau</string>
-    <string name="cu_phap_1"><b>TCSR DK TK</b> gửi <b>8298</b></string>
-    <string name="cu_phap_2"><b>TCSR MK</b> gửi <b>8298</b></string>
+    <string name="cu_phap_1"><![CDATA[<b>TCSR DK TK</b> gửi <b>8298</b>]]></string>
+    <string name="cu_phap_2"><![CDATA[<b>TCSR MK</b> gửi <b>8298</b>]]></string>
     <string name="dang_ky_1">Hiện tại hệ thống chỉ hỗ trợ quý khách đăng ký tài khoản qua SMS theo cú pháp sau:</string>
+    <string name="dang_ky_2"><![CDATA["<b>Trong đó:</b>
+        <br></br>
+        <br>TSCR là tên viết tắt của Thecaosieure.</br>
+        <br>DK là viết tắt của từ đăng ký.</br>
+        <br>TK tức là tên tài khoản quý khách hàng muốn đăng ký và phải từ 6 kí tự trở lên.</br>
+        <br>Mật khẩu của quý khách sẽ được hệ thống tự động trả về bao gồm 6 số.</br>
+        <br></br>
+        <br><b>Lưu ý:</b></br>
+        <br></br>
+        <br>Một số điện thoại chỉ được đăng ký duy nhất 1 tài khoản.</br>
+        <br>Số điện thoại khi đăng ký nếu không trùng với bất kỳ số điện thoại của các tài khoản khác.</br>
+        <br>Phí đăng ký là <b>2000 VNĐ/sms</b>"</br>]]></string>
     <string name="quen_mk_1">Bạn vui lòng sử dụng số di động đã đăng ký soạn tin nhắn theo cú pháp:</string>
+    <string name="quen_mk_2"><![CDATA["<b>Trong đó:</b>
+        <br></br>
+        <br>TSCR MK là cú pháp mặc định để cấp lại mật khẩu.</br>
+        <br>Trong vòng 5-10s hệ thống sẽ trả về SMS có chứa mật khẩu mới.</br>
+        <br>Quý khách đăng nhập vào hệ thống để đổi lại mật khẩu.</br>
+        <br></br>
+        <br><b>Lưu ý:</b></br>
+        <br></br>
+        <br>Chức năng này chỉ sử dụng được với số điện thoại đã đăng ký.</br>
+        <br>Phí lấy lại mật khẩu là <b>4000 VNĐ/sms</b>"</br>]]>
+    </string>
     <string name="loi_khuyen">Chúng tôi khuyên bạn không nên đặt mật khẩu quá đơn giản như: ngày tháng năm sinh, số điện thoại,...</string>
 </resources>

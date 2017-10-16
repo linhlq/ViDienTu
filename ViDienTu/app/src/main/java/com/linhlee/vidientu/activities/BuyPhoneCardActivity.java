@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.ListCardAdapter;
+import com.linhlee.vidientu.models.CardObject;
 import com.linhlee.vidientu.utils.Constant;
 import com.linhlee.vidientu.utils.GridSpacingItemDecoration;
 
@@ -23,7 +24,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
     private ImageView backButton;
     private RecyclerView listPhoneCardView;
     private ListCardAdapter adapter;
-    private ArrayList<Integer> listPhoneCard;
+    private ArrayList<CardObject> listPhoneCard;
     private TextView textAmount;
     private ImageView minusButton;
     private ImageView plusButton;
@@ -47,12 +48,6 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initData(Bundle savedInstanceState) {
         listPhoneCard = new ArrayList<>();
-        listPhoneCard.add(R.mipmap.img_mobiphone);
-        listPhoneCard.add(R.mipmap.img_viettel);
-        listPhoneCard.add(R.mipmap.img_vinaphone);
-        listPhoneCard.add(R.mipmap.img_sphone);
-        listPhoneCard.add(R.mipmap.img_vnmobile);
-        listPhoneCard.add(R.mipmap.img_gmobile);
 
         adapter = new ListCardAdapter(this, listPhoneCard, new ListCardAdapter.PositionClickListener() {
             @Override

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.models.NewsObject;
+import com.linhlee.vidientu.utils.Constant;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -38,9 +40,9 @@ public class ListNewsHomeAdapter extends RecyclerView.Adapter<ListNewsHomeAdapte
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.newsImg.setImageResource(listNews.get(position).getImgRes());
+        Picasso.with(context).load(Constant.IMAGE_NEWS_URL + listNews.get(position).getImageurl()).into(holder.newsImg);
         holder.newsTitle.setText(listNews.get(position).getTitle());
-        holder.newsContent.setText(listNews.get(position).getContent());
+        holder.newsContent.setText(listNews.get(position).getAbstract_());
 
         holder.itemView.setSelected(selectedPos == position);
     }

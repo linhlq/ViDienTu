@@ -48,6 +48,7 @@
         android:layout_marginTop="10dp">
 
         <TextView
+            android:id="@+id/text_quen_mk_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -56,6 +57,7 @@
             android:textSize="16sp" />
 
         <Button
+            android:id="@+id/button_send"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_alignParentRight="true"
@@ -65,5 +67,15 @@
             android:textColor="@color/colorPrimary" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_quen_mk_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/quen_mk_2"
+        android:textColor="@android:color/white"/>
 
 </LinearLayout>

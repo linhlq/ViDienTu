@@ -15,9 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Linh Lee on 6/18/2017.
  */
 public class MyApplication extends Application {
-    private Gson gson;
-    private Retrofit retrofit;
-    private SharedPreferences sharedPreferences;
+    private static Gson gson;
+    private static Retrofit retrofit;
+    private static SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate() {
@@ -34,15 +34,15 @@ public class MyApplication extends Application {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
-    public Retrofit getRetrofit() {
+    public static Retrofit getRetrofit() {
         return retrofit;
     }
 
-    public Gson getGson() {
+    public static Gson getGson() {
         return gson;
     }
 
-    public SharedPreferences getSharedPreferences() {
+    public static SharedPreferences getSharedPreferences() {
         return sharedPreferences;
     }
 }
