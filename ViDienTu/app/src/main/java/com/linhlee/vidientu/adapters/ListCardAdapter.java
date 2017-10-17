@@ -25,6 +25,7 @@ public class ListCardAdapter extends RecyclerView.Adapter<ListCardAdapter.Recycl
 
     private PositionClickListener listener;
     private int selectedPos = 0;
+    private boolean isDPT = false;
 
     public ListCardAdapter(Context context, ArrayList<CardObject> listCard, PositionClickListener listener) {
         this.context = context;
@@ -42,7 +43,14 @@ public class ListCardAdapter extends RecyclerView.Adapter<ListCardAdapter.Recycl
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         Picasso.with(context).load(Constant.IMAGE_CARD_URL + listCard.get(position).getImage()).into(holder.cardImg);
-        holder.textChietKhau.setText("Chiết khấu " + String.format("%.1f", 100 - listCard.get(position).getDisDPT()) + "%");
+
+        float ck;
+        if (isDPT) {
+            ck = 100 - listCard.get(position).getDisDPT();
+        } else {
+            ck = 100 - listCard.get(position).getDiscount();
+        }
+        holder.textChietKhau.setText("Chiết khấu " + String.format("%.1f", ck) + "%");
 
         holder.itemView.setSelected(selectedPos == position);
 
@@ -65,6 +73,10 @@ public class ListCardAdapter extends RecyclerView.Adapter<ListCardAdapter.Recycl
 
     public interface PositionClickListener {
         void itemClicked(int position);
+    }
+
+    public void setDPT(boolean b) {
+        isDPT = b;
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

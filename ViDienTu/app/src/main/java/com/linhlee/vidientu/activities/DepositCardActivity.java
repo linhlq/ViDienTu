@@ -92,6 +92,7 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
             }
         });
         adapter.setHasStableIds(true);
+        adapter.setDPT(true);
 
         listCardView.setLayoutManager(new GridLayoutManager(this, 3));
         listCardView.addItemDecoration(new GridSpacingItemDecoration(3, Constant.convertDpIntoPixels(20, this), true));

@@ -65,7 +65,7 @@ public interface IRetrofitAPI {
 
     //Mua thẻ cào, thẻ game
     @POST("/rest/api/buyCard")
-    Call<UserRequest> buyCard(@Header("token") String token, @Body HashMap<String, Object> body);
+    Call<OtherRequest> buyCard(@Header("token") String token, @Body HashMap<String, Object> body);
 
     //Nạp trực tiếp tiền cho di động bằng tiền trên thecaosieure
     @POST("/rest/api/topupMobile")

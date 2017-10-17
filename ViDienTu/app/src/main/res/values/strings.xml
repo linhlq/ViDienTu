@@ -33,7 +33,7 @@
     <string name="personal_information">Thông tin cá nhân</string>
     <string name="ho_so">Hồ sơ</string>
     <string name="mat_khau">Mật khẩu</string>
-    <string name="anh_dai_dien">Ảnh đại diện</string>
+    <string name="cau_hinh_odp">Cấu hình ODP</string>
     <string name="cap_nhat">Cập nhật</string>
     <string name="prepay">Trả trước</string>
     <string name="postpaid">Trả sau</string>

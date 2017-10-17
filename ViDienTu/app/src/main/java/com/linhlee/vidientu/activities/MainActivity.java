@@ -215,6 +215,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tab3.setCustomView(createTabView(R.drawable.img_payment));
         TabLayout.Tab tab4 = tabs.getTabAt(3);
         tab4.setCustomView(createTabView(R.drawable.img_wallet));
+
+        LinearLayout tabStrip = ((LinearLayout) tabs.getChildAt(0));
+        if (!sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+            tabStrip.setEnabled(false);
+            tabStrip.getChildAt(3).setClickable(false);
+        } else {
+            tabStrip.setEnabled(true);
+            tabStrip.getChildAt(3).setClickable(true);
+        }
+
+        if (!sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+            tab4.getCustomView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public void createDrawerLayout() {
@@ -351,7 +369,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.account_layout:
                 if (isLogin) {
-                    //startActivity(PersonalActivity.class);
                     pager.setCurrentItem(3);
                 } else {
                     startActivity(LoginActivity.class);

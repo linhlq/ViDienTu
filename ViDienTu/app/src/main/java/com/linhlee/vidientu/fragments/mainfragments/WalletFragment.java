@@ -6,16 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.TabsPagerAdapter;
 import com.linhlee.vidientu.fragments.BaseFragment;
-import com.linhlee.vidientu.fragments.personalfragments.AvatarFragment;
+import com.linhlee.vidientu.fragments.personalfragments.OdpFragment;
 import com.linhlee.vidientu.fragments.personalfragments.FileFragment;
 import com.linhlee.vidientu.fragments.personalfragments.PasswordFragment;
-import com.linhlee.vidientu.utils.Constant;
 
 import java.util.ArrayList;
 
@@ -53,7 +51,7 @@ public class WalletFragment extends BaseFragment {
         listFragment = new ArrayList<>();
         listFragment.add(FileFragment.newInstance());
         listFragment.add(PasswordFragment.newInstance());
-        listFragment.add(AvatarFragment.newInstance());
+        listFragment.add(OdpFragment.newInstance());
 
         adapter = new TabsPagerAdapter(getChildFragmentManager(), listFragment);
         pager.setAdapter(adapter);
@@ -66,7 +64,7 @@ public class WalletFragment extends BaseFragment {
         TabLayout.Tab tab2 = tabs.getTabAt(1);
         tab2.setCustomView(createTabView(getResources().getString(R.string.mat_khau)));
         TabLayout.Tab tab3 = tabs.getTabAt(2);
-        tab3.setCustomView(createTabView(getResources().getString(R.string.anh_dai_dien)));
+        tab3.setCustomView(createTabView(getResources().getString(R.string.cau_hinh_odp)));
     }
 
     private View createTabView(String title) {
