@@ -90,13 +90,11 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp">
 
-                <EditText
-                    android:id="@+id/edit_bank_name"
+                <Spinner
+                    android:id="@+id/spinner_bank"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/transparent"
-                    android:hint="Tên ngân hàng"
-                    android:textSize="14sp" />
+                    android:layout_height="40dp"
+                    android:background="@null"></Spinner>
 
                 <ImageView
                     android:layout_width="10dp"
@@ -128,6 +126,31 @@
                     android:backgroundTint="@android:color/transparent"
                     android:hint="Số thẻ ATM"
                     android:inputType="numberDecimal"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/colorDivider"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/edit_fullname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="Tên chủ thẻ"
+                    android:inputType="textPassword"
                     android:textSize="14sp" />
 
             </RelativeLayout>

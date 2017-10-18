@@ -66,7 +66,7 @@ public class NewsActivity extends BaseActivity implements View.OnClickListener {
             public void itemClicked(int position) {
                 Intent i = new Intent(NewsActivity.this, DetailActivity.class);
                 i.putExtra("title", listNews.get(position).getTitle());
-                i.putExtra("content", "agnajkgnaklngaklweng");
+                i.putExtra("url", listNews.get(position).getUrl());
                 startActivity(i);
             }
         });

@@ -46,12 +46,11 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp">
 
-        <EditText
+        <Spinner
+            android:id="@+id/spinner_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:hint="Chọn mệnh giá nạp"
-            android:textSize="14sp" />
+            android:layout_height="40dp"
+            android:background="@null"></Spinner>
 
         <ImageView
             android:layout_width="10dp"
@@ -76,12 +75,11 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp">
 
-        <EditText
+        <Spinner
+            android:id="@+id/spinner_price"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:hint="Chọn loại thẻ"
-            android:textSize="14sp" />
+            android:layout_height="40dp"
+            android:background="@null"></Spinner>
 
         <ImageView
             android:layout_width="10dp"
@@ -99,24 +97,59 @@
         android:layout_marginRight="20dp"
         android:background="@color/colorDivider"></View>
 
-    <CheckBox
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/edit_mk2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:hint="Xác nhận mật khẩu 2"
+        android:inputType="textPassword"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="Đăng ký nhận hóa đơn"
-        android:textColor="@android:color/darker_gray" />
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorDivider"></View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Thanh toán"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/text_thanh_toan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="191000 VNĐ"
+            android:textColor="@android:color/holo_red_dark"/>
+
+    </RelativeLayout>
 
     <Button
-        android:id="@+id/accept_button"
+        android:id="@+id/button_continue"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/button_style_2"
-        android:text="Xác nhận"
+        android:text="Tiếp tục"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="16sp"

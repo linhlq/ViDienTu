@@ -3,8 +3,10 @@ package com.linhlee.vidientu.retrofit;
 import com.linhlee.vidientu.models.BalanceRequest;
 import com.linhlee.vidientu.models.BannerRequest;
 import com.linhlee.vidientu.models.CardRequest;
+import com.linhlee.vidientu.models.FullNameRequest;
 import com.linhlee.vidientu.models.NewsRequest;
 import com.linhlee.vidientu.models.OtherRequest;
+import com.linhlee.vidientu.models.PageRequest;
 import com.linhlee.vidientu.models.UserRequest;
 
 import java.util.HashMap;
@@ -97,7 +99,7 @@ public interface IRetrofitAPI {
 
     //Lấy nội dung hiển thị theo tên chức năng
     @POST("/rest/api/getContentbyname")
-    Call<OtherRequest> getContentByName(@Body HashMap<String, Object> body);
+    Call<PageRequest> getContentByName(@Body HashMap<String, Object> body);
 
     //Lấy Danh sách lịch sử giao dịch của khách hàng
     @POST("/rest/api/getAllTransaction")
@@ -118,4 +120,8 @@ public interface IRetrofitAPI {
     //Lấy danh sách tin tức
     @POST("/rest/api/getArticle")
     Call<NewsRequest> getArticle();
+
+    //Lấy fullname theo tên tài khoản
+    @POST("/rest/api/getFullnameUser")
+    Call<FullNameRequest> getFullName(@Body HashMap<String, Object> body);
 }

@@ -3,19 +3,25 @@ package com.linhlee.vidientu.activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.models.CardObject;
+import com.linhlee.vidientu.models.CardRequest;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.User;
 import com.linhlee.vidientu.retrofit.IRetrofitAPI;
 import com.linhlee.vidientu.utils.Constant;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -37,11 +43,18 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
 
     private ImageView backButton;
     private EditText editMoneyAmount;
-    private EditText editBankName;
+    private Spinner spinnerBank;
+    private ArrayAdapter<String> spinnerAdapter;
+    private ArrayList<String> listBankName;
+    private ArrayList<CardObject> listBank;
     private EditText editChiNhanh;
     private EditText editSoTk;
+    private EditText editFullName;
     private EditText editPass;
     private Button continueButton;
+
+    private Call<CardRequest> getCardInfoAPI;
+    private Call<OtherRequest> postAccountBankAPI;
 
     @Override
     protected int getLayoutResource() {
@@ -59,19 +72,67 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
 
         backButton = (ImageView) findViewById(R.id.back_btn);
         editMoneyAmount = (EditText) findViewById(R.id.edit_money_amount);
-        editBankName = (EditText) findViewById(R.id.edit_bank_name);
+        spinnerBank = (Spinner) findViewById(R.id.spinner_bank);
         editChiNhanh = (EditText) findViewById(R.id.edit_chi_nhanh);
         editSoTk = (EditText) findViewById(R.id.edit_so_tk);
+        editFullName = (EditText) findViewById(R.id.edit_fullname);
         editPass = (EditText) findViewById(R.id.edit_pass);
         continueButton = (Button) findViewById(R.id.button_continue);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        Constant.increaseHitArea(backButton);
+        listBankName = new ArrayList<>();
+        getListBank();
 
+        spinnerAdapter = new ArrayAdapter<>(this, R.layout.item_spinner, listBankName);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerBank.setAdapter(spinnerAdapter);
+        spinnerBank.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        Constant.increaseHitArea(backButton);
         backButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
+    }
+
+    private void getListBank() {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("channel", "wdr");
+
+        getCardInfoAPI = mRetrofitAPI.getCardInfo(body);
+        getCardInfoAPI.enqueue(new Callback<CardRequest>() {
+            @Override
+            public void onResponse(Call<CardRequest> call, Response<CardRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+
+                if (errorCode == 1) {
+                    listBank = response.body().getData();
+
+                    for (int i = 0; i < listBank.size(); i++) {
+                        listBankName.add(listBank.get(i).getBankName());
+                    }
+                    spinnerAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(WithdrawBankActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CardRequest> call, Throwable t) {
+                Toast.makeText(WithdrawBankActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -82,22 +143,20 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.button_continue:
                 String token = "";
-                String fullname = "";
                 if (user != null) {
                     token = user.getToken();
-                    fullname = user.getFullname();
                 }
 
                 HashMap<String, Object> body = new HashMap<>();
                 body.put("sotienrut", editMoneyAmount.getText().toString());
-                body.put("bank", editBankName.getText().toString());
+                body.put("bank", listBankName.get(spinnerBank.getSelectedItemPosition()));
                 body.put("chinhanh", editChiNhanh.getText().toString());
                 body.put("soTK", editSoTk.getText().toString());
-                body.put("fullname", fullname);
+                body.put("fullname", editFullName.getText().toString());
                 body.put("mk2", editPass.getText().toString());
 
-                Call<OtherRequest> postAccountBank = mRetrofitAPI.postAccountBank(token, body);
-                postAccountBank.enqueue(new Callback<OtherRequest>() {
+                postAccountBankAPI = mRetrofitAPI.postAccountBank(token, body);
+                postAccountBankAPI.enqueue(new Callback<OtherRequest>() {
                     @Override
                     public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                         int errorCode = response.body().getErrorCode();

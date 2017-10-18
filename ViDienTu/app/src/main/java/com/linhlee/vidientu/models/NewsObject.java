@@ -7,11 +7,13 @@ public class NewsObject {
     private String imageurl;
     private String title;
     private String abstract_;
+    private String url;
 
-    public NewsObject(String imageurl, String title, String abstract_) {
+    public NewsObject(String imageurl, String title, String abstract_, String url) {
         this.imageurl = imageurl;
         this.title = title;
         this.abstract_ = abstract_;
+        this.url = url;
     }
 
     public String getImageurl() {
@@ -36,5 +38,13 @@ public class NewsObject {
 
     public void setAbstract_(String abstract_) {
         this.abstract_ = abstract_;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

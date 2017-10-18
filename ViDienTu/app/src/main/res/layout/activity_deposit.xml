@@ -33,33 +33,6 @@
         android:layout_height="5dp"
         android:background="@drawable/shadow"></View>
 
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/button_style_3">
-
-        <ImageView
-            android:id="@+id/send_1"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@mipmap/ic_send" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
-            android:layout_toRightOf="@+id/send_1"
-            android:text="ATM ONLINE/E-BANKING"
-            android:textSize="16sp" />
-
-    </RelativeLayout>-->
-
     <RelativeLayout
         android:id="@+id/button_the"
         android:layout_width="match_parent"
@@ -84,6 +57,34 @@
             android:layout_marginLeft="40dp"
             android:layout_toRightOf="@+id/send_2"
             android:text="THẺ CÀO ĐIỆN THOẠI, THẺ GATE"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/button_ebanking"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_style_3">
+
+        <ImageView
+            android:id="@+id/send_1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/ic_send" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@+id/send_1"
+            android:text="ATM ONLINE/E-BANKING"
             android:textSize="16sp" />
 
     </RelativeLayout>

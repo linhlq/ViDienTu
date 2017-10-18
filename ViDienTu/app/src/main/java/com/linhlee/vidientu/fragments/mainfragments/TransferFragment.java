@@ -2,6 +2,9 @@ package com.linhlee.vidientu.fragments.mainfragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +15,7 @@ import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.fragments.BaseFragment;
+import com.linhlee.vidientu.models.FullNameRequest;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.User;
 import com.linhlee.vidientu.retrofit.IRetrofitAPI;
@@ -40,6 +44,12 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
     private EditText editConfirmPass;
     private EditText editDes;
     private Button continueButton;
+    private Handler handler;
+
+    private long delay = 1000;
+    private long last_text_edit = 0;
+
+    private Call<FullNameRequest> getFullnameAPI;
 
     public static TransferFragment newInstance() {
 
@@ -73,8 +83,67 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        handler = new Handler();
+
+        editReceiverName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeCallbacks(input_finish_checker);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    last_text_edit = System.currentTimeMillis();
+                    handler.postDelayed(input_finish_checker, delay);
+                }
+            }
+        });
+
         continueButton.setOnClickListener(this);
     }
+
+    private Runnable input_finish_checker = new Runnable() {
+        public void run() {
+            if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
+                getFullName();
+            }
+        }
+    };
+
+    private void getFullName() {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", editReceiverName.getText().toString());
+
+        getFullnameAPI = mRetrofitAPI.getFullName(body);
+        getFullnameAPI.enqueue(new Callback<FullNameRequest>() {
+            @Override
+            public void onResponse(Call<FullNameRequest> call, Response<FullNameRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+
+                if (errorCode == 1) {
+                    if (response.body().getData() != null) {
+                        String fullName = response.body().getData();
+                        editDes.setText("Chuyển tiền cho " + fullName + " với số tiền " + editMoneyAmount.getText().toString() + " VNĐ");
+                    }
+                } else {
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FullNameRequest> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {

@@ -20,7 +20,7 @@ public class User {
     private String sex;
     private String provice;
     private String city;
-    private String token;
+    private String token = "";
     private int gioitinh;
     private int userID;
     private String dateBirth;

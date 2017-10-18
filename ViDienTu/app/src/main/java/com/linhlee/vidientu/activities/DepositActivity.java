@@ -15,6 +15,7 @@ import com.linhlee.vidientu.utils.Constant;
 public class DepositActivity extends BaseActivity implements View.OnClickListener {
     private ImageView backButton;
     private RelativeLayout buttonThe;
+    private RelativeLayout buttonEbanking;
 
     @Override
     protected int getLayoutResource() {
@@ -25,6 +26,7 @@ public class DepositActivity extends BaseActivity implements View.OnClickListene
     protected void initVariables(Bundle savedInstanceState) {
         backButton = (ImageView) findViewById(R.id.back_btn);
         buttonThe = (RelativeLayout) findViewById(R.id.button_the);
+        buttonEbanking = (RelativeLayout) findViewById(R.id.button_ebanking);
     }
 
     @Override
@@ -33,6 +35,7 @@ public class DepositActivity extends BaseActivity implements View.OnClickListene
 
         backButton.setOnClickListener(this);
         buttonThe.setOnClickListener(this);
+        buttonEbanking.setOnClickListener(this);
     }
 
     @Override
@@ -43,6 +46,9 @@ public class DepositActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.button_the:
                 startActivity(DepositCardActivity.class);
+                break;
+            case R.id.button_ebanking:
+                startActivity(DepositEbankingActivity.class);
                 break;
         }
     }

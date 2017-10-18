@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.activities.BuyGameCardActivity;
 import com.linhlee.vidientu.activities.BuyPhoneCardActivity;
 import com.linhlee.vidientu.activities.DepositActivity;
 import com.linhlee.vidientu.activities.DepositCardActivity;
@@ -55,10 +56,8 @@ public class PaymentFragment extends BaseFragment {
         listPayment.add(new MenuObject(R.drawable.ic_nap_phone_card_state, getActivity().getResources().getString(R.string.nap_dien_thoai)));
         listPayment.add(new MenuObject(R.drawable.ic_mua_phone_card_state, getActivity().getResources().getString(R.string.mua_the_dien_thoai)));
         listPayment.add(new MenuObject(R.drawable.ic_transfer_money_state, getActivity().getResources().getString(R.string.chuyen_tien)));
-        listPayment.add(new MenuObject(R.drawable.ic_visa_state, getActivity().getResources().getString(R.string.visa)));
         listPayment.add(new MenuObject(R.drawable.ic_mua_the_game_state, getActivity().getResources().getString(R.string.mua_the_game)));
         listPayment.add(new MenuObject(R.drawable.ic_withdraw_state, getActivity().getResources().getString(R.string.rut_tien)));
-        listPayment.add(new MenuObject(R.drawable.ic_thanh_toan_hoa_don_state, getActivity().getResources().getString(R.string.thanh_toan_hoa_don)));
         listPayment.add(new MenuObject(R.drawable.ic_diem_thanh_toan_state, getActivity().getResources().getString(R.string.diem_thanh_toan)));
         listPayment.add(new MenuObject(R.drawable.ic_doi_the_cao_state, getActivity().getResources().getString(R.string.doi_the_cao)));
 
@@ -84,23 +83,18 @@ public class PaymentFragment extends BaseFragment {
                         //Chuyen tien
                         break;
                     case 4:
-                        //Dich vu the visa
-                        break;
-                    case 5:
+                        startActivity(BuyGameCardActivity.class);
                         //Mua the game
                         break;
-                    case 6:
+                    case 5:
                         startActivity(WithdrawActivity.class);
                         //Rut tien
                         break;
-                    case 7:
-                        //Thanh toan hoa don
-                        break;
-                    case 8:
+                    case 6:
                         startActivity(TraGopActivity.class);
                         //Diem thanh toan tra gop
                         break;
-                    case 9:
+                    case 7:
                         //Doi the cao thanh tien mat
                         startActivity(DepositCardActivity.class);
                         break;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -77,6 +78,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ArrayList<Fragment> listFragment;
     private TextView titleText;
     private View shadowView;
+    private boolean doubleBackToExitPressedOnce = false;
 
     private BroadcastReceiver gotoTransferReceiver, loginSuccessReceiver;
 
@@ -251,7 +253,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         listMenu.add(new MenuObject(R.mipmap.ic_mua_game, getResources().getString(R.string.mua_the_game)));
         listMenu.add(new MenuObject(R.mipmap.ic_nap_tien, getResources().getString(R.string.nap_tien)));
         listMenu.add(new MenuObject(R.mipmap.ic_rut_tien, getResources().getString(R.string.rut_tien)));
-        listMenu.add(new MenuObject(R.mipmap.ic_hoa_don, getResources().getString(R.string.thanh_toan_hoa_don)));
         listMenu.add(new MenuObject(R.mipmap.ic_diem_thanh_toan, getResources().getString(R.string.diem_thanh_toan)));
         listMenu.add(new MenuObject(R.mipmap.ic_lien_he, getResources().getString(R.string.lien_he)));
         if (isLogin) {
@@ -297,16 +298,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 8:
-                        drawer.closeDrawer(GravityCompat.START);
-                        break;
-                    case 9:
                         startActivity(TraGopActivity.class);
                         drawer.closeDrawer(GravityCompat.START);
                         break;
-                    case 10:
+                    case 9:
+                        startActivity(ContactActivity.class);
                         drawer.closeDrawer(GravityCompat.START);
                         break;
-                    case 11:
+                    case 10:
                         Call<OtherRequest> logout = mRetrofitAPI.logout(user.getToken());
                         logout.enqueue(new Callback<OtherRequest>() {
                             @Override
@@ -398,7 +397,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         } else if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Nhấn BACK lần nữa để thoát", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
         }
     }
 

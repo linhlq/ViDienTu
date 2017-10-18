@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.activities.DepositActivity;
+import com.linhlee.vidientu.activities.DetailActivity;
+import com.linhlee.vidientu.activities.IntroActivity;
 import com.linhlee.vidientu.activities.LoginActivity;
 import com.linhlee.vidientu.activities.NewsActivity;
 import com.linhlee.vidientu.activities.WithdrawActivity;
@@ -128,6 +130,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void itemClicked(int position) {
                 switch (position) {
                     case 0:
+                        startActivity(IntroActivity.class);
                         break;
                     case 1:
                         startActivity(DepositActivity.class);
@@ -156,7 +159,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         listNewsAdapter = new ListNewsHomeAdapter(getActivity(), listNews, new ListNewsHomeAdapter.PositionClickListener() {
             @Override
             public void itemClicked(int position) {
-
+                Intent i = new Intent(getActivity(), DetailActivity.class);
+                i.putExtra("title", listNews.get(position).getTitle());
+                i.putExtra("url", listNews.get(position).getUrl());
+                startActivity(i);
             }
         });
         listNewsAdapter.setHasStableIds(true);

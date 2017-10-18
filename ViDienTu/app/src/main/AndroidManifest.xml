@@ -38,6 +38,8 @@
 
         <activity android:name=".activities.DepositCardActivity"></activity>
 
+        <activity android:name=".activities.DepositEbankingActivity"></activity>
+
         <activity android:name=".activities.WithdrawActivity"></activity>
 
         <activity android:name=".activities.WithdrawATMActivity"></activity>
@@ -53,6 +55,10 @@
         <activity android:name=".activities.BuyPhoneCardActivity"></activity>
 
         <activity android:name=".activities.TraGopActivity"></activity>
+
+        <activity android:name=".activities.IntroActivity"></activity>
+
+        <activity android:name=".activities.ContactActivity"></activity>
     </application>
 
 </manifest>

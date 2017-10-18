@@ -23,25 +23,22 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
- * Created by lequy on 4/14/2017.
+ * Created by lequy on 10/18/2017.
  */
 
-public class DetailActivity extends BaseActivity implements View.OnClickListener {
+public class ContactActivity extends BaseActivity implements View.OnClickListener {
     private Gson mGson;
     private Retrofit mRetrofit;
     private IRetrofitAPI mRetrofitAPI;
 
     private ImageView backButton;
-    private TextView titleText;
-    private TextView contentText;
-    private String title;
-    private String url;
+    private TextView textContent;
 
     private Call<PageRequest> getContentAPI;
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.activity_detail;
+        return R.layout.activity_contact;
     }
 
     @Override
@@ -51,22 +48,12 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
 
         backButton = (ImageView) findViewById(R.id.back_btn);
-        titleText = (TextView) findViewById(R.id.title_text);
-        contentText = (TextView) findViewById(R.id.content_text);
+        textContent = (TextView) findViewById(R.id.text_content);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            title = extras.getString("title");
-            url = extras.getString("url");
-        }
-
-        titleText.setText(title);
-        if (url != null) {
-            getContent();
-        }
+        getContent();
 
         Constant.increaseHitArea(backButton);
         backButton.setOnClickListener(this);
@@ -74,7 +61,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private void getContent() {
         HashMap<String, Object> body = new HashMap<>();
-        body.put("pagename", url.substring(url.lastIndexOf("=") + 1));
+        body.put("pagename", "lienhe");
 
         getContentAPI = mRetrofitAPI.getContentByName(body);
         getContentAPI.enqueue(new Callback<PageRequest>() {
@@ -85,15 +72,15 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
                 if (errorCode == 1) {
                     Spanned sp = Html.fromHtml(response.body().getData().getFulldescription());
-                    contentText.setText(sp);
+                    textContent.setText(sp);
                 } else {
-                    Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ContactActivity.this, msg, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<PageRequest> call, Throwable t) {
-                Toast.makeText(DetailActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ContactActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
