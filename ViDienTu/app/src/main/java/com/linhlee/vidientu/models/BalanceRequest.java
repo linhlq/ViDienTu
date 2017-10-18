@@ -5,15 +5,15 @@ package com.linhlee.vidientu.models;
  */
 
 public class BalanceRequest {
-    private Integer data;
+    private BalanceObject data;
     private String msg;
     private int errorCode;
 
-    public Integer getData() {
+    public BalanceObject getData() {
         return data;
     }
 
-    public void setData(Integer data) {
+    public void setData(BalanceObject data) {
         this.data = data;
     }
 

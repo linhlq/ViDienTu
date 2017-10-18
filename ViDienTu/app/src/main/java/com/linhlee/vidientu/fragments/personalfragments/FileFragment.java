@@ -51,7 +51,8 @@ public class FileFragment extends BaseFragment {
                     if (command == 0) {
                         changeFragment(FileUpdateFragment.newInstance(), R.id.main_content);
                     } else {
-                        changeFragment(FileDisplayFragment.newInstance(), R.id.main_content);
+                        //changeFragment(FileDisplayFragment.newInstance(), R.id.main_content);
+                        getChildFragmentManager().popBackStack();
                     }
                 }
             }

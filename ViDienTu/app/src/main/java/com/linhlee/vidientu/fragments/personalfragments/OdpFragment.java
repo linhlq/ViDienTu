@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.fragments.BaseFragment;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.User;
@@ -38,6 +39,7 @@ public class OdpFragment extends BaseFragment implements View.OnClickListener {
     private EditText editOdp;
     private Button buttonContinue;
     private Button buttonResend;
+    private LoadingDialog loadingDialog;
 
     private Call<OtherRequest> resendOdpAPI;
     private Call<OtherRequest> chooseOdpAPI;
@@ -64,6 +66,8 @@ public class OdpFragment extends BaseFragment implements View.OnClickListener {
         sharedPreferences = MyApplication.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
 
+        loadingDialog = new LoadingDialog(getActivity());
+
         checkBox = (CheckBox) rootView.findViewById(R.id.check_box);
         editOdp = (EditText) rootView.findViewById(R.id.edit_odp);
         buttonContinue = (Button) rootView.findViewById(R.id.button_continue);
@@ -85,6 +89,7 @@ public class OdpFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void chooseOdp() {
+        loadingDialog.show();
         HashMap<String, Object> body = new HashMap<>();
         body.put("isUse", checkBox.isChecked());
         body.put("odp", editOdp.getText().toString());
@@ -96,16 +101,19 @@ public class OdpFragment extends BaseFragment implements View.OnClickListener {
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<OtherRequest> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
     }
 
     private void resendOdp() {
+        loadingDialog.show();
         resendOdpAPI = mRetrofitAPI.resendODP(user.getToken());
         resendOdpAPI.enqueue(new Callback<OtherRequest>() {
             @Override
@@ -113,11 +121,13 @@ public class OdpFragment extends BaseFragment implements View.OnClickListener {
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<OtherRequest> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
     }

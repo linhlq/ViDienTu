@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.User;
 import com.linhlee.vidientu.retrofit.IRetrofitAPI;
@@ -56,6 +57,7 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
     private EditText editPhone;
     private EditText editPass;
     private Button continueButton;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected int getLayoutResource() {
@@ -70,6 +72,8 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = app.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
+
+        loadingDialog = new LoadingDialog(this);
 
         backButton = (ImageView) findViewById(R.id.back_btn);
         editMoneyAmount = (EditText) findViewById(R.id.edit_money_amount);
@@ -204,6 +208,7 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
                 body.put("soCMT", editIdentity.getText().toString());
                 body.put("mk2", editPass.getText().toString());
 
+                loadingDialog.show();
                 Call<OtherRequest> postCMTdraw = mRetrofitAPI.postCMTdraw(token, body);
                 postCMTdraw.enqueue(new Callback<OtherRequest>() {
                     @Override
@@ -211,6 +216,7 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
                         Toast.makeText(WithdrawCMTActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
 
                         Intent i = new Intent(Constant.UPDATE_INFO);
                         sendBroadcast(i);
@@ -219,6 +225,7 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onFailure(Call<OtherRequest> call, Throwable t) {
                         Toast.makeText(WithdrawCMTActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
                     }
                 });
                 break;

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.fragments.BaseFragment;
 import com.linhlee.vidientu.models.FullNameRequest;
 import com.linhlee.vidientu.models.OtherRequest;
@@ -46,6 +47,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
     private EditText editDes;
     private Button continueButton;
     private Handler handler;
+    private LoadingDialog loadingDialog;
 
     private long delay = 1000;
     private long last_text_edit = 0;
@@ -74,6 +76,8 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = app.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
+
+        loadingDialog = new LoadingDialog(getActivity());
 
         editMoneyAmount = (EditText) rootView.findViewById(R.id.edit_money_amount);
         editReceiverName = (EditText) rootView.findViewById(R.id.edit_receiver_name);
@@ -161,6 +165,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                     token = user.getToken();
                 }
 
+                loadingDialog.show();
                 Call<OtherRequest> transferMoney = mRetrofitAPI.transferMoney(token, body);
                 transferMoney.enqueue(new Callback<OtherRequest>() {
                     @Override
@@ -168,6 +173,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
                         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
 
                         Intent i = new Intent(Constant.UPDATE_INFO);
                         getActivity().sendBroadcast(i);
@@ -176,6 +182,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                     @Override
                     public void onFailure(Call<OtherRequest> call, Throwable t) {
                         Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
                     }
                 });
                 break;

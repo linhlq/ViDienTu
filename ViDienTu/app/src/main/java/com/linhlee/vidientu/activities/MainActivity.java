@@ -32,6 +32,7 @@ import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.ListMenuAdapter;
 import com.linhlee.vidientu.adapters.ListNotiAdapter;
 import com.linhlee.vidientu.adapters.TabsPagerAdapter;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.fragments.mainfragments.HomeFragment;
 import com.linhlee.vidientu.fragments.mainfragments.PaymentFragment;
 import com.linhlee.vidientu.fragments.mainfragments.TransferFragment;
@@ -99,7 +100,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private boolean doubleBackToExitPressedOnce = false;
 
-    private BroadcastReceiver gotoTransferReceiver, loginSuccessReceiver, updateInfoReceiver;
+    private BroadcastReceiver gotoTransferReceiver, gotoPaymentReceiver, loginSuccessReceiver, updateInfoReceiver;
 
     private Call<TransactionRequest> getAllTransAPI;
     private Call<OtherRequest> logOutAPI;
@@ -151,7 +152,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             loginText.setVisibility(View.GONE);
             infoLayout.setVisibility(View.VISIBLE);
 
-            balance.setText(user.getBalance() + "");
+            getBalance();
             infoText.setText(user.getFullname() + " - " + user.getMobile());
         } else {
             footLayout.setVisibility(View.VISIBLE);
@@ -417,6 +418,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void logout() {
+        final LoadingDialog loadingDialog = new LoadingDialog(this);
+        loadingDialog.show();
+
         logOutAPI = mRetrofitAPI.logout(user.getToken());
         logOutAPI.enqueue(new Callback<OtherRequest>() {
             @Override
@@ -424,6 +428,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
 
                 drawer.closeDrawer(GravityCompat.START);
 
@@ -438,6 +443,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onFailure(Call<OtherRequest> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
     }
@@ -451,7 +457,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 String msg = response.body().getMsg();
 
                 if (errorCode == 1) {
-                    balance.setText(response.body().getData());
+                    balance.setText(response.body().getData().getBalance() + " VNĐ");
                 } else {
                     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                 }
@@ -472,6 +478,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         };
         registerReceiver(gotoTransferReceiver, new IntentFilter(Constant.GOTO_TRANSFER));
+
+        gotoPaymentReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                pager.setCurrentItem(2);
+            }
+        };
+        registerReceiver(gotoPaymentReceiver, new IntentFilter(Constant.GOTO_PAYMENT));
 
         loginSuccessReceiver = new BroadcastReceiver() {
             @Override
@@ -579,6 +593,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         if (gotoTransferReceiver != null) {
             unregisterReceiver(gotoTransferReceiver);
+        }
+        if (gotoPaymentReceiver != null) {
+            unregisterReceiver(gotoPaymentReceiver);
         }
         if (loginSuccessReceiver != null) {
             unregisterReceiver(loginSuccessReceiver);

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.models.CardObject;
 import com.linhlee.vidientu.models.CardRequest;
 import com.linhlee.vidientu.models.OtherRequest;
@@ -52,6 +53,7 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
     private EditText editPass;
     private EditText editDes;
     private Button continueButton;
+    private LoadingDialog loadingDialog;
 
     private Call<CardRequest> getCardInfoAPI;
 
@@ -68,6 +70,8 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = app.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
+
+        loadingDialog = new LoadingDialog(this);
 
         backButton = (ImageView) findViewById(R.id.back_btn);
         editMoneyAmount = (EditText) findViewById(R.id.edit_money_amount);
@@ -158,6 +162,7 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
                 body.put("ghichu", editDes.getText().toString());
                 body.put("sodienthoai", phoneNumber);
 
+                loadingDialog.show();
                 Call<OtherRequest> postSaleHD = mRetrofitAPI.postSaleHD(token, body);
                 postSaleHD.enqueue(new Callback<OtherRequest>() {
                     @Override
@@ -165,6 +170,7 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
                         Toast.makeText(TraGopActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
 
                         Intent i = new Intent(Constant.UPDATE_INFO);
                         sendBroadcast(i);
@@ -173,6 +179,7 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void onFailure(Call<OtherRequest> call, Throwable t) {
                         Toast.makeText(TraGopActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
                     }
                 });
                 break;

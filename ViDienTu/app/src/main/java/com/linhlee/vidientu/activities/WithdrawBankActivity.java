@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.models.CardObject;
 import com.linhlee.vidientu.models.CardRequest;
 import com.linhlee.vidientu.models.OtherRequest;
@@ -53,6 +54,7 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
     private EditText editFullName;
     private EditText editPass;
     private Button continueButton;
+    private LoadingDialog loadingDialog;
 
     private Call<CardRequest> getCardInfoAPI;
     private Call<OtherRequest> postAccountBankAPI;
@@ -70,6 +72,8 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = app.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
+
+        loadingDialog = new LoadingDialog(this);
 
         backButton = (ImageView) findViewById(R.id.back_btn);
         editMoneyAmount = (EditText) findViewById(R.id.edit_money_amount);
@@ -156,6 +160,7 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
                 body.put("fullname", editFullName.getText().toString());
                 body.put("mk2", editPass.getText().toString());
 
+                loadingDialog.show();
                 postAccountBankAPI = mRetrofitAPI.postAccountBank(token, body);
                 postAccountBankAPI.enqueue(new Callback<OtherRequest>() {
                     @Override
@@ -163,6 +168,7 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
                         Toast.makeText(WithdrawBankActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
 
                         Intent i = new Intent(Constant.UPDATE_INFO);
                         sendBroadcast(i);
@@ -171,6 +177,7 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
                     @Override
                     public void onFailure(Call<OtherRequest> call, Throwable t) {
                         Toast.makeText(WithdrawBankActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
                     }
                 });
                 break;

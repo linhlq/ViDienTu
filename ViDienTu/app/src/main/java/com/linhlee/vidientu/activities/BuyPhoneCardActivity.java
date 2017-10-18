@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.adapters.ListCardAdapter;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.models.CardObject;
 import com.linhlee.vidientu.models.CardRequest;
 import com.linhlee.vidientu.models.OtherRequest;
@@ -65,6 +66,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
     private TextView viewCard;
     private int curPos = 0;
     private int amount = 1;
+    private LoadingDialog loadingDialog;
 
     private Call<CardRequest> getCardInfoAPI;
     private Call<OtherRequest> buyCardAPI;
@@ -81,6 +83,8 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = MyApplication.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
+
+        loadingDialog = new LoadingDialog(this);
 
         backButton = (ImageView) findViewById(R.id.back_btn);
         listPhoneCardView = (RecyclerView) findViewById(R.id.list_phone_card);
@@ -195,6 +199,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
         body.put("soluong", amount);
         body.put("mk2", editMk2.getText().toString());
 
+        loadingDialog.show();
         buyCardAPI = mRetrofitAPI.buyCard(user.getToken(), body);
         buyCardAPI.enqueue(new Callback<OtherRequest>() {
             @Override
@@ -202,6 +207,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
                 Toast.makeText(BuyPhoneCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
 
                 Intent i = new Intent(Constant.UPDATE_INFO);
                 sendBroadcast(i);
@@ -210,6 +216,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onFailure(Call<OtherRequest> call, Throwable t) {
                 Toast.makeText(BuyPhoneCardActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
     }

@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.dialogs.CheckODPDialog;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.dialogs.PhoneNumberDialog;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.User;
@@ -52,6 +53,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView registerButton;
     private ImageView buttonFanpage;
     private LinearLayout buttonCall;
+    private LoadingDialog loadingDialog;
 
     private Call<OtherRequest> checkOdpAPI;
     private Call<OtherRequest> resendOdpAPI;
@@ -68,6 +70,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mRetrofit = app.getRetrofit();
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = app.getSharedPreferences();
+
+        loadingDialog = new LoadingDialog(this);
 
         editUsername = (EditText) findViewById(R.id.edit_username);
         editPass = (EditText) findViewById(R.id.edit_pass);
@@ -96,12 +100,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 body.put("password", editPass.getText().toString());
                 body.put("deviceID", Constant.getDeviceId(this));
 
+                loadingDialog.show();
                 Call<UserRequest> callLogin = mRetrofitAPI.login(body);
                 callLogin.enqueue(new Callback<UserRequest>() {
                     @Override
                     public void onResponse(Call<UserRequest> call, Response<UserRequest> response) {
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
+                        loadingDialog.dismiss();
 
                         if (errorCode == 1) {
                             final User user = response.body().getData();
@@ -110,6 +116,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 CheckODPDialog dialog = new CheckODPDialog(LoginActivity.this, new CheckODPDialog.OnButtonClickListener() {
                                     @Override
                                     public void onResendClick() {
+                                        final LoadingDialog dialog1 = new LoadingDialog(LoginActivity.this);
+                                        dialog1.show();
+
                                         resendOdpAPI = mRetrofitAPI.resendODP(user.getToken());
                                         resendOdpAPI.enqueue(new Callback<OtherRequest>() {
                                             @Override
@@ -117,11 +126,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                 int errorCode = response.body().getErrorCode();
                                                 String msg = response.body().getMsg();
                                                 Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                                                dialog1.dismiss();
                                             }
 
                                             @Override
                                             public void onFailure(Call<OtherRequest> call, Throwable t) {
                                                 Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                                dialog1.dismiss();
                                             }
                                         });
                                     }
@@ -131,6 +143,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                         HashMap<String, Object> body = new HashMap<>();
                                         body.put("ODP", odp);
 
+                                        final LoadingDialog dialog1 = new LoadingDialog(LoginActivity.this);
+                                        dialog1.show();
+
                                         checkOdpAPI = mRetrofitAPI.checkODP(user.getToken(), body);
                                         checkOdpAPI.enqueue(new Callback<OtherRequest>() {
                                             @Override
@@ -138,6 +153,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                 int errorCode = response.body().getErrorCode();
                                                 String msg = response.body().getMsg();
                                                 Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                                dialog1.dismiss();
 
                                                 if (errorCode == 1) {
                                                     String jsonUser = mGson.toJson(user);
@@ -153,6 +169,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                             @Override
                                             public void onFailure(Call<OtherRequest> call, Throwable t) {
                                                 Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                                dialog1.dismiss();
                                             }
                                         });
                                     }
@@ -175,6 +192,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void onFailure(Call<UserRequest> call, Throwable t) {
                         Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
                     }
                 });
                 break;

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.fragments.BaseFragment;
 import com.linhlee.vidientu.models.User;
 import com.linhlee.vidientu.models.UserRequest;
@@ -50,6 +51,7 @@ public class FileUpdateFragment extends BaseFragment implements View.OnClickList
     private RadioButton female;
     private ImageView pickDate;
     private Button updateButton;
+    private LoadingDialog loadingDialog;
 
     public static FileUpdateFragment newInstance() {
 
@@ -73,6 +75,8 @@ public class FileUpdateFragment extends BaseFragment implements View.OnClickList
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = app.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
+
+        loadingDialog = new LoadingDialog(getActivity());
 
         editFullName = (EditText) rootView.findViewById(R.id.edit_fullname);
         editEmail = (EditText) rootView.findViewById(R.id.edit_email);
@@ -112,12 +116,9 @@ public class FileUpdateFragment extends BaseFragment implements View.OnClickList
                 body.put("cmt", editIdentity.getText().toString());
                 body.put("ngaysinh", editDateBirth.getText().toString());
                 body.put("address", editAddress.getText().toString());
-                if (male.isChecked()) {
-                    body.put("sex", 1);
-                } else {
-                    body.put("sex", 0);
-                }
+                body.put("sex", 1);
 
+                loadingDialog.show();
                 Call<UserRequest> callUpdate = mRetrofitAPI.changeProfile(user.getToken(), body);
                 callUpdate.enqueue(new Callback<UserRequest>() {
                     @Override
@@ -125,12 +126,11 @@ public class FileUpdateFragment extends BaseFragment implements View.OnClickList
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
                         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
 
                         if (errorCode == 1) {
-                            User user = response.body().getData();
-                            String jsonUser = mGson.toJson(user);
-
-                            sharedPreferences.edit().putString(Constant.USER_INFO, jsonUser).apply();
+                            Intent i1 = new Intent(Constant.UPDATE_PROFILE);
+                            getActivity().sendBroadcast(i1);
 
                             Intent i = new Intent(Constant.CHANGE_FILE_FRAGMENT);
                             i.putExtra("command", 1);
@@ -143,6 +143,7 @@ public class FileUpdateFragment extends BaseFragment implements View.OnClickList
                     @Override
                     public void onFailure(Call<UserRequest> call, Throwable t) {
                         Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
                     }
                 });
                 break;

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--<View
         android:layout_width="match_parent"
@@ -24,13 +25,14 @@
             android:layout_width="match_parent"
             android:layout_height="100dp">
 
-            <ImageView
+            <com.github.siyamed.shapeimageview.CircularImageView
                 android:id="@+id/avatar"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@mipmap/ic_avatar"
+                android:src="@mipmap/ic_launcher"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"/>
+                android:layout_marginLeft="20dp"
+                app:siBorderColor="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/login_text"

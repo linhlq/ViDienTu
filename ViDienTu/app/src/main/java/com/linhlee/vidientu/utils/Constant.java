@@ -18,13 +18,15 @@ public class Constant {
     public static final String IMAGE_NEWS_URL = "https://thecaosieure.com/Uploads/articles/";
     public static final String IMAGE_CARD_URL = "https://thecaosieure.com/Uploads/banks/";
     public static final String EBANKING_URL = "https://m.thecaosieure.com/DepositBankNetRequest?tokenapp=";
-    public static final String UPDATE_INFO = "update_info";
 
     public static String IS_LOGIN = "is_login";
     public static String LOGIN_SUCCESS = "login_success";
     public static String USER_INFO = "user_info";
     public static String CHANGE_FILE_FRAGMENT = "change_file_fragment";
     public static String GOTO_TRANSFER = "goto_transfer";
+    public static String GOTO_PAYMENT = "goto_payment";
+    public static final String UPDATE_INFO = "update_info";
+    public static final String UPDATE_PROFILE = "update_profile";
 
     public static String getDeviceId(Context context) {
         String device_uuid = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);

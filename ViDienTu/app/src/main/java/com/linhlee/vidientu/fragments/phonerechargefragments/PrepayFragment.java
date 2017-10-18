@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.activities.BuyPhoneCardActivity;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.fragments.BaseFragment;
 import com.linhlee.vidientu.models.CardObject;
 import com.linhlee.vidientu.models.CardRequest;
@@ -60,6 +61,7 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
     private EditText editMk2;
     private TextView textThanhToan;
     private Button buttonContinue;
+    private LoadingDialog loadingDialog;
 
     private int curPos = 0;
     private static int PICK_CONTACT = 1;
@@ -88,6 +90,8 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = MyApplication.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
+
+        loadingDialog = new LoadingDialog(getActivity());
 
         editPhone = (EditText) rootView.findViewById(R.id.edit_phone);
         contactButton = (ImageView) rootView.findViewById(R.id.contact_button);
@@ -187,6 +191,7 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
         body.put("menhgia", listInfo.get(spinnerPrice.getSelectedItemPosition()));
         body.put("mk2", editMk2.getText().toString());
 
+        loadingDialog.show();
         topupMobileAPI = mRetrofitAPI.topupMobile(user.getToken(), body);
         topupMobileAPI.enqueue(new Callback<OtherRequest>() {
             @Override
@@ -194,6 +199,7 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
 
                 Intent i = new Intent(Constant.UPDATE_INFO);
                 getActivity().sendBroadcast(i);
@@ -202,6 +208,7 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onFailure(Call<OtherRequest> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
     }

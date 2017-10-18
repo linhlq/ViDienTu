@@ -13,6 +13,7 @@ import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.activities.LoginActivity;
 import com.linhlee.vidientu.dialogs.ErrorDialog;
+import com.linhlee.vidientu.dialogs.LoadingDialog;
 import com.linhlee.vidientu.dialogs.SuccessDialog;
 import com.linhlee.vidientu.fragments.BaseFragment;
 import com.linhlee.vidientu.models.OtherRequest;
@@ -45,6 +46,7 @@ public class PasswordFragment extends BaseFragment implements View.OnClickListen
     private EditText newPass;
     private EditText retypeNewPass;
     private Button changePassButton;
+    private LoadingDialog loadingDialog;
 
     public static PasswordFragment newInstance() {
 
@@ -68,6 +70,8 @@ public class PasswordFragment extends BaseFragment implements View.OnClickListen
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
         sharedPreferences = app.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
+
+        loadingDialog = new LoadingDialog(getActivity());
 
         pass1 = (RadioButton) rootView.findViewById(R.id.pass_1);
         pass2 = (RadioButton) rootView.findViewById(R.id.pass_2);
@@ -97,6 +101,7 @@ public class PasswordFragment extends BaseFragment implements View.OnClickListen
                         dialog.show();
                     } else {
                         if (newPass.getText().toString().equals(retypeNewPass.getText().toString())) {
+                            loadingDialog.show();
                             if (pass1.isChecked()) {
                                 HashMap<String, Object> body = new HashMap<>();
                                 body.put("old_mk1", currentPass.getText().toString());
@@ -109,6 +114,7 @@ public class PasswordFragment extends BaseFragment implements View.OnClickListen
                                         int errorCode = response.body().getErrorCode();
                                         String msg = response.body().getMsg();
                                         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                        loadingDialog.dismiss();
 
                                         if (errorCode == 1) {
                                             SuccessDialog dialog = new SuccessDialog(getActivity(), "Chúc mừng bạn đã đổi mật khẩu thành công");
@@ -126,6 +132,7 @@ public class PasswordFragment extends BaseFragment implements View.OnClickListen
                                     @Override
                                     public void onFailure(Call<OtherRequest> call, Throwable t) {
                                         Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                        loadingDialog.dismiss();
                                     }
                                 });
                             } else {
@@ -140,6 +147,7 @@ public class PasswordFragment extends BaseFragment implements View.OnClickListen
                                         int errorCode = response.body().getErrorCode();
                                         String msg = response.body().getMsg();
                                         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                        loadingDialog.dismiss();
 
                                         if (errorCode == 1) {
                                             SuccessDialog dialog = new SuccessDialog(getActivity(), "Chúc mừng bạn đã đổi mật khẩu thành công");
@@ -157,6 +165,7 @@ public class PasswordFragment extends BaseFragment implements View.OnClickListen
                                     @Override
                                     public void onFailure(Call<OtherRequest> call, Throwable t) {
                                         Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                        loadingDialog.dismiss();
                                     }
                                 });
                             }
