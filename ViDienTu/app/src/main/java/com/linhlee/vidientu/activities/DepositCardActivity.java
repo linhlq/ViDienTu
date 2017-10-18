@@ -1,5 +1,6 @@
 package com.linhlee.vidientu.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -150,6 +151,9 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
                         Toast.makeText(DepositCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                        Intent i = new Intent(Constant.UPDATE_INFO);
+                        sendBroadcast(i);
                     }
 
                     @Override

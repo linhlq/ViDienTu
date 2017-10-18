@@ -18,6 +18,7 @@ public class Constant {
     public static final String IMAGE_NEWS_URL = "https://thecaosieure.com/Uploads/articles/";
     public static final String IMAGE_CARD_URL = "https://thecaosieure.com/Uploads/banks/";
     public static final String EBANKING_URL = "https://m.thecaosieure.com/DepositBankNetRequest?tokenapp=";
+    public static final String UPDATE_INFO = "update_info";
 
     public static String IS_LOGIN = "is_login";
     public static String LOGIN_SUCCESS = "login_success";

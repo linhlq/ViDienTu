@@ -55,7 +55,7 @@ public interface IRetrofitAPI {
     Call<UserRequest> changeProfile(@Header("token") String token, @Body HashMap<String, Object> body);
 
     //Lấy số dư hiện tại của khách hàng
-    @POST("/rest/api/getbalance")
+    @POST("/rest/api/getBalance")
     Call<BalanceRequest> getBalance(@Header("token") String token);
 
     //Nạp thẻ cào thành tiền

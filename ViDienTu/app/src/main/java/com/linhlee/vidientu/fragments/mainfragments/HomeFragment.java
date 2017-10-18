@@ -99,7 +99,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         pagerAdapter = new HomePagerAdapter(getActivity(), listImg);
         pager.setAdapter(pagerAdapter);
 
-        drawPageSelectionIndicators(0);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -184,6 +183,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 if (errorCode == 1) {
                     listImg.addAll(response.body().getData());
                     pagerAdapter.notifyDataSetChanged();
+
+                    drawPageSelectionIndicators(0);
                 } else {
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 }

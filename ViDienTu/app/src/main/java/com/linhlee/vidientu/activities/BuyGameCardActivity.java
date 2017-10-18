@@ -201,6 +201,9 @@ public class BuyGameCardActivity extends BaseActivity implements View.OnClickLis
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
                 Toast.makeText(BuyGameCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(Constant.UPDATE_INFO);
+                sendBroadcast(i);
             }
 
             @Override

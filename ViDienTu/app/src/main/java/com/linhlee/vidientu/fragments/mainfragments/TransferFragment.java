@@ -1,5 +1,6 @@
 package com.linhlee.vidientu.fragments.mainfragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -167,6 +168,9 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
                         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+
+                        Intent i = new Intent(Constant.UPDATE_INFO);
+                        getActivity().sendBroadcast(i);
                     }
 
                     @Override

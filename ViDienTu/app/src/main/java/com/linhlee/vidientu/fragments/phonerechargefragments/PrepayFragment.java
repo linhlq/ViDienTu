@@ -194,6 +194,9 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(Constant.UPDATE_INFO);
+                getActivity().sendBroadcast(i);
             }
 
             @Override

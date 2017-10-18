@@ -13,9 +13,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +36,7 @@ import com.linhlee.vidientu.fragments.mainfragments.HomeFragment;
 import com.linhlee.vidientu.fragments.mainfragments.PaymentFragment;
 import com.linhlee.vidientu.fragments.mainfragments.TransferFragment;
 import com.linhlee.vidientu.fragments.mainfragments.WalletFragment;
+import com.linhlee.vidientu.models.BalanceRequest;
 import com.linhlee.vidientu.models.MenuObject;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.TransactionObject;
@@ -78,6 +82,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ArrayList<MenuObject> listMenu;
     private ImageView menuButton;
     private ImageView notiButton;
+    private RelativeLayout searchLayout;
+    private EditText editSearch;
+    private LinearLayout textSearch;
+    private String searchContent = "";
+    private Handler handler = new Handler();
+    private long delay = 1000;
+    private long last_text_edit = 0;
 
     private TabLayout tabs;
     private ViewPager pager;
@@ -88,10 +99,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private boolean doubleBackToExitPressedOnce = false;
 
-    private BroadcastReceiver gotoTransferReceiver, loginSuccessReceiver;
+    private BroadcastReceiver gotoTransferReceiver, loginSuccessReceiver, updateInfoReceiver;
 
     private Call<TransactionRequest> getAllTransAPI;
     private Call<OtherRequest> logOutAPI;
+    private Call<BalanceRequest> getBalanceAPI;
 
     @Override
     protected int getLayoutResource() {
@@ -123,6 +135,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         shadowView = findViewById(R.id.shadow_view);
         menuButton = (ImageView) findViewById(R.id.menu_button);
         notiButton = (ImageView) findViewById(R.id.noti_button);
+        searchLayout = (RelativeLayout) findViewById(R.id.search_layout);
+        editSearch = (EditText) findViewById(R.id.edit_search);
+        textSearch = (LinearLayout) findViewById(R.id.text_search);
+
         tabs = (TabLayout) findViewById(R.id.tabs);
         pager = (ViewPager) findViewById(R.id.pager);
     }
@@ -151,27 +167,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         menuButton.setOnClickListener(this);
         notiButton.setOnClickListener(this);
+        textSearch.setOnClickListener(this);
         accountLayout.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
 
-        gotoTransferReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                pager.setCurrentItem(1);
-            }
-        };
-        registerReceiver(gotoTransferReceiver, new IntentFilter(Constant.GOTO_TRANSFER));
-
-        loginSuccessReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Intent i = getIntent();
-                finish();
-                startActivity(i);
-            }
-        };
-        registerReceiver(loginSuccessReceiver, new IntentFilter(Constant.LOGIN_SUCCESS));
+        setupReceiver();
     }
 
     public void createMainLayout() {
@@ -317,30 +318,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 10:
-                        logOutAPI = mRetrofitAPI.logout(user.getToken());
-                        logOutAPI.enqueue(new Callback<OtherRequest>() {
-                            @Override
-                            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
-                                int errorCode = response.body().getErrorCode();
-                                String msg = response.body().getMsg();
-                                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-
-                                drawer.closeDrawer(GravityCompat.START);
-
-                                sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
-                                sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
-
-                                Intent i = getIntent();
-                                finish();
-                                startActivity(i);
-                            }
-
-                            @Override
-                            public void onFailure(Call<OtherRequest> call, Throwable t) {
-                                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
+                        logout();
                         break;
                 }
             }
@@ -349,7 +327,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         // Create Navigation Drawer layout right
         listTrans = new ArrayList<>();
         if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-            getAllTrans();
+            getAllTrans("");
         }
 
         listNotiAdapter = new ListNotiAdapter(this, listTrans);
@@ -362,15 +340,50 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(i);
             }
         });
+
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeCallbacks(input_finish_checker);
+                if (s.length() > 0) {
+                    searchContent = s.toString();
+                } else {
+                    textSearch.setVisibility(View.VISIBLE);
+                    editSearch.setVisibility(View.GONE);
+                    searchContent = "";
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    last_text_edit = System.currentTimeMillis();
+                    handler.postDelayed(input_finish_checker, delay);
+                }
+            }
+        });
     }
 
-    private void getAllTrans() {
+    private Runnable input_finish_checker = new Runnable() {
+        public void run() {
+            if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
+                getAllTrans(searchContent);
+            }
+        }
+    };
+
+    private void getAllTrans(String value) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         Date fromDate = calendar.getTime();
 
         HashMap<String, Object> body = new HashMap<>();
-        body.put("value", "");
+        body.put("value", value);
         body.put("fieldName", "content");
         body.put("type", "");
         body.put("fromDate", dateFormat.format(fromDate));
@@ -388,6 +401,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     listNotiAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    if (errorCode == -2) {
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            logout();
+                        }
+                    }
                 }
             }
 
@@ -396,6 +414,83 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void logout() {
+        logOutAPI = mRetrofitAPI.logout(user.getToken());
+        logOutAPI.enqueue(new Callback<OtherRequest>() {
+            @Override
+            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                drawer.closeDrawer(GravityCompat.START);
+
+                sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+
+                Intent i = getIntent();
+                finish();
+                startActivity(i);
+            }
+
+            @Override
+            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getBalance() {
+        getBalanceAPI = mRetrofitAPI.getBalance(user.getToken());
+        getBalanceAPI.enqueue(new Callback<BalanceRequest>() {
+            @Override
+            public void onResponse(Call<BalanceRequest> call, Response<BalanceRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+
+                if (errorCode == 1) {
+                    balance.setText(response.body().getData());
+                } else {
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BalanceRequest> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setupReceiver() {
+        gotoTransferReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                pager.setCurrentItem(1);
+            }
+        };
+        registerReceiver(gotoTransferReceiver, new IntentFilter(Constant.GOTO_TRANSFER));
+
+        loginSuccessReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Intent i = getIntent();
+                finish();
+                startActivity(i);
+            }
+        };
+        registerReceiver(loginSuccessReceiver, new IntentFilter(Constant.LOGIN_SUCCESS));
+
+        updateInfoReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getBalance();
+                getAllTrans("");
+            }
+        };
+        registerReceiver(updateInfoReceiver, new IntentFilter(Constant.UPDATE_INFO));
     }
 
     private View createTabView(int imgRes) {
@@ -423,6 +518,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     drawer.openDrawer(GravityCompat.END);
                 }
+                break;
+            case R.id.text_search:
+                textSearch.setVisibility(View.GONE);
+                editSearch.setVisibility(View.VISIBLE);
+                editSearch.requestFocus();
                 break;
             case R.id.account_layout:
                 if (isLogin) {
@@ -479,6 +579,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         if (gotoTransferReceiver != null) {
             unregisterReceiver(gotoTransferReceiver);
+        }
+        if (loginSuccessReceiver != null) {
+            unregisterReceiver(loginSuccessReceiver);
+        }
+        if (updateInfoReceiver != null) {
+            unregisterReceiver(updateInfoReceiver);
         }
     }
 }
