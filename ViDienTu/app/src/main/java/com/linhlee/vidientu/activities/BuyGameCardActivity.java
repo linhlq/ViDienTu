@@ -1,5 +1,6 @@
 package com.linhlee.vidientu.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -60,6 +61,7 @@ public class BuyGameCardActivity extends BaseActivity implements View.OnClickLis
     private TextView textThanhToan;
     private EditText editMk2;
     private Button continueButton;
+    private TextView viewCard;
     private int curPos = 0;
     private int amount = 1;
 
@@ -88,6 +90,7 @@ public class BuyGameCardActivity extends BaseActivity implements View.OnClickLis
         textThanhToan = (TextView) findViewById(R.id.text_thanh_toan);
         editMk2 = (EditText) findViewById(R.id.edit_mk2);
         continueButton = (Button) findViewById(R.id.continue_button);
+        viewCard = (TextView) findViewById(R.id.view_card);
     }
 
     @Override
@@ -141,11 +144,13 @@ public class BuyGameCardActivity extends BaseActivity implements View.OnClickLis
         Constant.increaseHitArea(backButton);
         Constant.increaseHitArea(minusButton);
         Constant.increaseHitArea(plusButton);
+        Constant.increaseHitArea(viewCard);
 
         backButton.setOnClickListener(this);
         minusButton.setOnClickListener(this);
         plusButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
+        viewCard.setOnClickListener(this);
     }
 
     private void getListCard() {
@@ -229,6 +234,11 @@ public class BuyGameCardActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.continue_button:
                 buyCard();
+                break;
+            case R.id.view_card:
+                Intent i = new Intent(this, ListCardActivity.class);
+                i.putExtra("channel", "game");
+                startActivity(i);
                 break;
         }
     }

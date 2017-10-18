@@ -7,6 +7,7 @@ import com.linhlee.vidientu.models.FullNameRequest;
 import com.linhlee.vidientu.models.NewsRequest;
 import com.linhlee.vidientu.models.OtherRequest;
 import com.linhlee.vidientu.models.PageRequest;
+import com.linhlee.vidientu.models.TransactionRequest;
 import com.linhlee.vidientu.models.UserRequest;
 
 import java.util.HashMap;
@@ -103,7 +104,7 @@ public interface IRetrofitAPI {
 
     //Lấy Danh sách lịch sử giao dịch của khách hàng
     @POST("/rest/api/getAllTransaction")
-    Call<OtherRequest> getAllTransaction(@Header("token") String token, @Body HashMap<String, Object> body);
+    Call<TransactionRequest> getAllTransaction(@Header("token") String token, @Body HashMap<String, Object> body);
 
     //Đăng xuất
     @POST("/rest/api/LogoutTcsr")

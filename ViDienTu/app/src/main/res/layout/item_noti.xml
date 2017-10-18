@@ -9,7 +9,7 @@
         android:layout_height="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/ic_lock" />
+        android:src="@mipmap/ic_wallet_green" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,18 +21,12 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bạn đã thay đổi mật khẩu thành công"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="24 phút trước"
-            android:textSize="12sp" />
 
     </LinearLayout>
 

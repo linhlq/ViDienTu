@@ -1,5 +1,6 @@
 package com.linhlee.vidientu.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
     private TextView textThanhToan;
     private EditText editMk2;
     private Button continueButton;
+    private TextView viewCard;
     private int curPos = 0;
     private int amount = 1;
 
@@ -89,6 +91,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
         textThanhToan = (TextView) findViewById(R.id.text_thanh_toan);
         editMk2 = (EditText) findViewById(R.id.edit_mk2);
         continueButton = (Button) findViewById(R.id.continue_button);
+        viewCard = (TextView) findViewById(R.id.view_card);
     }
 
     @Override
@@ -142,11 +145,13 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
         Constant.increaseHitArea(backButton);
         Constant.increaseHitArea(minusButton);
         Constant.increaseHitArea(plusButton);
+        Constant.increaseHitArea(viewCard);
 
         backButton.setOnClickListener(this);
         minusButton.setOnClickListener(this);
         plusButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
+        viewCard.setOnClickListener(this);
     }
 
     private void getListCard() {
@@ -230,6 +235,11 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.continue_button:
                 buyCard();
+                break;
+            case R.id.view_card:
+                Intent i = new Intent(this, ListCardActivity.class);
+                i.putExtra("channel", "telco");
+                startActivity(i);
                 break;
         }
     }

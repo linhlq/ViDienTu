@@ -35,11 +35,17 @@ import com.linhlee.vidientu.fragments.mainfragments.TransferFragment;
 import com.linhlee.vidientu.fragments.mainfragments.WalletFragment;
 import com.linhlee.vidientu.models.MenuObject;
 import com.linhlee.vidientu.models.OtherRequest;
+import com.linhlee.vidientu.models.TransactionObject;
+import com.linhlee.vidientu.models.TransactionRequest;
 import com.linhlee.vidientu.models.User;
 import com.linhlee.vidientu.retrofit.IRetrofitAPI;
 import com.linhlee.vidientu.utils.Constant;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,6 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ListMenuAdapter listMenuAdapter;
     private ListView listNotiView;
     private ListNotiAdapter listNotiAdapter;
+    private ArrayList<TransactionObject> listTrans;
     private ArrayList<MenuObject> listMenu;
     private ImageView menuButton;
     private ImageView notiButton;
@@ -78,9 +85,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ArrayList<Fragment> listFragment;
     private TextView titleText;
     private View shadowView;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private boolean doubleBackToExitPressedOnce = false;
 
     private BroadcastReceiver gotoTransferReceiver, loginSuccessReceiver;
+
+    private Call<TransactionRequest> getAllTransAPI;
+    private Call<OtherRequest> logOutAPI;
 
     @Override
     protected int getLayoutResource() {
@@ -306,8 +317,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 10:
-                        Call<OtherRequest> logout = mRetrofitAPI.logout(user.getToken());
-                        logout.enqueue(new Callback<OtherRequest>() {
+                        logOutAPI = mRetrofitAPI.logout(user.getToken());
+                        logOutAPI.enqueue(new Callback<OtherRequest>() {
                             @Override
                             public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                                 int errorCode = response.body().getErrorCode();
@@ -336,8 +347,55 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
 
         // Create Navigation Drawer layout right
-        listNotiAdapter = new ListNotiAdapter(this);
+        listTrans = new ArrayList<>();
+        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+            getAllTrans();
+        }
+
+        listNotiAdapter = new ListNotiAdapter(this, listTrans);
         listNotiView.setAdapter(listNotiAdapter);
+        listNotiView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(MainActivity.this, TransDetailActivity.class);
+                i.putExtra("content", listTrans.get(position).getContent());
+                startActivity(i);
+            }
+        });
+    }
+
+    private void getAllTrans() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        Date fromDate = calendar.getTime();
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("value", "");
+        body.put("fieldName", "content");
+        body.put("type", "");
+        body.put("fromDate", dateFormat.format(fromDate));
+        body.put("toDate", dateFormat.format(new Date()));
+
+        getAllTransAPI = mRetrofitAPI.getAllTransaction(user.getToken(), body);
+        getAllTransAPI.enqueue(new Callback<TransactionRequest>() {
+            @Override
+            public void onResponse(Call<TransactionRequest> call, Response<TransactionRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+
+                if (errorCode == 1) {
+                    listTrans.addAll(response.body().getData());
+                    listNotiAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransactionRequest> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private View createTabView(int imgRes) {

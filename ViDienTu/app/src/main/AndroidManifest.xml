@@ -59,6 +59,12 @@
         <activity android:name=".activities.IntroActivity"></activity>
 
         <activity android:name=".activities.ContactActivity"></activity>
+
+        <activity android:name=".activities.ListCardActivity"></activity>
+
+        <activity android:name=".activities.TransDetailActivity"></activity>
+
+        <activity android:name=".activities.PaidCardActivity"></activity>
     </application>
 
 </manifest>
