@@ -11,11 +11,11 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/dp80"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginLeft="@dimen/dp40"
+            android:layout_marginRight="@dimen/dp40"
+            android:layout_marginTop="@dimen/dp60"
             android:src="@mipmap/logo" />
 
         <TextView
@@ -30,47 +30,47 @@
             android:id="@+id/edit_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginLeft="@dimen/dp50"
+            android:layout_marginRight="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp30"
             android:backgroundTint="@android:color/white"
             android:hint="Tên tài khoản"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/sp14" />
 
         <EditText
             android:id="@+id/edit_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/dp50"
+            android:layout_marginRight="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp10"
             android:backgroundTint="@android:color/white"
             android:hint="Mật khẩu"
             android:inputType="textPassword"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/sp14" />
 
         <Button
             android:id="@+id/login"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginLeft="@dimen/dp50"
+            android:layout_marginRight="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp20"
             android:background="@drawable/button_style_1"
             android:text="Đăng nhập"
             android:textAllCaps="false"
-            android:textSize="18sp" />
+            android:textSize="@dimen/sp18" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginLeft="@dimen/dp50"
+            android:layout_marginRight="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp20">
 
             <TextView
                 android:id="@+id/forgot_pass_button"
@@ -85,13 +85,13 @@
                 android:id="@+id/register_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/dp20"
                 android:layout_centerVertical="true"
                 android:text="Đăng ký"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:paddingLeft="@dimen/dp30"
+                android:paddingRight="@dimen/dp30"
                 android:textColor="@android:color/white"
                 android:background="@drawable/bg_text_2"
                 android:layout_alignParentRight="true"/>
@@ -102,15 +102,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/dp80"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:gravity="center">
 
         <ImageView
             android:id="@+id/button_fanpage"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp40"
             android:src="@mipmap/ic_fanpage"/>
 
         <LinearLayout
@@ -119,11 +119,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginLeft="40dp">
+            android:layout_marginLeft="@dimen/dp40">
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/dp16"
+                android:layout_height="@dimen/dp16"
                 android:src="@mipmap/ic_call"/>
 
             <TextView
@@ -132,14 +132,14 @@
                 android:text=":"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginLeft="@dimen/dp5"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="@dimen/dp5">
 
                 <TextView
                     android:layout_width="wrap_content"

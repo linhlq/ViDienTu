@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
-    android:layout_height="120dp"
+    android:layout_width="@dimen/dp200"
+    android:layout_height="@dimen/dp120"
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/loading_dialog">
@@ -19,8 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đang xử lý"
-        android:textSize="18sp"
-        android:layout_marginTop="10dp"
+        android:textSize="@dimen/sp18"
+        android:layout_marginTop="@dimen/dp10"
         android:textColor="@android:color/white"/>
 
 </LinearLayout>

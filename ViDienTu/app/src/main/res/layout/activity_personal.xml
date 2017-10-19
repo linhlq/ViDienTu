@@ -8,14 +8,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="@dimen/dp50">
 
         <ImageView
             android:id="@+id/back_btn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/dp20"
+            android:layout_height="@dimen/dp20"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/dp10"
             android:src="@mipmap/ic_back_green" />
 
         <TextView
@@ -25,25 +25,26 @@
             android:layout_centerInParent="true"
             android:text="@string/personal_information"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp" />
+            android:textSize="@dimen/sp18" />
 
     </RelativeLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/dp50"
         app:tabBackground="@android:color/white"
         app:tabIndicatorColor="@color/colorPrimary"
-        app:tabIndicatorHeight="3dp"
-        app:tabMaxWidth="1000dp"
+        app:tabIndicatorHeight="@dimen/dp3"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
         app:tabMode="fixed"
         app:tabPaddingEnd="0dp"
         app:tabPaddingStart="0dp" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/dp5"
         android:background="@drawable/shadow"></View>
 
     <android.support.v4.view.ViewPager

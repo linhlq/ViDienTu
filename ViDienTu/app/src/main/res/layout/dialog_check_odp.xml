@@ -7,25 +7,25 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/dp60"
         android:gravity="center"
         android:text="Xác nhận"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="16sp" />
+        android:textSize="@dimen/sp16" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="@dimen/dp40"
+        android:layout_marginRight="@dimen/dp40"
         android:gravity="center"
         android:text="Nhập mã ODP bạn nhận được từ tin nhắn điện thoại"
-        android:textSize="16sp" />
+        android:textSize="@dimen/sp16" />
 
     <LinearLayout
         android:id="@+id/layout_input"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/dp80"
         android:orientation="horizontal"
         android:weightSum="4">
 
@@ -43,11 +43,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/dp2"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginBottom="@dimen/dp10"
+                android:layout_marginLeft="@dimen/dp20"
+                android:layout_marginRight="@dimen/dp20"
                 android:background="@android:color/darker_gray"></View>
 
             <TextView
@@ -56,9 +56,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="@dimen/dp10"
                 android:textColor="@android:color/black"
-                android:textSize="40sp"
+                android:textSize="@dimen/sp40"
                 android:visibility="gone" />
 
         </RelativeLayout>
@@ -70,11 +70,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/dp2"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginBottom="@dimen/dp10"
+                android:layout_marginLeft="@dimen/dp20"
+                android:layout_marginRight="@dimen/dp20"
                 android:background="@android:color/darker_gray"></View>
 
             <TextView
@@ -83,9 +83,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="@dimen/dp10"
                 android:textColor="@android:color/black"
-                android:textSize="40sp"
+                android:textSize="@dimen/sp40"
                 android:visibility="gone" />
 
         </RelativeLayout>
@@ -97,11 +97,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/dp2"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginBottom="@dimen/dp10"
+                android:layout_marginLeft="@dimen/dp20"
+                android:layout_marginRight="@dimen/dp20"
                 android:background="@android:color/darker_gray"></View>
 
             <TextView
@@ -110,9 +110,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="@dimen/dp10"
                 android:textColor="@android:color/black"
-                android:textSize="40sp"
+                android:textSize="@dimen/sp40"
                 android:visibility="gone" />
 
         </RelativeLayout>
@@ -124,11 +124,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/dp2"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginBottom="@dimen/dp10"
+                android:layout_marginLeft="@dimen/dp20"
+                android:layout_marginRight="@dimen/dp20"
                 android:background="@android:color/darker_gray"></View>
 
             <TextView
@@ -137,9 +137,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="@dimen/dp10"
                 android:textColor="@android:color/black"
-                android:textSize="40sp"
+                android:textSize="@dimen/sp40"
                 android:visibility="gone" />
 
         </RelativeLayout>
@@ -149,13 +149,13 @@
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="@dimen/dp1"
+        android:layout_marginTop="@dimen/dp10"
         android:background="@color/colorDivider"></View>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/dp40">
 
         <TextView
             android:id="@+id/button_resend"
@@ -166,12 +166,12 @@
             android:gravity="center"
             android:text="GỬI LẠI"
             android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp16"
             android:textStyle="bold" />
 
         <View
             android:id="@+id/divider1"
-            android:layout_width="1dp"
+            android:layout_width="@dimen/dp1"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:background="@color/colorDivider"></View>
@@ -185,7 +185,7 @@
             android:gravity="center"
             android:text="ĐỒNG Ý"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp16"
             android:textStyle="bold" />
 
     </RelativeLayout>

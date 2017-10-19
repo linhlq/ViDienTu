@@ -8,15 +8,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/dp50"
         android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/menu_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/dp20"
+            android:layout_height="@dimen/dp20"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/dp20"
             android:src="@mipmap/ic_menu" />
 
         <TextView
@@ -25,16 +25,16 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/home_page"
-            android:textSize="20sp"
+            android:textSize="@dimen/sp18"
             android:textColor="@color/colorPrimary"/>
 
         <ImageView
             android:id="@+id/noti_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/dp20"
+            android:layout_height="@dimen/dp20"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="@dimen/dp20"
             android:src="@mipmap/ic_noti"/>
 
     </RelativeLayout>
@@ -42,7 +42,7 @@
     <View
         android:id="@+id/shadow_view"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/dp5"
         android:background="@drawable/shadow"
         android:visibility="gone"></View>
     
@@ -55,11 +55,12 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/dp50"
         app:tabBackground="@color/colorPrimary"
         app:tabIndicatorColor="@android:color/white"
-        app:tabIndicatorHeight="3dp"
-        app:tabMaxWidth="1000dp"
+        app:tabIndicatorHeight="@dimen/dp3"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
         app:tabMode="fixed"
         app:tabPaddingEnd="0dp"
         app:tabPaddingStart="0dp" />

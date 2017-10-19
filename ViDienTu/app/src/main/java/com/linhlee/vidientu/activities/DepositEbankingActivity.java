@@ -48,6 +48,10 @@ public class DepositEbankingActivity extends BaseActivity {
             }
         });
 
-        webView.loadUrl(Constant.EBANKING_URL + user.getToken());
+        if (user != null) {
+            webView.loadUrl(Constant.EBANKING_URL + user.getToken());
+        } else {
+            Toast.makeText(this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+        }
     }
 }
