@@ -7,14 +7,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50">
+        android:layout_height="@dimen/dp70">
 
         <ImageView
             android:id="@+id/back_btn"
-            android:layout_width="@dimen/dp20"
-            android:layout_height="@dimen/dp20"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginLeft="@dimen/dp20"
             android:src="@mipmap/ic_back_green" />
 
         <TextView
@@ -24,7 +24,7 @@
             android:layout_centerInParent="true"
             android:text="Danh sách thẻ"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/sp18" />
+            android:textSize="@dimen/sp24" />
 
     </RelativeLayout>
 

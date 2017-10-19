@@ -6,11 +6,11 @@
 
     <ImageView
         android:id="@+id/function_img"
-        android:layout_width="@dimen/dp60"
-        android:layout_height="@dimen/dp60"
+        android:layout_width="@dimen/dp90"
+        android:layout_height="@dimen/dp90"
         android:src="@mipmap/ic_launcher"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/dp5"/>
+        android:layout_marginBottom="@dimen/dp10"/>
 
     <TextView
         android:id="@+id/function_name"
@@ -19,6 +19,6 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="Name"
-        android:textSize="@dimen/sp12"/>
+        android:textSize="@dimen/sp16"/>
 
 </LinearLayout>

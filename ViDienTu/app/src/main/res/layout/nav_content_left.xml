@@ -23,12 +23,12 @@
         <RelativeLayout
             android:id="@+id/account_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp100">
+            android:layout_height="@dimen/dp120">
 
             <com.github.siyamed.shapeimageview.CircularImageView
                 android:id="@+id/avatar"
-                android:layout_width="@dimen/dp70"
-                android:layout_height="@dimen/dp70"
+                android:layout_width="@dimen/dp80"
+                android:layout_height="@dimen/dp80"
                 android:src="@mipmap/ic_launcher"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp20"
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp14"
                     android:text="@string/ban_quyen"
                     android:textColor="@android:color/white"/>
 

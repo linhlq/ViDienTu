@@ -32,12 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp50"
             android:layout_marginRight="@dimen/dp50"
-            android:layout_marginTop="@dimen/dp30"
+            android:layout_marginTop="@dimen/dp40"
             android:backgroundTint="@android:color/white"
             android:hint="Tên tài khoản"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
-            android:textSize="@dimen/sp14" />
+            android:textSize="@dimen/sp18" />
 
         <EditText
             android:id="@+id/edit_pass"
@@ -45,13 +45,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp50"
             android:layout_marginRight="@dimen/dp50"
-            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp20"
             android:backgroundTint="@android:color/white"
             android:hint="Mật khẩu"
             android:inputType="textPassword"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
-            android:textSize="@dimen/sp14" />
+            android:textSize="@dimen/sp18" />
 
         <Button
             android:id="@+id/login"
@@ -109,8 +109,8 @@
 
         <ImageView
             android:id="@+id/button_fanpage"
-            android:layout_width="@dimen/dp100"
-            android:layout_height="@dimen/dp40"
+            android:layout_width="@dimen/dp120"
+            android:layout_height="@dimen/dp60"
             android:src="@mipmap/ic_fanpage"/>
 
         <LinearLayout

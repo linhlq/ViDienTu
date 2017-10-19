@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
                 android:hint="Họ và tên"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp16" />
 
         </RelativeLayout>
 
@@ -35,7 +35,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp10">
+            android:layout_marginTop="@dimen/dp20">
 
             <EditText
                 android:id="@+id/edit_email"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
                 android:hint="Địa chỉ Email"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp16" />
 
         </RelativeLayout>
 
@@ -55,7 +55,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp10">
+            android:layout_marginTop="@dimen/dp20">
 
             <EditText
                 android:id="@+id/edit_identity"
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
                 android:hint="CMND / Hộ chiếu"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp16" />
 
         </RelativeLayout>
 
@@ -75,7 +75,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp10">
+            android:layout_marginTop="@dimen/dp20">
 
             <EditText
                 android:id="@+id/edit_datebirth"
@@ -84,12 +84,12 @@
                 android:backgroundTint="@android:color/transparent"
                 android:hint="Ngày sinh"
                 android:editable="false"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp16" />
 
             <ImageView
                 android:id="@+id/pick_date"
-                android:layout_width="@dimen/dp20"
-                android:layout_height="@dimen/dp20"
+                android:layout_width="@dimen/dp25"
+                android:layout_height="@dimen/dp25"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:src="@mipmap/ic_calendar"/>
@@ -104,7 +104,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp10">
+            android:layout_marginTop="@dimen/dp20">
 
             <EditText
                 android:id="@+id/edit_address"
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
                 android:hint="Địa chỉ"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp16" />
 
         </RelativeLayout>
 
@@ -161,13 +161,13 @@
         <Button
             android:id="@+id/update_button"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp40"
+            android:layout_height="@dimen/dp60"
             android:layout_marginTop="@dimen/dp30"
             android:background="@drawable/button_style_2"
             android:text="Cập nhật"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/sp16"
+            android:textSize="@dimen/sp18"
             android:textStyle="bold" />
 
     </LinearLayout>

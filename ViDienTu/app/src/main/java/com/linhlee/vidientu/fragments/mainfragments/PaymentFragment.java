@@ -1,11 +1,14 @@
 package com.linhlee.vidientu.fragments.mainfragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
+import com.linhlee.vidientu.MyApplication;
 import com.linhlee.vidientu.R;
 import com.linhlee.vidientu.activities.BuyGameCardActivity;
 import com.linhlee.vidientu.activities.BuyPhoneCardActivity;
@@ -29,6 +32,7 @@ public class PaymentFragment extends BaseFragment {
     private RecyclerView listPaymentView;
     private ListFunctionAdapter adapter;
     private ArrayList<MenuObject> listPayment;
+    private SharedPreferences sharedPreferences;
 
     public static PaymentFragment newInstance() {
 
@@ -46,6 +50,8 @@ public class PaymentFragment extends BaseFragment {
 
     @Override
     protected void initVariables(Bundle savedInstanceState, View rootView) {
+        sharedPreferences = MyApplication.getSharedPreferences();
+
         listPaymentView = (RecyclerView) rootView.findViewById(R.id.list_payment);
     }
 
@@ -66,37 +72,69 @@ public class PaymentFragment extends BaseFragment {
             public void itemClicked(int position) {
                 switch (position) {
                     case 0:
-                        startActivity(DepositActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(DepositActivity.class);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         //Nap tien
                         break;
                     case 1:
-                        startActivity(PhoneRechargeActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(PhoneRechargeActivity.class);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         //Nap tien dt
                         break;
                     case 2:
-                        startActivity(BuyPhoneCardActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(BuyPhoneCardActivity.class);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         //Mua the dt
                         break;
                     case 3:
-                        Intent i = new Intent(Constant.GOTO_TRANSFER);
-                        getActivity().sendBroadcast(i);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            Intent i = new Intent(Constant.GOTO_TRANSFER);
+                            getActivity().sendBroadcast(i);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         //Chuyen tien
                         break;
                     case 4:
-                        startActivity(BuyGameCardActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(BuyGameCardActivity.class);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         //Mua the game
                         break;
                     case 5:
-                        startActivity(WithdrawActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(WithdrawActivity.class);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         //Rut tien
                         break;
                     case 6:
-                        startActivity(TraGopActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(TraGopActivity.class);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         //Diem thanh toan tra gop
                         break;
                     case 7:
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(DepositCardActivity.class);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         //Doi the cao thanh tien mat
-                        startActivity(DepositCardActivity.class);
                         break;
                 }
             }

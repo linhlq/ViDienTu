@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/back_btn"
-        android:layout_width="@dimen/dp20"
-        android:layout_height="@dimen/dp20"
-        android:layout_marginLeft="@dimen/dp10"
-        android:layout_marginTop="@dimen/dp25"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp20"
         android:src="@mipmap/ic_back_white" />
 
     <ImageView
@@ -54,12 +54,12 @@
             android:layout_centerVertical="true"
             android:text="@string/cu_phap_1"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/sp16" />
+            android:textSize="@dimen/sp20" />
 
         <Button
             android:id="@+id/button_send"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp28"
+            android:layout_height="@dimen/dp32"
             android:layout_alignParentRight="true"
             android:background="@drawable/button_style_1"
             android:text="Soạn tin"

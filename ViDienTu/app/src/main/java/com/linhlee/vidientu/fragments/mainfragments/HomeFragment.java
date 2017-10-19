@@ -1,6 +1,7 @@
 package com.linhlee.vidientu.fragments.mainfragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,6 +47,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private Gson mGson;
     private Retrofit mRetrofit;
     private IRetrofitAPI mRetrofitAPI;
+    private SharedPreferences sharedPreferences;
 
     private ViewPager pager;
     private HomePagerAdapter pagerAdapter;
@@ -82,6 +84,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mGson = MyApplication.getGson();
         mRetrofit = MyApplication.getRetrofit();
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
+        sharedPreferences = MyApplication.getSharedPreferences();
 
         pager = (ViewPager) rootView.findViewById(R.id.pager);
         mLinearLayout = (LinearLayout) rootView.findViewById(R.id.viewPagerCountDots);
@@ -132,14 +135,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         startActivity(IntroActivity.class);
                         break;
                     case 1:
-                        startActivity(DepositActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(DepositActivity.class);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 2:
-                        startActivity(WithdrawActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(WithdrawActivity.class);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 3:
-                        Intent i = new Intent(Constant.GOTO_TRANSFER);
-                        getActivity().sendBroadcast(i);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            Intent i = new Intent(Constant.GOTO_TRANSFER);
+                            getActivity().sendBroadcast(i);
+                        } else {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 4:
                         Intent i1 = new Intent(Constant.GOTO_PAYMENT);

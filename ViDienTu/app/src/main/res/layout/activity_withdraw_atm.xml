@@ -7,14 +7,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50">
+        android:layout_height="@dimen/dp70">
 
         <ImageView
             android:id="@+id/back_btn"
-            android:layout_width="@dimen/dp20"
-            android:layout_height="@dimen/dp20"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginLeft="@dimen/dp20"
             android:src="@mipmap/ic_back_green" />
 
         <TextView
@@ -24,7 +24,7 @@
             android:layout_centerInParent="true"
             android:text="@string/rut_tien_atm"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/sp18" />
+            android:textSize="@dimen/sp24" />
 
     </RelativeLayout>
 
@@ -49,14 +49,14 @@
                 android:layout_marginTop="@dimen/dp30"
                 android:text="Nhập số tiền chuyển"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/sp18" />
+                android:textSize="@dimen/sp20" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp20"
                 android:layout_marginRight="@dimen/dp20"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp20">
 
                 <EditText
                     android:id="@+id/edit_money_amount"
@@ -88,12 +88,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp20"
                 android:layout_marginRight="@dimen/dp20"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp20">
 
                 <Spinner
                     android:id="@+id/spinner_bank"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp40"
+                    android:layout_height="@dimen/dp50"
                     android:background="@null"></Spinner>
 
                 <ImageView
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp20"
                 android:layout_marginRight="@dimen/dp20"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp20">
 
                 <EditText
                     android:id="@+id/edit_so_the"
@@ -126,7 +126,7 @@
                     android:backgroundTint="@android:color/transparent"
                     android:hint="Số thẻ ATM"
                     android:inputType="numberDecimal"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp16" />
 
             </RelativeLayout>
 
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp20"
                 android:layout_marginRight="@dimen/dp20"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp20">
 
                 <EditText
                     android:id="@+id/edit_fullname"
@@ -151,7 +151,7 @@
                     android:backgroundTint="@android:color/transparent"
                     android:hint="Tên chủ thẻ"
                     android:inputType="textPassword"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp16" />
 
             </RelativeLayout>
 
@@ -167,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp20"
                 android:layout_marginRight="@dimen/dp20"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp20">
 
                 <EditText
                     android:id="@+id/edit_pass"
@@ -176,7 +176,7 @@
                     android:backgroundTint="@android:color/transparent"
                     android:hint="Mật khẩu cấp 2"
                     android:inputType="textPassword"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp16" />
 
             </RelativeLayout>
 
@@ -190,7 +190,7 @@
             <Button
                 android:id="@+id/button_continue"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp40"
+                android:layout_height="@dimen/dp60"
                 android:layout_marginLeft="@dimen/dp20"
                 android:layout_marginRight="@dimen/dp20"
                 android:layout_marginTop="@dimen/dp30"
@@ -198,7 +198,7 @@
                 android:text="Tiếp tục"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/sp16"
+                android:textSize="@dimen/sp18"
                 android:textStyle="bold" />
 
         </LinearLayout>

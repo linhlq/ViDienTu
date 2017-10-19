@@ -234,13 +234,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         LinearLayout tabStrip = ((LinearLayout) tabs.getChildAt(0));
         if (!sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
             tabStrip.setEnabled(false);
+            tabStrip.getChildAt(1).setClickable(false);
             tabStrip.getChildAt(3).setClickable(false);
         } else {
             tabStrip.setEnabled(true);
+            tabStrip.getChildAt(1).setClickable(true);
             tabStrip.getChildAt(3).setClickable(true);
         }
 
         if (!sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+            tab2.getCustomView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             tab4.getCustomView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -283,35 +292,67 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 1:
-                        pager.setCurrentItem(1);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            pager.setCurrentItem(1);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 2:
-                        startActivity(PhoneRechargeActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(PhoneRechargeActivity.class);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 3:
-                        startActivity(BuyPhoneCardActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(BuyPhoneCardActivity.class);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 4:
-                        startActivity(DepositCardActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(DepositCardActivity.class);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 5:
-                        startActivity(BuyGameCardActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(BuyGameCardActivity.class);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 6:
-                        startActivity(DepositActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(DepositActivity.class);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 7:
-                        startActivity(WithdrawActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(WithdrawActivity.class);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 8:
-                        startActivity(TraGopActivity.class);
+                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                            startActivity(TraGopActivity.class);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                        }
                         drawer.closeDrawer(GravityCompat.START);
                         break;
                     case 9:

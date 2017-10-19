@@ -22,7 +22,8 @@
 
         <activity
             android:name=".activities.MainActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan">
+        </activity>
 
         <activity android:name=".activities.NewsActivity"></activity>
 

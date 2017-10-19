@@ -8,13 +8,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
+        android:layout_height="@dimen/dp70"
         android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/menu_button"
-            android:layout_width="@dimen/dp20"
-            android:layout_height="@dimen/dp20"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp20"
             android:src="@mipmap/ic_menu" />
@@ -25,13 +25,13 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/home_page"
-            android:textSize="@dimen/sp18"
+            android:textSize="@dimen/sp26"
             android:textColor="@color/colorPrimary"/>
 
         <ImageView
             android:id="@+id/noti_button"
-            android:layout_width="@dimen/dp20"
-            android:layout_height="@dimen/dp20"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp20"
@@ -55,7 +55,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp50"
+        android:layout_height="@dimen/dp60"
         app:tabBackground="@color/colorPrimary"
         app:tabIndicatorColor="@android:color/white"
         app:tabIndicatorHeight="@dimen/dp3"
