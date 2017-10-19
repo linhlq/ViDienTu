@@ -72,68 +72,36 @@ public class PaymentFragment extends BaseFragment {
             public void itemClicked(int position) {
                 switch (position) {
                     case 0:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            startActivity(DepositActivity.class);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(DepositActivity.class);
                         //Nap tien
                         break;
                     case 1:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            startActivity(PhoneRechargeActivity.class);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(PhoneRechargeActivity.class);
                         //Nap tien dt
                         break;
                     case 2:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            startActivity(BuyPhoneCardActivity.class);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(BuyPhoneCardActivity.class);
                         //Mua the dt
                         break;
                     case 3:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            Intent i = new Intent(Constant.GOTO_TRANSFER);
-                            getActivity().sendBroadcast(i);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        Intent i = new Intent(Constant.GOTO_TRANSFER);
+                        getActivity().sendBroadcast(i);
                         //Chuyen tien
                         break;
                     case 4:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            startActivity(BuyGameCardActivity.class);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(BuyGameCardActivity.class);
                         //Mua the game
                         break;
                     case 5:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            startActivity(WithdrawActivity.class);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(WithdrawActivity.class);
                         //Rut tien
                         break;
                     case 6:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            startActivity(TraGopActivity.class);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(TraGopActivity.class);
                         //Diem thanh toan tra gop
                         break;
                     case 7:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            startActivity(DepositCardActivity.class);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(DepositCardActivity.class);
                         //Doi the cao thanh tien mat
                         break;
                 }

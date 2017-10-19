@@ -52,6 +52,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
     private long last_text_edit = 0;
 
     private Call<FullNameRequest> getFullnameAPI;
+    private Call<OtherRequest> transferMoneyAPI;
 
     public static TransferFragment newInstance() {
 
@@ -148,42 +149,50 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
+    private void transferMoney() {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("sotien", editMoneyAmount.getText().toString());
+        body.put("userReceive", editReceiverName.getText().toString());
+        body.put("mk2", editConfirmPass.getText().toString());
+        body.put("mota", editDes.getText().toString());
+
+        String token = "";
+        if (user != null) {
+            token = user.getToken();
+        }
+
+        loadingDialog.show();
+        transferMoneyAPI = mRetrofitAPI.transferMoney(token, body);
+        transferMoneyAPI.enqueue(new Callback<OtherRequest>() {
+            @Override
+            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+
+                Intent i = new Intent(Constant.UPDATE_INFO);
+                getActivity().sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_continue:
-                HashMap<String, Object> body = new HashMap<>();
-                body.put("sotien", editMoneyAmount.getText().toString());
-                body.put("userReceive", editReceiverName.getText().toString());
-                body.put("mk2", editConfirmPass.getText().toString());
-                body.put("mota", editDes.getText().toString());
-
-                String token = "";
-                if (user != null) {
-                    token = user.getToken();
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    transferMoney();
+                } else {
+                    Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
                 }
-
-                loadingDialog.show();
-                Call<OtherRequest> transferMoney = mRetrofitAPI.transferMoney(token, body);
-                transferMoney.enqueue(new Callback<OtherRequest>() {
-                    @Override
-                    public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
-                        int errorCode = response.body().getErrorCode();
-                        String msg = response.body().getMsg();
-                        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-
-                        Intent i = new Intent(Constant.UPDATE_INFO);
-                        getActivity().sendBroadcast(i);
-                    }
-
-                    @Override
-                    public void onFailure(Call<OtherRequest> call, Throwable t) {
-                        Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-                    }
-                });
                 break;
         }
     }

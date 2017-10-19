@@ -138,6 +138,41 @@ public class WithdrawATMActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
+    private void postATMBank() {
+        String token = "";
+        if (user != null) {
+            token = user.getToken();
+        }
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("sotienrut", editMoneyAmount.getText().toString());
+        body.put("bank", listBankName.get(spinnerBank.getSelectedItemPosition()));
+        body.put("soATM", editSoThe.getText().toString());
+        body.put("fullname", editFullname.getText().toString());
+        body.put("mk2", editPass.getText().toString());
+
+        loadingDialog.show();
+        postATMBankAPI = mRetrofitAPI.postATMBank(token, body);
+        postATMBankAPI.enqueue(new Callback<OtherRequest>() {
+            @Override
+            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+                Toast.makeText(WithdrawATMActivity.this, msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+
+                Intent i = new Intent(Constant.UPDATE_INFO);
+                sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                Toast.makeText(WithdrawATMActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -145,38 +180,12 @@ public class WithdrawATMActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.button_continue:
-                String token = "";
-                if (user != null) {
-                    token = user.getToken();
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    postATMBank();
+                } else {
+                    Toast.makeText(WithdrawATMActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
                 }
 
-                HashMap<String, Object> body = new HashMap<>();
-                body.put("sotienrut", editMoneyAmount.getText().toString());
-                body.put("bank", listBankName.get(spinnerBank.getSelectedItemPosition()));
-                body.put("soATM", editSoThe.getText().toString());
-                body.put("fullname", editFullname.getText().toString());
-                body.put("mk2", editPass.getText().toString());
-
-                loadingDialog.show();
-                postATMBankAPI = mRetrofitAPI.postATMBank(token, body);
-                postATMBankAPI.enqueue(new Callback<OtherRequest>() {
-                    @Override
-                    public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
-                        int errorCode = response.body().getErrorCode();
-                        String msg = response.body().getMsg();
-                        Toast.makeText(WithdrawATMActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-
-                        Intent i = new Intent(Constant.UPDATE_INFO);
-                        sendBroadcast(i);
-                    }
-
-                    @Override
-                    public void onFailure(Call<OtherRequest> call, Throwable t) {
-                        Toast.makeText(WithdrawATMActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-                    }
-                });
                 break;
         }
     }

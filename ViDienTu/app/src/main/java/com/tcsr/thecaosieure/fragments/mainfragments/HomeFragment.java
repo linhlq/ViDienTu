@@ -134,26 +134,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         startActivity(IntroActivity.class);
                         break;
                     case 1:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            startActivity(DepositActivity.class);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(DepositActivity.class);
                         break;
                     case 2:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            startActivity(WithdrawActivity.class);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(WithdrawActivity.class);
                         break;
                     case 3:
-                        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-                            Intent i = new Intent(Constant.GOTO_TRANSFER);
-                            getActivity().sendBroadcast(i);
-                        } else {
-                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
-                        }
+                        Intent i = new Intent(Constant.GOTO_TRANSFER);
+                        getActivity().sendBroadcast(i);
                         break;
                     case 4:
                         Intent i1 = new Intent(Constant.GOTO_PAYMENT);

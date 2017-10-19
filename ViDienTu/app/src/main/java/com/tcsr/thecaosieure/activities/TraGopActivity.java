@@ -56,6 +56,7 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
     private LoadingDialog loadingDialog;
 
     private Call<CardRequest> getCardInfoAPI;
+    private Call<OtherRequest> postSaleHDAPI;
 
     @Override
     protected int getLayoutResource() {
@@ -137,6 +138,47 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
+    private void postSaleHD() {
+        String token = "";
+        String fullname = "";
+        String phoneNumber = "";
+        if (user != null) {
+            token = user.getToken();
+            fullname = user.getFullname();
+            phoneNumber = user.getMobile();
+        }
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("partner", listHdName.get(spinnerHd.getSelectedItemPosition()));
+        body.put("mk2", editPass.getText().toString());
+        body.put("fullname", fullname);
+        body.put("maKH_HD", editMaHd.getText().toString());
+        body.put("payAmount", editMoneyAmount.getText().toString());
+        body.put("ghichu", editDes.getText().toString());
+        body.put("sodienthoai", phoneNumber);
+
+        loadingDialog.show();
+        postSaleHDAPI = mRetrofitAPI.postSaleHD(token, body);
+        postSaleHDAPI.enqueue(new Callback<OtherRequest>() {
+            @Override
+            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+                Toast.makeText(TraGopActivity.this, msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+
+                Intent i = new Intent(Constant.UPDATE_INFO);
+                sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                Toast.makeText(TraGopActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -144,44 +186,11 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.button_continue:
-                String token = "";
-                String fullname = "";
-                String phoneNumber = "";
-                if (user != null) {
-                    token = user.getToken();
-                    fullname = user.getFullname();
-                    phoneNumber = user.getMobile();
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    postSaleHD();
+                } else {
+                    Toast.makeText(TraGopActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
                 }
-
-                HashMap<String, Object> body = new HashMap<>();
-                body.put("partner", listHdName.get(spinnerHd.getSelectedItemPosition()));
-                body.put("mk2", editPass.getText().toString());
-                body.put("fullname", fullname);
-                body.put("maKH_HD", editMaHd.getText().toString());
-                body.put("payAmount", editMoneyAmount.getText().toString());
-                body.put("ghichu", editDes.getText().toString());
-                body.put("sodienthoai", phoneNumber);
-
-                loadingDialog.show();
-                Call<OtherRequest> postSaleHD = mRetrofitAPI.postSaleHD(token, body);
-                postSaleHD.enqueue(new Callback<OtherRequest>() {
-                    @Override
-                    public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
-                        int errorCode = response.body().getErrorCode();
-                        String msg = response.body().getMsg();
-                        Toast.makeText(TraGopActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-
-                        Intent i = new Intent(Constant.UPDATE_INFO);
-                        sendBroadcast(i);
-                    }
-
-                    @Override
-                    public void onFailure(Call<OtherRequest> call, Throwable t) {
-                        Toast.makeText(TraGopActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-                    }
-                });
                 break;
         }
     }

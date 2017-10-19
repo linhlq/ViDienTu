@@ -243,12 +243,20 @@ public class BuyGameCardActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.continue_button:
-                buyCard();
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    buyCard();
+                } else {
+                    Toast.makeText(BuyGameCardActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.view_card:
-                Intent i = new Intent(this, ListCardActivity.class);
-                i.putExtra("channel", "game");
-                startActivity(i);
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    Intent i = new Intent(this, ListCardActivity.class);
+                    i.putExtra("channel", "game");
+                    startActivity(i);
+                } else {
+                    Toast.makeText(BuyGameCardActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

@@ -243,12 +243,20 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.continue_button:
-                buyCard();
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    buyCard();
+                } else {
+                    Toast.makeText(BuyPhoneCardActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.view_card:
-                Intent i = new Intent(this, ListCardActivity.class);
-                i.putExtra("channel", "telco");
-                startActivity(i);
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    Intent i = new Intent(this, ListCardActivity.class);
+                    i.putExtra("channel", "telco");
+                    startActivity(i);
+                } else {
+                    Toast.makeText(BuyPhoneCardActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

@@ -225,7 +225,11 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
                 startActivityForResult(pickContactIntent, PICK_CONTACT);
                 break;
             case R.id.button_continue:
-                topupMobile();
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    topupMobile();
+                } else {
+                    Toast.makeText(getActivity(), "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

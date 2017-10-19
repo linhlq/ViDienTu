@@ -140,6 +140,42 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    private void postAccountBank() {
+        String token = "";
+        if (user != null) {
+            token = user.getToken();
+        }
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("sotienrut", editMoneyAmount.getText().toString());
+        body.put("bank", listBankName.get(spinnerBank.getSelectedItemPosition()));
+        body.put("chinhanh", editChiNhanh.getText().toString());
+        body.put("soTK", editSoTk.getText().toString());
+        body.put("fullname", editFullName.getText().toString());
+        body.put("mk2", editPass.getText().toString());
+
+        loadingDialog.show();
+        postAccountBankAPI = mRetrofitAPI.postAccountBank(token, body);
+        postAccountBankAPI.enqueue(new Callback<OtherRequest>() {
+            @Override
+            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+                Toast.makeText(WithdrawBankActivity.this, msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+
+                Intent i = new Intent(Constant.UPDATE_INFO);
+                sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                Toast.makeText(WithdrawBankActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -147,39 +183,11 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.button_continue:
-                String token = "";
-                if (user != null) {
-                    token = user.getToken();
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    postAccountBank();
+                } else {
+                    Toast.makeText(WithdrawBankActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
                 }
-
-                HashMap<String, Object> body = new HashMap<>();
-                body.put("sotienrut", editMoneyAmount.getText().toString());
-                body.put("bank", listBankName.get(spinnerBank.getSelectedItemPosition()));
-                body.put("chinhanh", editChiNhanh.getText().toString());
-                body.put("soTK", editSoTk.getText().toString());
-                body.put("fullname", editFullName.getText().toString());
-                body.put("mk2", editPass.getText().toString());
-
-                loadingDialog.show();
-                postAccountBankAPI = mRetrofitAPI.postAccountBank(token, body);
-                postAccountBankAPI.enqueue(new Callback<OtherRequest>() {
-                    @Override
-                    public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
-                        int errorCode = response.body().getErrorCode();
-                        String msg = response.body().getMsg();
-                        Toast.makeText(WithdrawBankActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-
-                        Intent i = new Intent(Constant.UPDATE_INFO);
-                        sendBroadcast(i);
-                    }
-
-                    @Override
-                    public void onFailure(Call<OtherRequest> call, Throwable t) {
-                        Toast.makeText(WithdrawBankActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-                    }
-                });
                 break;
         }
     }

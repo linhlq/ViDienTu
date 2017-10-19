@@ -59,6 +59,8 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
     private Button continueButton;
     private LoadingDialog loadingDialog;
 
+    private Call<OtherRequest> postCMTdrawAPI;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_withdraw_cmt;
@@ -174,6 +176,44 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
         continueButton.setOnClickListener(this);
     }
 
+    private void postCMTdraw() {
+        String token = "";
+        if (user != null) {
+            token = user.getToken();
+        }
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("sotienrut", editMoneyAmount.getText().toString());
+        body.put("chinhanh", listPlace.get(spinnerPlace.getSelectedItemPosition()));
+        body.put("sodienthoai", editPhone.getText().toString());
+        body.put("noicap", listPlace.get(spinnerPlace.getSelectedItemPosition()));
+        body.put("ngaycap", editDate.getText().toString());
+        body.put("fullname", editFullname.getText().toString());
+        body.put("soCMT", editIdentity.getText().toString());
+        body.put("mk2", editPass.getText().toString());
+
+        loadingDialog.show();
+        postCMTdrawAPI = mRetrofitAPI.postCMTdraw(token, body);
+        postCMTdrawAPI.enqueue(new Callback<OtherRequest>() {
+            @Override
+            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+                Toast.makeText(WithdrawCMTActivity.this, msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+
+                Intent i = new Intent(Constant.UPDATE_INFO);
+                sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                Toast.makeText(WithdrawCMTActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -193,41 +233,11 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
                 datePicker.show();
                 break;
             case R.id.button_continue:
-                String token = "";
-                if (user != null) {
-                    token = user.getToken();
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    postCMTdraw();
+                } else {
+                    Toast.makeText(WithdrawCMTActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
                 }
-
-                HashMap<String, Object> body = new HashMap<>();
-                body.put("sotienrut", editMoneyAmount.getText().toString());
-                body.put("chinhanh", listPlace.get(spinnerPlace.getSelectedItemPosition()));
-                body.put("sodienthoai", editPhone.getText().toString());
-                body.put("noicap", listPlace.get(spinnerPlace.getSelectedItemPosition()));
-                body.put("ngaycap", editDate.getText().toString());
-                body.put("fullname", editFullname.getText().toString());
-                body.put("soCMT", editIdentity.getText().toString());
-                body.put("mk2", editPass.getText().toString());
-
-                loadingDialog.show();
-                Call<OtherRequest> postCMTdraw = mRetrofitAPI.postCMTdraw(token, body);
-                postCMTdraw.enqueue(new Callback<OtherRequest>() {
-                    @Override
-                    public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
-                        int errorCode = response.body().getErrorCode();
-                        String msg = response.body().getMsg();
-                        Toast.makeText(WithdrawCMTActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-
-                        Intent i = new Intent(Constant.UPDATE_INFO);
-                        sendBroadcast(i);
-                    }
-
-                    @Override
-                    public void onFailure(Call<OtherRequest> call, Throwable t) {
-                        Toast.makeText(WithdrawCMTActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-                    }
-                });
                 break;
         }
     }

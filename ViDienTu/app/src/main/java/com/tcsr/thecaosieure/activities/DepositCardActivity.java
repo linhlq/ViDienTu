@@ -128,6 +128,39 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
+    private void cardCharge() {
+        String token = "";
+        if (user != null) {
+            token = user.getToken();
+        }
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("loaithe", listCard.get(curPos).getBankName());
+        body.put("serial", editSerie.getText().toString());
+        body.put("mathe", editMaThe.getText().toString());
+
+        loadingDialog.show();
+        cardChargeAPI = mRetrofitAPI.cardCharge(token, body);
+        cardChargeAPI.enqueue(new Callback<OtherRequest>() {
+            @Override
+            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                int errorCode = response.body().getErrorCode();
+                String msg = response.body().getMsg();
+                Toast.makeText(DepositCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+
+                Intent i = new Intent(Constant.UPDATE_INFO);
+                sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(Call<OtherRequest> call, Throwable t) {
+                Toast.makeText(DepositCardActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -135,36 +168,11 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.button_continue:
-                String token = "";
-                if (user != null) {
-                    token = user.getToken();
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    cardCharge();
+                } else {
+                    Toast.makeText(DepositCardActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
                 }
-
-                HashMap<String, Object> body = new HashMap<>();
-                body.put("loaithe", listCard.get(curPos).getBankName());
-                body.put("serial", editSerie.getText().toString());
-                body.put("mathe", editMaThe.getText().toString());
-
-                loadingDialog.show();
-                cardChargeAPI = mRetrofitAPI.cardCharge(token, body);
-                cardChargeAPI.enqueue(new Callback<OtherRequest>() {
-                    @Override
-                    public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
-                        int errorCode = response.body().getErrorCode();
-                        String msg = response.body().getMsg();
-                        Toast.makeText(DepositCardActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-
-                        Intent i = new Intent(Constant.UPDATE_INFO);
-                        sendBroadcast(i);
-                    }
-
-                    @Override
-                    public void onFailure(Call<OtherRequest> call, Throwable t) {
-                        Toast.makeText(DepositCardActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismiss();
-                    }
-                });
                 break;
         }
     }
