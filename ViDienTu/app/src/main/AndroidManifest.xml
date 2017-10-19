@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.linhlee.vidientu">
+    package="com.tcsr.thecaosieure">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.tcsr.thecaosieure.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name="com.tcsr.thecaosieure.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,51 +21,51 @@
         </activity>
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.tcsr.thecaosieure.activities.MainActivity"
             android:windowSoftInputMode="adjustPan">
         </activity>
 
-        <activity android:name=".activities.NewsActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.NewsActivity"></activity>
 
-        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.LoginActivity"></activity>
 
-        <activity android:name=".activities.RegisterActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.RegisterActivity"></activity>
 
-        <activity android:name=".activities.ForgotPassActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.ForgotPassActivity"></activity>
 
-        <activity android:name=".activities.DetailActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.DetailActivity"></activity>
 
-        <activity android:name=".activities.DepositActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.DepositActivity"></activity>
 
-        <activity android:name=".activities.DepositCardActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.DepositCardActivity"></activity>
 
-        <activity android:name=".activities.DepositEbankingActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.DepositEbankingActivity"></activity>
 
-        <activity android:name=".activities.WithdrawActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.WithdrawActivity"></activity>
 
-        <activity android:name=".activities.WithdrawATMActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.WithdrawATMActivity"></activity>
 
-        <activity android:name=".activities.WithdrawCMTActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.WithdrawCMTActivity"></activity>
 
-        <activity android:name=".activities.WithdrawBankActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.WithdrawBankActivity"></activity>
 
-        <activity android:name=".activities.PhoneRechargeActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.PhoneRechargeActivity"></activity>
 
-        <activity android:name=".activities.BuyGameCardActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.BuyGameCardActivity"></activity>
 
-        <activity android:name=".activities.BuyPhoneCardActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.BuyPhoneCardActivity"></activity>
 
-        <activity android:name=".activities.TraGopActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.TraGopActivity"></activity>
 
-        <activity android:name=".activities.IntroActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.IntroActivity"></activity>
 
-        <activity android:name=".activities.ContactActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.ContactActivity"></activity>
 
-        <activity android:name=".activities.ListCardActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.ListCardActivity"></activity>
 
-        <activity android:name=".activities.TransDetailActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.TransDetailActivity"></activity>
 
-        <activity android:name=".activities.PaidCardActivity"></activity>
+        <activity android:name="com.tcsr.thecaosieure.activities.PaidCardActivity"></activity>
     </application>
 
 </manifest>
