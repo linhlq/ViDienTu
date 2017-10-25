@@ -46,11 +46,11 @@
         android:background="@drawable/shadow"
         android:visibility="gone"></View>
     
-    <com.tcsr.thecaosieure.utils.NonSwipeableViewPager
+    <com.tcsrmobile.thecaosieure.utils.NonSwipeableViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></com.tcsr.thecaosieure.utils.NonSwipeableViewPager>
+        android:layout_weight="1"></com.tcsrmobile.thecaosieure.utils.NonSwipeableViewPager>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
