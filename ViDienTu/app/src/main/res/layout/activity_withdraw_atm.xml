@@ -150,7 +150,6 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="Tên chủ thẻ"
-                    android:inputType="textPassword"
                     android:textSize="@dimen/sp16" />
 
             </RelativeLayout>

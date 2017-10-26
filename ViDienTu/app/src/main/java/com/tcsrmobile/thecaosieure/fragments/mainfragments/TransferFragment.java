@@ -171,6 +171,11 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
 
+                editMoneyAmount.setText("");
+                editReceiverName.setText("");
+                editConfirmPass.setText("");
+                editDes.setText("");
+
                 Intent i = new Intent(Constant.UPDATE_INFO);
                 getActivity().sendBroadcast(i);
             }

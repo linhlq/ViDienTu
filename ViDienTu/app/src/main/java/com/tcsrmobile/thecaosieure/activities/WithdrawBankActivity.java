@@ -164,6 +164,12 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
                 Toast.makeText(WithdrawBankActivity.this, msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
 
+                editMoneyAmount.setText("");
+                editChiNhanh.setText("");
+                editSoTk.setText("");
+                editFullName.setText("");
+                editPass.setText("");
+
                 Intent i = new Intent(Constant.UPDATE_INFO);
                 sendBroadcast(i);
             }

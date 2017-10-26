@@ -200,6 +200,9 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
 
+                editPhone.setText("");
+                editMk2.setText("");
+
                 Intent i = new Intent(Constant.UPDATE_INFO);
                 getActivity().sendBroadcast(i);
             }

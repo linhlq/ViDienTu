@@ -202,6 +202,13 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
                 Toast.makeText(WithdrawCMTActivity.this, msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
 
+                editMoneyAmount.setText("");
+                editIdentity.setText("");
+                editFullname.setText("");
+                editDate.setText("");
+                editPhone.setText("");
+                editPass.setText("");
+
                 Intent i = new Intent(Constant.UPDATE_INFO);
                 sendBroadcast(i);
             }

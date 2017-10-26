@@ -102,6 +102,8 @@ public class OdpFragment extends BaseFragment implements View.OnClickListener {
                 String msg = response.body().getMsg();
                 Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
+
+                editOdp.setText("");
             }
 
             @Override

@@ -2,6 +2,10 @@ package com.tcsrmobile.thecaosieure.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -40,18 +44,23 @@ public class DepositEbankingActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         webView.getSettings().setJavaScriptEnabled(true);
-
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(DepositEbankingActivity.this, description, Toast.LENGTH_SHORT).show();
-            }
-        });
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
         if (user != null) {
+            webView.setWebChromeClient(new WebChromeClient());
             webView.loadUrl(Constant.EBANKING_URL + user.getToken());
         } else {
             Toast.makeText(this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+            webView.goBack();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

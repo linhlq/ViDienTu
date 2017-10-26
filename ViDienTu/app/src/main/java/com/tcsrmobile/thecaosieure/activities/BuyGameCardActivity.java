@@ -208,6 +208,8 @@ public class BuyGameCardActivity extends BaseActivity implements View.OnClickLis
                 Toast.makeText(BuyGameCardActivity.this, msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
 
+                editMk2.setText("");
+
                 Intent i = new Intent(Constant.UPDATE_INFO);
                 sendBroadcast(i);
             }

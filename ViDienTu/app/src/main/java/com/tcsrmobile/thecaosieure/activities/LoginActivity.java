@@ -108,84 +108,82 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         int errorCode = response.body().getErrorCode();
                         String msg = response.body().getMsg();
                         loadingDialog.dismiss();
+                        Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
 
                         if (errorCode == 1) {
+                            User user = response.body().getData();
+                            String jsonUser = mGson.toJson(user);
+                            sharedPreferences.edit().putString(Constant.USER_INFO, jsonUser).apply();
+                            sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, true).apply();
+
+                            finish();
+                            Intent i = new Intent(Constant.LOGIN_SUCCESS);
+                            sendBroadcast(i);
+                        } else if (errorCode == 4) {
                             final User user = response.body().getData();
 
-                            if (user.getReceive_otp().equals("M")) {
-                                CheckODPDialog dialog = new CheckODPDialog(LoginActivity.this, new CheckODPDialog.OnButtonClickListener() {
-                                    @Override
-                                    public void onResendClick() {
-                                        final LoadingDialog dialog1 = new LoadingDialog(LoginActivity.this);
-                                        dialog1.show();
+                            CheckODPDialog dialog = new CheckODPDialog(LoginActivity.this, new CheckODPDialog.OnButtonClickListener() {
+                                @Override
+                                public void onResendClick() {
+                                    final LoadingDialog dialog1 = new LoadingDialog(LoginActivity.this);
+                                    dialog1.show();
 
-                                        resendOdpAPI = mRetrofitAPI.resendODP(user.getToken());
-                                        resendOdpAPI.enqueue(new Callback<OtherRequest>() {
-                                            @Override
-                                            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
-                                                int errorCode = response.body().getErrorCode();
-                                                String msg = response.body().getMsg();
-                                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    resendOdpAPI = mRetrofitAPI.resendODP(user.getToken());
+                                    resendOdpAPI.enqueue(new Callback<OtherRequest>() {
+                                        @Override
+                                        public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                                            int errorCode = response.body().getErrorCode();
+                                            String msg = response.body().getMsg();
+                                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-                                                dialog1.dismiss();
+                                            dialog1.dismiss();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<OtherRequest> call, Throwable t) {
+                                            Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                            dialog1.dismiss();
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onAcceptClick(String odp) {
+                                    HashMap<String, Object> body = new HashMap<>();
+                                    body.put("ODP", odp);
+
+                                    final LoadingDialog dialog1 = new LoadingDialog(LoginActivity.this);
+                                    dialog1.show();
+
+                                    checkOdpAPI = mRetrofitAPI.checkODP(user.getToken(), body);
+                                    checkOdpAPI.enqueue(new Callback<OtherRequest>() {
+                                        @Override
+                                        public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
+                                            int errorCode = response.body().getErrorCode();
+                                            String msg = response.body().getMsg();
+                                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                            dialog1.dismiss();
+
+                                            if (errorCode == 1) {
+                                                String jsonUser = mGson.toJson(user);
+                                                sharedPreferences.edit().putString(Constant.USER_INFO, jsonUser).apply();
+                                                sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, true).apply();
+
+                                                finish();
+                                                Intent i = new Intent(Constant.LOGIN_SUCCESS);
+                                                sendBroadcast(i);
                                             }
+                                        }
 
-                                            @Override
-                                            public void onFailure(Call<OtherRequest> call, Throwable t) {
-                                                Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                                dialog1.dismiss();
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onAcceptClick(String odp) {
-                                        HashMap<String, Object> body = new HashMap<>();
-                                        body.put("ODP", odp);
-
-                                        final LoadingDialog dialog1 = new LoadingDialog(LoginActivity.this);
-                                        dialog1.show();
-
-                                        checkOdpAPI = mRetrofitAPI.checkODP(user.getToken(), body);
-                                        checkOdpAPI.enqueue(new Callback<OtherRequest>() {
-                                            @Override
-                                            public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
-                                                int errorCode = response.body().getErrorCode();
-                                                String msg = response.body().getMsg();
-                                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                                dialog1.dismiss();
-
-                                                if (errorCode == 1) {
-                                                    String jsonUser = mGson.toJson(user);
-                                                    sharedPreferences.edit().putString(Constant.USER_INFO, jsonUser).apply();
-                                                    sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, true).apply();
-
-                                                    finish();
-                                                    Intent i = new Intent(Constant.LOGIN_SUCCESS);
-                                                    sendBroadcast(i);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<OtherRequest> call, Throwable t) {
-                                                Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                                dialog1.dismiss();
-                                            }
-                                        });
-                                    }
-                                });
-                                dialog.show();
-                            } else {
-                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
-
-                                String jsonUser = mGson.toJson(user);
-                                sharedPreferences.edit().putString(Constant.USER_INFO, jsonUser).apply();
-                                sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, true).apply();
-
-                                finish();
-                                Intent i = new Intent(Constant.LOGIN_SUCCESS);
-                                sendBroadcast(i);
-                            }
+                                        @Override
+                                        public void onFailure(Call<OtherRequest> call, Throwable t) {
+                                            Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                            dialog1.dismiss();
+                                        }
+                                    });
+                                }
+                            });
+                            dialog.show();
                         }
                     }
 

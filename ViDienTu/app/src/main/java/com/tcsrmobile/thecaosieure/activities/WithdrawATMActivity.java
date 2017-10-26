@@ -161,6 +161,11 @@ public class WithdrawATMActivity extends BaseActivity implements View.OnClickLis
                 Toast.makeText(WithdrawATMActivity.this, msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
 
+                editMoneyAmount.setText("");
+                editSoThe.setText("");
+                editFullname.setText("");
+                editPass.setText("");
+
                 Intent i = new Intent(Constant.UPDATE_INFO);
                 sendBroadcast(i);
             }
