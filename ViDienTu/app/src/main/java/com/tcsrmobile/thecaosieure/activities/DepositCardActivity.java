@@ -16,6 +16,7 @@ import com.tcsrmobile.thecaosieure.MyApplication;
 import com.tcsrmobile.thecaosieure.R;
 import com.tcsrmobile.thecaosieure.adapters.ListCardAdapter;
 import com.tcsrmobile.thecaosieure.dialogs.LoadingDialog;
+import com.tcsrmobile.thecaosieure.dialogs.SuccessDialog;
 import com.tcsrmobile.thecaosieure.models.CardObject;
 import com.tcsrmobile.thecaosieure.models.CardRequest;
 import com.tcsrmobile.thecaosieure.models.OtherRequest;
@@ -146,8 +147,14 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
             public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
-                Toast.makeText(DepositCardActivity.this, msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
+
+                if (errorCode == 1) {
+                    SuccessDialog dialog = new SuccessDialog(DepositCardActivity.this, msg);
+                    dialog.show();
+                } else {
+                    Toast.makeText(DepositCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
 
                 editSerie.setText("");
                 editMaThe.setText("");

@@ -205,8 +205,11 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
             public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
-                Toast.makeText(BuyPhoneCardActivity.this, msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
+
+                Intent cardInfo = new Intent(BuyPhoneCardActivity.this, CardInfoActivity.class);
+                cardInfo.putExtra("card_info", msg);
+                startActivity(cardInfo);
 
                 editMk2.setText("");
 

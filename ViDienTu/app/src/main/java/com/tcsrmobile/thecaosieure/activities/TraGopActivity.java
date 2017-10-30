@@ -3,6 +3,9 @@ package com.tcsrmobile.thecaosieure.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +19,7 @@ import com.google.gson.Gson;
 import com.tcsrmobile.thecaosieure.MyApplication;
 import com.tcsrmobile.thecaosieure.R;
 import com.tcsrmobile.thecaosieure.dialogs.LoadingDialog;
+import com.tcsrmobile.thecaosieure.dialogs.SuccessDialog;
 import com.tcsrmobile.thecaosieure.models.CardObject;
 import com.tcsrmobile.thecaosieure.models.CardRequest;
 import com.tcsrmobile.thecaosieure.models.OtherRequest;
@@ -55,6 +59,10 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
     private Button continueButton;
     private LoadingDialog loadingDialog;
 
+    private Handler handler;
+    private long delay = 1000;
+    private long last_text_edit = 0;
+
     private Call<CardRequest> getCardInfoAPI;
     private Call<OtherRequest> postSaleHDAPI;
 
@@ -85,6 +93,8 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        handler = new Handler();
+
         listHdName = new ArrayList<>();
         getListHd();
 
@@ -94,7 +104,11 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
         spinnerHd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                if (editMoneyAmount.getText().toString().equals("")) {
+                    editDes.setText("");
+                } else {
+                    editDes.setText("Thanh toán " + listHdName.get(position) + " với số tiền " + editMoneyAmount.getText().toString() + " VNĐ");
+                }
             }
 
             @Override
@@ -103,10 +117,45 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
+        editMoneyAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (editMoneyAmount.getText().toString().equals("")) {
+                    editDes.setText("");
+                }
+                handler.removeCallbacks(input_finish_checker);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    last_text_edit = System.currentTimeMillis();
+                    handler.postDelayed(input_finish_checker, delay);
+                }
+            }
+        });
+
         Constant.increaseHitArea(backButton);
         backButton.setOnClickListener(this);
         continueButton.setOnClickListener(this);
     }
+
+    private Runnable input_finish_checker = new Runnable() {
+        public void run() {
+            if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
+                if (editMoneyAmount.getText().toString().equals("")) {
+                    editDes.setText("");
+                } else {
+                    editDes.setText("Thanh toán " + listHdName.get(spinnerHd.getSelectedItemPosition()) + " với số tiền " + editMoneyAmount.getText().toString() + " VNĐ");
+                }
+            }
+        }
+    };
 
     private void getListHd() {
         HashMap<String, Object> body = new HashMap<>();
@@ -164,8 +213,14 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
             public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
-                Toast.makeText(TraGopActivity.this, msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
+
+                if (errorCode == 1) {
+                    SuccessDialog dialog = new SuccessDialog(TraGopActivity.this, msg);
+                    dialog.show();
+                } else {
+                    Toast.makeText(TraGopActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
 
                 editMoneyAmount.setText("");
                 editMaHd.setText("");

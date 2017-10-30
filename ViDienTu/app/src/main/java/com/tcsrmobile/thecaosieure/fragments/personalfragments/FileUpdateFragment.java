@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.tcsrmobile.thecaosieure.MyApplication;
 import com.tcsrmobile.thecaosieure.R;
 import com.tcsrmobile.thecaosieure.dialogs.LoadingDialog;
+import com.tcsrmobile.thecaosieure.dialogs.SuccessDialog;
 import com.tcsrmobile.thecaosieure.fragments.BaseFragment;
 import com.tcsrmobile.thecaosieure.models.User;
 import com.tcsrmobile.thecaosieure.models.UserRequest;
@@ -135,6 +136,9 @@ public class FileUpdateFragment extends BaseFragment implements View.OnClickList
                             Intent i = new Intent(Constant.CHANGE_FILE_FRAGMENT);
                             i.putExtra("command", 1);
                             getActivity().sendBroadcast(i);
+
+                            SuccessDialog dialog = new SuccessDialog(getActivity(), msg);
+                            dialog.show();
                         } else {
                             Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                         }

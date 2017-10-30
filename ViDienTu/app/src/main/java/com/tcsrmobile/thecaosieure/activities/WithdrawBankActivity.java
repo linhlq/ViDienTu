@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.tcsrmobile.thecaosieure.MyApplication;
 import com.tcsrmobile.thecaosieure.R;
 import com.tcsrmobile.thecaosieure.dialogs.LoadingDialog;
+import com.tcsrmobile.thecaosieure.dialogs.SuccessDialog;
 import com.tcsrmobile.thecaosieure.models.CardObject;
 import com.tcsrmobile.thecaosieure.models.CardRequest;
 import com.tcsrmobile.thecaosieure.models.OtherRequest;
@@ -161,8 +162,14 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
             public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
-                Toast.makeText(WithdrawBankActivity.this, msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
+
+                if (errorCode == 1) {
+                    SuccessDialog dialog = new SuccessDialog(WithdrawBankActivity.this, msg);
+                    dialog.show();
+                } else {
+                    Toast.makeText(WithdrawBankActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
 
                 editMoneyAmount.setText("");
                 editChiNhanh.setText("");

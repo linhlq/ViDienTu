@@ -30,6 +30,7 @@ public class SuccessDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        setCancelable(false);
         setContentView(R.layout.dialog_success);
 
         contentText = (TextView) findViewById(R.id.content_text);

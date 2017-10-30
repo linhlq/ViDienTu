@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.tcsrmobile.thecaosieure.MyApplication;
 import com.tcsrmobile.thecaosieure.R;
 import com.tcsrmobile.thecaosieure.dialogs.LoadingDialog;
+import com.tcsrmobile.thecaosieure.dialogs.SuccessDialog;
 import com.tcsrmobile.thecaosieure.models.OtherRequest;
 import com.tcsrmobile.thecaosieure.models.User;
 import com.tcsrmobile.thecaosieure.retrofit.IRetrofitAPI;
@@ -199,8 +200,14 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
             public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
-                Toast.makeText(WithdrawCMTActivity.this, msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
+
+                if (errorCode == 1) {
+                    SuccessDialog dialog = new SuccessDialog(WithdrawCMTActivity.this, msg);
+                    dialog.show();
+                } else {
+                    Toast.makeText(WithdrawCMTActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
 
                 editMoneyAmount.setText("");
                 editIdentity.setText("");

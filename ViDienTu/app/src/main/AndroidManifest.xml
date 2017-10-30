@@ -66,6 +66,8 @@
         <activity android:name="com.tcsrmobile.thecaosieure.activities.TransDetailActivity"></activity>
 
         <activity android:name="com.tcsrmobile.thecaosieure.activities.PaidCardActivity"></activity>
+
+        <activity android:name="com.tcsrmobile.thecaosieure.activities.CardInfoActivity"></activity>
     </application>
 
 </manifest>

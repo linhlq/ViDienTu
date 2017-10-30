@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -67,6 +68,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private boolean isLogin;
 
     private DrawerLayout drawer;
+    private NavigationView navRight;
     private RelativeLayout accountLayout;
     private TextView loginText;
     private LinearLayout infoLayout;
@@ -121,6 +123,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navRight = (NavigationView) findViewById(R.id.nav_view_right);
         accountLayout = (RelativeLayout) findViewById(R.id.account_layout);
         loginText = (TextView) findViewById(R.id.login_text);
         infoLayout = (LinearLayout) findViewById(R.id.info_layout);
@@ -251,6 +254,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void createDrawerLayout() {
+        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+            navRight.setVisibility(View.VISIBLE);
+        } else {
+            navRight.setVisibility(View.GONE);
+        }
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -266,7 +275,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         listMenu.add(new MenuObject(R.mipmap.ic_mua_game, getResources().getString(R.string.mua_the_game)));
         listMenu.add(new MenuObject(R.mipmap.ic_nap_tien, getResources().getString(R.string.nap_tien)));
         listMenu.add(new MenuObject(R.mipmap.ic_rut_tien, getResources().getString(R.string.rut_tien)));
-        listMenu.add(new MenuObject(R.mipmap.ic_diem_thanh_toan, getResources().getString(R.string.diem_thanh_toan)));
+        listMenu.add(new MenuObject(R.mipmap.ic_hoa_don, getResources().getString(R.string.thanh_toan_hoa_don)));
         listMenu.add(new MenuObject(R.mipmap.ic_lien_he, getResources().getString(R.string.lien_he)));
         if (isLogin) {
             listMenu.add(new MenuObject(R.mipmap.ic_logout, getResources().getString(R.string.dang_xuat)));
@@ -398,6 +407,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 String msg = response.body().getMsg();
 
                 if (errorCode == 1) {
+                    listTrans.removeAll(listTrans);
                     listTrans.addAll(response.body().getData());
                     listNotiAdapter.notifyDataSetChanged();
                 } else {

@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.tcsrmobile.thecaosieure.MyApplication;
 import com.tcsrmobile.thecaosieure.R;
 import com.tcsrmobile.thecaosieure.dialogs.LoadingDialog;
+import com.tcsrmobile.thecaosieure.dialogs.SuccessDialog;
 import com.tcsrmobile.thecaosieure.fragments.BaseFragment;
 import com.tcsrmobile.thecaosieure.models.CardObject;
 import com.tcsrmobile.thecaosieure.models.CardRequest;
@@ -197,8 +198,14 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
             public void onResponse(Call<OtherRequest> call, Response<OtherRequest> response) {
                 int errorCode = response.body().getErrorCode();
                 String msg = response.body().getMsg();
-                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
+
+                if (errorCode == 1) {
+                    SuccessDialog dialog = new SuccessDialog(getActivity(), msg);
+                    dialog.show();
+                } else {
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                }
 
                 editPhone.setText("");
                 editMk2.setText("");

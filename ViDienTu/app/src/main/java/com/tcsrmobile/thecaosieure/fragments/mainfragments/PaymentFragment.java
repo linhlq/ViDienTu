@@ -57,22 +57,24 @@ public class PaymentFragment extends BaseFragment {
     @Override
     protected void initData(Bundle savedInstanceState) {
         listPayment = new ArrayList<>();
-        listPayment.add(new MenuObject(R.drawable.ic_deposit_state, getActivity().getResources().getString(R.string.nap_tien)));
+        listPayment.add(new MenuObject(R.drawable.ic_transfer_money_state, getActivity().getResources().getString(R.string.chuyen_tien)));
         listPayment.add(new MenuObject(R.drawable.ic_nap_phone_card_state, getActivity().getResources().getString(R.string.nap_dien_thoai)));
         listPayment.add(new MenuObject(R.drawable.ic_mua_phone_card_state, getActivity().getResources().getString(R.string.mua_the_dien_thoai)));
-        listPayment.add(new MenuObject(R.drawable.ic_transfer_money_state, getActivity().getResources().getString(R.string.chuyen_tien)));
         listPayment.add(new MenuObject(R.drawable.ic_mua_the_game_state, getActivity().getResources().getString(R.string.mua_the_game)));
-        listPayment.add(new MenuObject(R.drawable.ic_withdraw_state, getActivity().getResources().getString(R.string.rut_tien)));
-        listPayment.add(new MenuObject(R.drawable.ic_diem_thanh_toan_state, getActivity().getResources().getString(R.string.diem_thanh_toan)));
         listPayment.add(new MenuObject(R.drawable.ic_doi_the_cao_state, getActivity().getResources().getString(R.string.doi_the_cao)));
+        listPayment.add(new MenuObject(R.drawable.ic_deposit_state, getActivity().getResources().getString(R.string.nap_tien)));
+        listPayment.add(new MenuObject(R.drawable.ic_withdraw_state, getActivity().getResources().getString(R.string.rut_tien)));
+        listPayment.add(new MenuObject(R.drawable.ic_diem_thanh_toan_state, getActivity().getResources().getString(R.string.thanh_toan_hoa_don)));
+
 
         adapter = new ListFunctionAdapter(getActivity(), listPayment, R.layout.item_function_payment, new ListFunctionAdapter.PositionClickListener() {
             @Override
             public void itemClicked(int position) {
                 switch (position) {
                     case 0:
-                        startActivity(DepositActivity.class);
-                        //Nap tien
+                        Intent i = new Intent(Constant.GOTO_TRANSFER);
+                        getActivity().sendBroadcast(i);
+                        //Chuyen tien
                         break;
                     case 1:
                         startActivity(PhoneRechargeActivity.class);
@@ -83,25 +85,24 @@ public class PaymentFragment extends BaseFragment {
                         //Mua the dt
                         break;
                     case 3:
-                        Intent i = new Intent(Constant.GOTO_TRANSFER);
-                        getActivity().sendBroadcast(i);
-                        //Chuyen tien
-                        break;
-                    case 4:
                         startActivity(BuyGameCardActivity.class);
                         //Mua the game
                         break;
+                    case 4:
+                        startActivity(DepositCardActivity.class);
+                        //Doi the cao thanh tien mat
+                        break;
                     case 5:
+                        startActivity(DepositActivity.class);
+                        //Nap tien
+                        break;
+                    case 6:
                         startActivity(WithdrawActivity.class);
                         //Rut tien
                         break;
-                    case 6:
+                    case 7:
                         startActivity(TraGopActivity.class);
                         //Diem thanh toan tra gop
-                        break;
-                    case 7:
-                        startActivity(DepositCardActivity.class);
-                        //Doi the cao thanh tien mat
                         break;
                 }
             }
