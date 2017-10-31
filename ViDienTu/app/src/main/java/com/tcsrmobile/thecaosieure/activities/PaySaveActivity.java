@@ -168,7 +168,7 @@ public class PaySaveActivity extends BaseActivity implements View.OnClickListene
                 if (type == 0) {
                     bankAdapter.getFilter().filter(s);
                 } else {
-
+                    paySaveAdapter.getFilter().filter(s);
                 }
             }
 
