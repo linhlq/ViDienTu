@@ -7,6 +7,7 @@ import com.tcsrmobile.thecaosieure.models.FullNameRequest;
 import com.tcsrmobile.thecaosieure.models.NewsRequest;
 import com.tcsrmobile.thecaosieure.models.OtherRequest;
 import com.tcsrmobile.thecaosieure.models.PageRequest;
+import com.tcsrmobile.thecaosieure.models.PaySaveRequest;
 import com.tcsrmobile.thecaosieure.models.TransactionRequest;
 import com.tcsrmobile.thecaosieure.models.UserRequest;
 
@@ -84,7 +85,7 @@ public interface IRetrofitAPI {
 
     //Lấy DS số ATM đã được lưu trên hệ thống của khách hàng
     @POST("/rest/api/getPaysave")
-    Call<OtherRequest> getPaySave(@Header("token") String token, @Body HashMap<String, Object> body);
+    Call<PaySaveRequest> getPaySave(@Header("token") String token, @Body HashMap<String, Object> body);
 
     //Rút tiền về số tài khoản ngân hàng
     @POST("/rest/api/postAccountbank")

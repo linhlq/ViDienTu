@@ -88,8 +88,8 @@
             android:background="@null"></Spinner>
 
         <ImageView
-            android:layout_width="@dimen/dp10"
-            android:layout_height="@dimen/dp10"
+            android:layout_width="@dimen/dp14"
+            android:layout_height="@dimen/dp14"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/ic_dropdown" />
@@ -119,8 +119,9 @@
             android:textSize="@dimen/sp16" />
 
         <ImageView
-            android:layout_width="@dimen/dp10"
-            android:layout_height="@dimen/dp10"
+            android:id="@+id/btn_show_pay_save"
+            android:layout_width="@dimen/dp14"
+            android:layout_height="@dimen/dp14"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/ic_dropdown" />

@@ -49,6 +49,7 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
     private ImageView backButton;
     private EditText editMoneyAmount;
     private EditText editIdentity;
+    private ImageView btnShowPaySave;
     private EditText editFullname;
     private Spinner spinnerPlace;
     private ArrayAdapter<String> adapter;
@@ -82,6 +83,7 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
         editMoneyAmount = (EditText) findViewById(R.id.edit_money_amount);
         editFullname = (EditText) findViewById(R.id.edit_fullname);
         editIdentity = (EditText) findViewById(R.id.edit_identity);
+        btnShowPaySave = (ImageView) findViewById(R.id.btn_show_pay_save);
         spinnerPlace = (Spinner) findViewById(R.id.spinner_place);
         editDate = (EditText) findViewById(R.id.edit_date);
         pickDate = (ImageView) findViewById(R.id.pick_date);
@@ -172,7 +174,9 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
         });
 
         Constant.increaseHitArea(backButton);
+        Constant.increaseHitArea(btnShowPaySave);
         backButton.setOnClickListener(this);
+        btnShowPaySave.setOnClickListener(this);
         pickDate.setOnClickListener(this);
         continueButton.setOnClickListener(this);
     }
@@ -234,6 +238,15 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
             case R.id.back_btn:
                 finish();
                 break;
+            case R.id.btn_show_pay_save:
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    Intent i = new Intent(this, PaySaveActivity.class);
+                    i.putExtra("type", 2);
+                    startActivityForResult(i, 0);
+                } else {
+                    Toast.makeText(WithdrawCMTActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.pick_date:
                 Calendar calendar = Calendar.getInstance();
                 DatePickerDialog datePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -253,6 +266,20 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
                     Toast.makeText(WithdrawCMTActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
                 }
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                String paySave = data.getStringExtra("pay_save");
+                String fullName = data.getStringExtra("full_name");
+                editIdentity.setText(paySave);
+                editFullname.setText(fullName);
+            }
         }
     }
 }

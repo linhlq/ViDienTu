@@ -56,6 +56,7 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
     private EditText editMaHd;
     private EditText editPass;
     private EditText editDes;
+    private ImageView btnShowPaySave;
     private Button continueButton;
     private LoadingDialog loadingDialog;
 
@@ -88,6 +89,7 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
         editMaHd = (EditText) findViewById(R.id.edit_ma_hd);
         editPass = (EditText) findViewById(R.id.edit_pass);
         editDes = (EditText) findViewById(R.id.edit_des);
+        btnShowPaySave = (ImageView) findViewById(R.id.btn_show_pay_save);
         continueButton = (Button) findViewById(R.id.button_continue);
     }
 
@@ -141,7 +143,9 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
         });
 
         Constant.increaseHitArea(backButton);
+        Constant.increaseHitArea(btnShowPaySave);
         backButton.setOnClickListener(this);
+        btnShowPaySave.setOnClickListener(this);
         continueButton.setOnClickListener(this);
     }
 
@@ -245,6 +249,15 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
             case R.id.back_btn:
                 finish();
                 break;
+            case R.id.btn_show_pay_save:
+                if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
+                    Intent i = new Intent(this, PaySaveActivity.class);
+                    i.putExtra("type", 3);
+                    startActivityForResult(i, 0);
+                } else {
+                    Toast.makeText(TraGopActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.button_continue:
                 if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
                     postSaleHD();
@@ -252,6 +265,18 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
                     Toast.makeText(TraGopActivity.this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
                 }
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                String paySave = data.getStringExtra("pay_save");
+                editMaHd.setText(paySave);
+            }
         }
     }
 }

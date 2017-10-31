@@ -90,15 +90,25 @@
                 android:layout_marginRight="@dimen/dp20"
                 android:layout_marginTop="@dimen/dp20">
 
-                <Spinner
+                <!--<Spinner
                     android:id="@+id/spinner_bank"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp50"
-                    android:background="@null"></Spinner>
+                    android:background="@null"></Spinner>-->
+
+                <EditText
+                    android:id="@+id/edit_bank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="Tên ngân hàng"
+                    android:focusable="false"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/sp16" />
 
                 <ImageView
-                    android:layout_width="@dimen/dp10"
-                    android:layout_height="@dimen/dp10"
+                    android:layout_width="@dimen/dp14"
+                    android:layout_height="@dimen/dp14"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/ic_dropdown" />
@@ -127,6 +137,14 @@
                     android:hint="Số thẻ ATM"
                     android:inputType="numberDecimal"
                     android:textSize="@dimen/sp16" />
+
+                <ImageView
+                    android:id="@+id/btn_show_pay_save"
+                    android:layout_width="@dimen/dp14"
+                    android:layout_height="@dimen/dp14"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_dropdown" />
 
             </RelativeLayout>
 
