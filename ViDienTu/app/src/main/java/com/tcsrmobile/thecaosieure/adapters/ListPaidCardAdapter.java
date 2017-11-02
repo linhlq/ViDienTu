@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.tcsrmobile.thecaosieure.R;
 import com.tcsrmobile.thecaosieure.models.TransactionObject;
@@ -48,7 +49,10 @@ public class ListPaidCardAdapter extends BaseAdapter {
         }
 
         WebView webView = (WebView) convertView.findViewById(R.id.web_view);
+        TextView textTime = (TextView) convertView.findViewById(R.id.text_time);
+
         webView.loadDataWithBaseURL(null, listTrans.get(position).getContent(), "text/html", "utf-8", null);
+        textTime.setText(listTrans.get(position).getTransactionDate());
 
         return convertView;
     }

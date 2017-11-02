@@ -69,7 +69,7 @@
                     android:textColor="@android:color/black" />
 
                 <RelativeLayout
-                    android:layout_width="@dimen/dp150"
+                    android:layout_width="@dimen/dp200"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true">
 

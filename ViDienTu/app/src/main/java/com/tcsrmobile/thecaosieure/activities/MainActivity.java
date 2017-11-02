@@ -254,12 +254,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void createDrawerLayout() {
-        if (sharedPreferences.getBoolean(Constant.IS_LOGIN, false)) {
-            navRight.setVisibility(View.VISIBLE);
-        } else {
-            navRight.setVisibility(View.GONE);
-        }
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -347,6 +341,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(MainActivity.this, TransDetailActivity.class);
                 i.putExtra("content", listTrans.get(position).getContent());
+                i.putExtra("time", listTrans.get(position).getTransactionDate());
                 startActivity(i);
             }
         });

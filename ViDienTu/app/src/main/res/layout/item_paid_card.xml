@@ -10,4 +10,13 @@
         android:layout_height="wrap_content"
         android:scrollbarStyle="insideOverlay"></WebView>
 
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:textColor="@android:color/black"
+        android:text="Date Time"
+        android:layout_margin="@dimen/dp10"/>
+
 </LinearLayout>

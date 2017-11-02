@@ -47,6 +47,13 @@ public class DepositEbankingActivity extends BaseActivity {
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
         if (user != null) {
+            webView.setWebViewClient(new WebViewClient(){
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    view.loadUrl(url);
+                    return true;
+                }
+            });
             webView.setWebChromeClient(new WebChromeClient());
             webView.loadUrl(Constant.EBANKING_URL + user.getToken());
         } else {
