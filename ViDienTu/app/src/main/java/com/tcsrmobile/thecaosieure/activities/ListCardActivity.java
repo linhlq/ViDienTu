@@ -1,6 +1,7 @@
 package com.tcsrmobile.thecaosieure.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +34,7 @@ public class ListCardActivity extends BaseActivity implements View.OnClickListen
     private Gson mGson;
     private Retrofit mRetrofit;
     private IRetrofitAPI mRetrofitAPI;
+    private SharedPreferences sharedPreferences;
 
     private ImageView backButton;
     private ListView listCardView;
@@ -52,6 +54,7 @@ public class ListCardActivity extends BaseActivity implements View.OnClickListen
         mGson = MyApplication.getGson();
         mRetrofit = MyApplication.getRetrofit();
         mRetrofitAPI = mRetrofit.create(IRetrofitAPI.class);
+        sharedPreferences = MyApplication.getSharedPreferences();
 
         backButton = (ImageView) findViewById(R.id.back_btn);
         listCardView = (ListView) findViewById(R.id.list_card);
@@ -99,6 +102,12 @@ public class ListCardActivity extends BaseActivity implements View.OnClickListen
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(ListCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(ListCardActivity.this);
+                    }
                 }
             }
 

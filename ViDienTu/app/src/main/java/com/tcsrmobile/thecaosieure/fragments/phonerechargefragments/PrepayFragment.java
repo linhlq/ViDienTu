@@ -175,6 +175,12 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
                     textThanhToan.setText(String.format("%.0f", getThanhToan(0)) + " VNĐ");
                 } else {
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(getActivity());
+                    }
                 }
             }
 
@@ -205,6 +211,12 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
                     dialog.show();
                 } else {
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(getActivity());
+                    }
                 }
 
                 editPhone.setText("");

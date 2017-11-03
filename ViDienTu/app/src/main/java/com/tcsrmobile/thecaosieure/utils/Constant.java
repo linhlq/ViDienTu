@@ -1,10 +1,15 @@
 package com.tcsrmobile.thecaosieure.utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.provider.Settings;
 import android.view.TouchDelegate;
 import android.view.View;
+
+import com.tcsrmobile.thecaosieure.activities.MainActivity;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -78,5 +83,15 @@ public class Constant {
         }
 
         return formatedTime;
+    }
+
+    public static void restartApp(Context context) {
+        Intent mStartActivity = new Intent(context, MainActivity.class);
+        mStartActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        int mPendingIntentId = 123456;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+        System.exit(0);
     }
 }

@@ -124,6 +124,12 @@ public class PasswordFragment extends BaseFragment implements View.OnClickListen
                                         } else if (errorCode == 0) {
                                             ErrorDialog dialog = new ErrorDialog(getActivity(), "Mật khẩu cấp 1 không chính xác\nVui lòng nhập lại");
                                             dialog.show();
+                                        } else {
+                                            if (errorCode == -2) {
+                                                sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                                                sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                                                Constant.restartApp(getActivity());
+                                            }
                                         }
                                     }
 
@@ -157,6 +163,12 @@ public class PasswordFragment extends BaseFragment implements View.OnClickListen
                                         } else if (errorCode == 0) {
                                             ErrorDialog dialog = new ErrorDialog(getActivity(), "Mật khẩu cấp 2 không chính xác\nVui lòng nhập lại");
                                             dialog.show();
+                                        } else {
+                                            if (errorCode == -2) {
+                                                sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                                                sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                                                Constant.restartApp(getActivity());
+                                            }
                                         }
                                     }
 

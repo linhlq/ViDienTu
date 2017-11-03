@@ -106,6 +106,12 @@ public class PaidCardActivity extends BaseActivity implements View.OnClickListen
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(PaidCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(PaidCardActivity.this);
+                    }
                 }
             }
 

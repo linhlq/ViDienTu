@@ -119,6 +119,12 @@ public class WithdrawATMActivity extends BaseActivity implements View.OnClickLis
                     dialog.show();
                 } else {
                     Toast.makeText(WithdrawATMActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(WithdrawATMActivity.this);
+                    }
                 }
 
                 editMoneyAmount.setText("");
@@ -178,8 +184,10 @@ public class WithdrawATMActivity extends BaseActivity implements View.OnClickLis
             if (resultCode == RESULT_OK) {
                 String paySave = data.getStringExtra("pay_save");
                 String fullName = data.getStringExtra("full_name");
+                String bankName = data.getStringExtra("bank_name");
                 editSoThe.setText(paySave);
                 editFullname.setText(fullName);
+                editBank.setText(bankName);
             }
         }
 

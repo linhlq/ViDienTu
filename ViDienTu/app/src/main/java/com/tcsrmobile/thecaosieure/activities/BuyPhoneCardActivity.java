@@ -181,6 +181,12 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
                     textThanhToan.setText(String.format("%.0f", getThanhToan(0)) + " VNĐ");
                 } else {
                     Toast.makeText(BuyPhoneCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(BuyPhoneCardActivity.this);
+                    }
                 }
             }
 
@@ -207,14 +213,24 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
                 String msg = response.body().getMsg();
                 loadingDialog.dismiss();
 
-                Intent cardInfo = new Intent(BuyPhoneCardActivity.this, CardInfoActivity.class);
-                cardInfo.putExtra("card_info", msg);
-                startActivity(cardInfo);
+                if (errorCode == 1) {
+                    Intent cardInfo = new Intent(BuyPhoneCardActivity.this, CardInfoActivity.class);
+                    cardInfo.putExtra("card_info", msg);
+                    startActivity(cardInfo);
 
-                editMk2.setText("");
+                    editMk2.setText("");
 
-                Intent i = new Intent(Constant.UPDATE_INFO);
-                sendBroadcast(i);
+                    Intent i = new Intent(Constant.UPDATE_INFO);
+                    sendBroadcast(i);
+                } else {
+                    Toast.makeText(BuyPhoneCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(BuyPhoneCardActivity.this);
+                    }
+                }
             }
 
             @Override

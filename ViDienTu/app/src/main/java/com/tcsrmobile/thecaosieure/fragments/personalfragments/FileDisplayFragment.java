@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.tcsrmobile.thecaosieure.MyApplication;
 import com.tcsrmobile.thecaosieure.R;
+import com.tcsrmobile.thecaosieure.activities.LoginActivity;
 import com.tcsrmobile.thecaosieure.fragments.BaseFragment;
 import com.tcsrmobile.thecaosieure.models.User;
 import com.tcsrmobile.thecaosieure.models.UserRequest;
@@ -136,6 +137,12 @@ public class FileDisplayFragment extends BaseFragment implements View.OnClickLis
                     sharedPreferences.edit().putString(Constant.USER_INFO, jsonUser).apply();
                 } else {
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(getActivity());
+                    }
                 }
             }
 

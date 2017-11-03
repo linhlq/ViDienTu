@@ -119,6 +119,12 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(DepositCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(DepositCardActivity.this);
+                    }
                 }
             }
 
@@ -154,6 +160,12 @@ public class DepositCardActivity extends BaseActivity implements View.OnClickLis
                     dialog.show();
                 } else {
                     Toast.makeText(DepositCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(DepositCardActivity.this);
+                    }
                 }
 
                 editSerie.setText("");

@@ -181,6 +181,12 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(TraGopActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(TraGopActivity.this);
+                    }
                 }
             }
 
@@ -224,6 +230,12 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
                     dialog.show();
                 } else {
                     Toast.makeText(TraGopActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(TraGopActivity.this);
+                    }
                 }
 
                 editMoneyAmount.setText("");
@@ -275,7 +287,19 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 String paySave = data.getStringExtra("pay_save");
+                String bankName = data.getStringExtra("bank_name");
                 editMaHd.setText(paySave);
+
+                for (int i = 0; i < listHdName.size(); i++) {
+                    if (listHdName.get(i).equals(bankName)) {
+                        spinnerHd.setSelection(i);
+
+                        if (!editMoneyAmount.getText().toString().equals("")) {
+                            editDes.setText("Thanh toán " + listHdName.get(i) + " với số tiền " + editMoneyAmount.getText().toString() + " VNĐ");
+                        }
+                        break;
+                    }
+                }
             }
         }
     }

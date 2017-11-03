@@ -211,6 +211,12 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
                     dialog.show();
                 } else {
                     Toast.makeText(WithdrawCMTActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(WithdrawCMTActivity.this);
+                    }
                 }
 
                 editMoneyAmount.setText("");
@@ -277,8 +283,12 @@ public class WithdrawCMTActivity extends BaseActivity implements View.OnClickLis
             if (resultCode == RESULT_OK) {
                 String paySave = data.getStringExtra("pay_save");
                 String fullName = data.getStringExtra("full_name");
+                String contact = data.getStringExtra("contact");
+                String date = data.getStringExtra("date");
                 editIdentity.setText(paySave);
                 editFullname.setText(fullName);
+                editPhone.setText(contact);
+                editDate.setText(date);
             }
         }
     }

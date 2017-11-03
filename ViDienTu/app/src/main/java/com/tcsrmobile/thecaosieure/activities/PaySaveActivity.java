@@ -124,6 +124,10 @@ public class PaySaveActivity extends BaseActivity implements View.OnClickListene
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("pay_save", paySaveAdapter.getItem(position).getCardnumber());
                 resultIntent.putExtra("full_name", paySaveAdapter.getItem(position).getFullname());
+                resultIntent.putExtra("bank_name", paySaveAdapter.getItem(position).getBankname());
+                resultIntent.putExtra("contact", paySaveAdapter.getItem(position).getContact());
+                resultIntent.putExtra("date", paySaveAdapter.getItem(position).getDateIssue());
+                resultIntent.putExtra("branch", paySaveAdapter.getItem(position).getBranch());
                 setResult(RESULT_OK, resultIntent);
                 finish();
             }
@@ -199,6 +203,12 @@ public class PaySaveActivity extends BaseActivity implements View.OnClickListene
                     paySaveAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(PaySaveActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(PaySaveActivity.this);
+                    }
                 }
             }
 
@@ -225,6 +235,12 @@ public class PaySaveActivity extends BaseActivity implements View.OnClickListene
                     bankAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(PaySaveActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(PaySaveActivity.this);
+                    }
                 }
             }
 

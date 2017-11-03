@@ -108,6 +108,12 @@ public class OdpFragment extends BaseFragment implements View.OnClickListener {
                     dialog.show();
                 } else {
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(getActivity());
+                    }
                 }
 
                 editOdp.setText("");

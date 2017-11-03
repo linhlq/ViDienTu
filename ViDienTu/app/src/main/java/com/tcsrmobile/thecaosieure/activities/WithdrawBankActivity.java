@@ -122,6 +122,12 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
                     dialog.show();
                 } else {
                     Toast.makeText(WithdrawBankActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                    if (errorCode == -2) {
+                        sharedPreferences.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+                        sharedPreferences.edit().putString(Constant.USER_INFO, "").apply();
+                        Constant.restartApp(WithdrawBankActivity.this);
+                    }
                 }
 
                 editMoneyAmount.setText("");
@@ -181,8 +187,12 @@ public class WithdrawBankActivity extends BaseActivity implements View.OnClickLi
             if (resultCode == RESULT_OK) {
                 String paySave = data.getStringExtra("pay_save");
                 String fullName = data.getStringExtra("full_name");
+                String bankName = data.getStringExtra("bank_name");
+                String branch = data.getStringExtra("branch");
                 editSoTk.setText(paySave);
                 editFullName.setText(fullName);
+                editBank.setText(bankName);
+                editChiNhanh.setText(branch);
             }
         }
 
