@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tcsrmobile.thecaosieure">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
@@ -12,7 +12,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.SplashActivity">
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,54 +24,100 @@
 
         <activity
             android:name="com.tcsrmobile.thecaosieure.activities.MainActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.NewsActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.NewsActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.LoginActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.LoginActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.RegisterActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.RegisterActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.ForgotPassActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.ForgotPassActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.DetailActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.DetailActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.DepositActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.DepositActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.DepositCardActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.DepositCardActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.DepositEbankingActivity" android:configChanges="orientation|screenSize"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.DepositEbankingActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.WithdrawActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.WithdrawActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.WithdrawATMActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.WithdrawATMActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.WithdrawCMTActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.WithdrawCMTActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.WithdrawBankActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.WithdrawBankActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.PhoneRechargeActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.PhoneRechargeActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.BuyGameCardActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.BuyGameCardActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.BuyPhoneCardActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.BuyPhoneCardActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.TraGopActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.TraGopActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.IntroActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.IntroActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.ContactActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.ContactActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.ListCardActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.ListCardActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.TransDetailActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.TransDetailActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.PaidCardActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.PaidCardActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.CardInfoActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.CardInfoActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.tcsrmobile.thecaosieure.activities.PaySaveActivity"></activity>
+        <activity
+            android:name="com.tcsrmobile.thecaosieure.activities.PaySaveActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

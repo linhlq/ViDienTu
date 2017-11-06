@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ListNotiAdapter listNotiAdapter;
     private ArrayList<TransactionObject> listTrans;
     private ArrayList<MenuObject> listMenu;
-    private ImageView menuButton;
+    private RelativeLayout menuButton;
     private ImageView notiButton;
     private RelativeLayout searchLayout;
     private EditText editSearch;
@@ -137,7 +137,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         titleText = (TextView) findViewById(R.id.title_text);
         shadowView = findViewById(R.id.shadow_view);
-        menuButton = (ImageView) findViewById(R.id.menu_button);
+        menuButton = (RelativeLayout) findViewById(R.id.menu_button);
         notiButton = (ImageView) findViewById(R.id.noti_button);
         searchLayout = (RelativeLayout) findViewById(R.id.search_layout);
         editSearch = (EditText) findViewById(R.id.edit_search);
