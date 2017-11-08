@@ -4,10 +4,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -20,11 +22,12 @@ import com.tcsrmobile.thecaosieure.utils.Constant;
  * Created by lequy on 10/18/2017.
  */
 
-public class DepositEbankingActivity extends BaseActivity {
+public class DepositEbankingActivity extends BaseActivity implements View.OnClickListener {
     private Gson mGson;
     private SharedPreferences sharedPreferences;
     private User user;
 
+    private ImageView backButton;
     private WebView webView;
 
     @Override
@@ -38,6 +41,7 @@ public class DepositEbankingActivity extends BaseActivity {
         sharedPreferences = MyApplication.getSharedPreferences();
         user = mGson.fromJson(sharedPreferences.getString(Constant.USER_INFO, ""), User.class);
 
+        backButton = (ImageView) findViewById(R.id.back_btn);
         webView = (WebView) findViewById(R.id.web_view);
     }
 
@@ -59,6 +63,9 @@ public class DepositEbankingActivity extends BaseActivity {
         } else {
             Toast.makeText(this, "Bạn chưa đăng nhập, vui lòng đăng nhập để có thể sử dụng tính năng này", Toast.LENGTH_SHORT).show();
         }
+
+        Constant.increaseHitArea(backButton);
+        backButton.setOnClickListener(this);
     }
 
     @Override
@@ -69,5 +76,10 @@ public class DepositEbankingActivity extends BaseActivity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Constant.restartApp(this);
     }
 }
