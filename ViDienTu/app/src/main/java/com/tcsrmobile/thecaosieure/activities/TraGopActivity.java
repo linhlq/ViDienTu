@@ -54,6 +54,9 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
     private ArrayList<String> listHdName;
     private ArrayList<CardObject> listHd;
     private EditText editMaHd;
+    private EditText editFullname;
+    private EditText editPhone;
+    private EditText editAddress;
     private EditText editPass;
     private EditText editDes;
     private ImageView btnShowPaySave;
@@ -87,6 +90,9 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
         editMoneyAmount = (EditText) findViewById(R.id.edit_money_amount);
         spinnerHd = (Spinner) findViewById(R.id.spinner_hd);
         editMaHd = (EditText) findViewById(R.id.edit_ma_hd);
+        editFullname = (EditText) findViewById(R.id.edit_fullname);
+        editPhone = (EditText) findViewById(R.id.edit_phone);
+        editAddress = (EditText) findViewById(R.id.edit_address);
         editPass = (EditText) findViewById(R.id.edit_pass);
         editDes = (EditText) findViewById(R.id.edit_des);
         btnShowPaySave = (ImageView) findViewById(R.id.btn_show_pay_save);
@@ -288,7 +294,13 @@ public class TraGopActivity extends BaseActivity implements View.OnClickListener
             if (resultCode == RESULT_OK) {
                 String paySave = data.getStringExtra("pay_save");
                 String bankName = data.getStringExtra("bank_name");
+                String fullName = data.getStringExtra("full_name");
+                String phone = data.getStringExtra("contact");
+                String address = data.getStringExtra("address");
                 editMaHd.setText(paySave);
+                editFullname.setText(fullName);
+                editPhone.setText(phone);
+                editAddress.setText(address);
 
                 for (int i = 0; i < listHdName.size(); i++) {
                     if (listHdName.get(i).equals(bankName)) {

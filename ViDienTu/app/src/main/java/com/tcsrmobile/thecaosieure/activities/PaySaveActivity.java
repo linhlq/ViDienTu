@@ -128,6 +128,7 @@ public class PaySaveActivity extends BaseActivity implements View.OnClickListene
                 resultIntent.putExtra("contact", paySaveAdapter.getItem(position).getContact());
                 resultIntent.putExtra("date", paySaveAdapter.getItem(position).getDateIssue());
                 resultIntent.putExtra("branch", paySaveAdapter.getItem(position).getBranch());
+                resultIntent.putExtra("address", paySaveAdapter.getItem(position).getPlaceIssue());
                 setResult(RESULT_OK, resultIntent);
                 finish();
             }
