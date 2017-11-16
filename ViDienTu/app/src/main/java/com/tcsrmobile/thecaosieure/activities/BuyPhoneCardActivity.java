@@ -22,6 +22,7 @@ import com.tcsrmobile.thecaosieure.adapters.ListCardAdapter;
 import com.tcsrmobile.thecaosieure.dialogs.LoadingDialog;
 import com.tcsrmobile.thecaosieure.models.CardObject;
 import com.tcsrmobile.thecaosieure.models.CardRequest;
+import com.tcsrmobile.thecaosieure.models.MoneyRequest;
 import com.tcsrmobile.thecaosieure.models.OtherRequest;
 import com.tcsrmobile.thecaosieure.models.User;
 import com.tcsrmobile.thecaosieure.retrofit.IRetrofitAPI;
@@ -69,6 +70,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
 
     private Call<CardRequest> getCardInfoAPI;
     private Call<OtherRequest> buyCardAPI;
+    private Call<MoneyRequest> getRealMoneyAPI;
 
     @Override
     protected int getLayoutResource() {
@@ -118,7 +120,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
                 spinnerAdapter.notifyDataSetChanged();
                 spinner.setSelection(0);
 
-                textThanhToan.setText(String.format("%.0f", getThanhToan(0)) + " VNĐ");
+                getThanhToan(0);
             }
         });
         adapter.setHasStableIds(true);
@@ -134,7 +136,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                textThanhToan.setText(String.format("%.0f", getThanhToan(position)) + " VNĐ");
+                getThanhToan(position);
             }
 
             @Override
@@ -178,7 +180,7 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
                     }
                     spinnerAdapter.notifyDataSetChanged();
 
-                    textThanhToan.setText(String.format("%.0f", getThanhToan(0)) + " VNĐ");
+                    getThanhToan(0);
                 } else {
                     Toast.makeText(BuyPhoneCardActivity.this, msg, Toast.LENGTH_SHORT).show();
 
@@ -241,8 +243,34 @@ public class BuyPhoneCardActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    private float getThanhToan(int spinnerPos) {
-        return Integer.valueOf(listInfo.get(spinnerPos)) * listPhoneCard.get(curPos).getDiscount() / 100;
+    private void getThanhToan(int spinnerPos) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("product", listPhoneCard.get(curPos).getBankName());
+        body.put("menhgia", listInfo.get(spinnerPos));
+        body.put("soluong", amount);
+
+        String token = "";
+        if (user != null) {
+            token = user.getToken();
+        }
+
+        loadingDialog.show();
+        getRealMoneyAPI = mRetrofitAPI.getRealAmountBuyCard(token, body);
+        getRealMoneyAPI.enqueue(new Callback<MoneyRequest>() {
+            @Override
+            public void onResponse(Call<MoneyRequest> call, Response<MoneyRequest> response) {
+                int data = response.body().getData();
+                textThanhToan.setText(data + " VNĐ");
+
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<MoneyRequest> call, Throwable t) {
+                Toast.makeText(BuyPhoneCardActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
     }
 
     @Override

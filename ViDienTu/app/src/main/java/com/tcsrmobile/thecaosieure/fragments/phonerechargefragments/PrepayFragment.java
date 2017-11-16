@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,11 +22,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.tcsrmobile.thecaosieure.MyApplication;
 import com.tcsrmobile.thecaosieure.R;
+import com.tcsrmobile.thecaosieure.activities.BuyPhoneCardActivity;
 import com.tcsrmobile.thecaosieure.dialogs.LoadingDialog;
 import com.tcsrmobile.thecaosieure.dialogs.SuccessDialog;
 import com.tcsrmobile.thecaosieure.fragments.BaseFragment;
 import com.tcsrmobile.thecaosieure.models.CardObject;
 import com.tcsrmobile.thecaosieure.models.CardRequest;
+import com.tcsrmobile.thecaosieure.models.MoneyRequest;
 import com.tcsrmobile.thecaosieure.models.OtherRequest;
 import com.tcsrmobile.thecaosieure.models.User;
 import com.tcsrmobile.thecaosieure.retrofit.IRetrofitAPI;
@@ -62,12 +67,17 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
     private TextView textThanhToan;
     private Button buttonContinue;
     private LoadingDialog loadingDialog;
+    private Handler handler;
+
+    private long delay = 1000;
+    private long last_text_edit = 0;
 
     private int curPos = 0;
     private static int PICK_CONTACT = 1;
 
     private Call<CardRequest> getCardInfoAPI;
     private Call<OtherRequest> topupMobileAPI;
+    private Call<MoneyRequest> getRealTopupAPI;
 
     public static PrepayFragment newInstance() {
 
@@ -118,7 +128,7 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
                 curPos = position;
 
                 spinnerPrice.setSelection(0);
-                textThanhToan.setText(String.format("%.0f", getThanhToan(0)) + " VNĐ");
+                getThanhToan(0);
             }
 
             @Override
@@ -133,7 +143,7 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
         spinnerPrice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                textThanhToan.setText(String.format("%.0f", getThanhToan(position)) + " VNĐ");
+                getThanhToan(position);
             }
 
             @Override
@@ -142,10 +152,40 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
+        handler = new Handler();
+
+        editPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeCallbacks(input_finish_checker);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    last_text_edit = System.currentTimeMillis();
+                    handler.postDelayed(input_finish_checker, delay);
+                }
+            }
+        });
+
         Constant.increaseHitArea(contactButton);
         contactButton.setOnClickListener(this);
         buttonContinue.setOnClickListener(this);
     }
+
+    private Runnable input_finish_checker = new Runnable() {
+        public void run() {
+            if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
+                getThanhToan(spinnerPrice.getSelectedItemPosition());
+            }
+        }
+    };
 
     private void getListCard() {
         HashMap<String, Object> body = new HashMap<>();
@@ -172,7 +212,7 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
                     }
                     priceAdapter.notifyDataSetChanged();
 
-                    textThanhToan.setText(String.format("%.0f", getThanhToan(0)) + " VNĐ");
+                    getThanhToan(0);
                 } else {
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
 
@@ -234,8 +274,33 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
         });
     }
 
-    private float getThanhToan(int spinnerPos) {
-        return Integer.valueOf(listInfo.get(spinnerPos)) * listCard.get(curPos).getDiscount() / 100;
+    private void getThanhToan(int spinnerPos) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("sodienthoai", editPhone.getText().toString());
+        body.put("menhgia", listInfo.get(spinnerPos));
+
+        String token = "";
+        if (user != null) {
+            token = user.getToken();
+        }
+
+        loadingDialog.show();
+        getRealTopupAPI = mRetrofitAPI.getRealAmountTopup(token, body);
+        getRealTopupAPI.enqueue(new Callback<MoneyRequest>() {
+            @Override
+            public void onResponse(Call<MoneyRequest> call, Response<MoneyRequest> response) {
+                int data = response.body().getData();
+                textThanhToan.setText(data + " VNĐ");
+
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<MoneyRequest> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
     }
 
     @Override

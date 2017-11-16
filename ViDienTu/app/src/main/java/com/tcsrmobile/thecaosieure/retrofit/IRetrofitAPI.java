@@ -4,6 +4,7 @@ import com.tcsrmobile.thecaosieure.models.BalanceRequest;
 import com.tcsrmobile.thecaosieure.models.BannerRequest;
 import com.tcsrmobile.thecaosieure.models.CardRequest;
 import com.tcsrmobile.thecaosieure.models.FullNameRequest;
+import com.tcsrmobile.thecaosieure.models.MoneyRequest;
 import com.tcsrmobile.thecaosieure.models.NewsRequest;
 import com.tcsrmobile.thecaosieure.models.OtherRequest;
 import com.tcsrmobile.thecaosieure.models.PageRequest;
@@ -126,4 +127,12 @@ public interface IRetrofitAPI {
     //Lấy fullname theo tên tài khoản
     @POST("/rest/api/getFullnameUser")
     Call<FullNameRequest> getFullName(@Body HashMap<String, Object> body);
+
+    //Lấy số tiền phải thanh toán của khách khi mua thẻ
+    @POST("/rest/api/getRealAmountBuyCard")
+    Call<MoneyRequest> getRealAmountBuyCard(@Header("token") String token, @Body HashMap<String, Object> body);
+
+    //Lấy số tiền phải thanh toán của khách khi nạp topup
+    @POST("/rest/api/getRealAmountTopup")
+    Call<MoneyRequest> getRealAmountTopup(@Header("token") String token, @Body HashMap<String, Object> body);
 }
