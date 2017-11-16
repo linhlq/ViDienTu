@@ -67,10 +67,6 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
     private TextView textThanhToan;
     private Button buttonContinue;
     private LoadingDialog loadingDialog;
-    private Handler handler;
-
-    private long delay = 1000;
-    private long last_text_edit = 0;
 
     private int curPos = 0;
     private static int PICK_CONTACT = 1;
@@ -152,24 +148,11 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
-        handler = new Handler();
-
-        editPhone.addTextChangedListener(new TextWatcher() {
+        editPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                handler.removeCallbacks(input_finish_checker);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
-                    last_text_edit = System.currentTimeMillis();
-                    handler.postDelayed(input_finish_checker, delay);
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    getThanhToan(spinnerPrice.getSelectedItemPosition());
                 }
             }
         });
@@ -178,14 +161,6 @@ public class PrepayFragment extends BaseFragment implements View.OnClickListener
         contactButton.setOnClickListener(this);
         buttonContinue.setOnClickListener(this);
     }
-
-    private Runnable input_finish_checker = new Runnable() {
-        public void run() {
-            if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
-                getThanhToan(spinnerPrice.getSelectedItemPosition());
-            }
-        }
-    };
 
     private void getListCard() {
         HashMap<String, Object> body = new HashMap<>();
